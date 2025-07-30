@@ -1,7 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Heading } from "../styles/textStyles"
+import { useEffect } from "react";
 import { useUserStore } from "../stores/useUserStore";
+import MainLayout from "../layouts/MainLayout";
+import FooterButton from "../components/FooterButton";
+
 
 export default function Home() {
   const [searchParams] = useSearchParams();
@@ -16,8 +18,12 @@ export default function Home() {
   }, [searchParams, setUser]);;
 
   return (
-    <div>
-      <Heading>Dilemma Deliver</Heading>
-    </div>
+    <MainLayout
+      footerButton={
+        <FooterButton label="Next" to="/onboarding" disabled={false} />
+      }
+    >
+      <p>this is wellcoming page! </p>
+    </MainLayout>
   )
 }
