@@ -1,0 +1,113 @@
+[
+    {
+        "id" : "case_1",
+        "question" : "What should the self-driving car do?",
+        "A": {
+            "image": "/assets/images/case1_A.png",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "deaths": [
+                "1 woman",
+                "1 baby"
+            ],
+            "note": ""
+        },
+        "B": {
+            "image": "/assets/images/case1_B.png",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "deaths": [
+                "1 woman",
+                "1 baby"
+            ], 
+            "note": ""
+        }
+    }, 
+    {
+        "id" : "case_2",
+        "question" : "What should the self-driving car do?",
+        "A": {
+            "image": "/assets/images/case2_A.png",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "deaths": [
+                "3 Criminal"
+            ],
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+        },
+        "B": {
+            "image": "/assets/images/case2_B.png",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "deaths": [
+                "1 man",
+                "1 boy",
+                "1 girl",
+                "1 dog",
+                "1 cat"
+            ], 
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+        }
+    }, 
+    {
+        "id" : "case_3",
+        "question" : "What should the self-driving car do?",
+        "A": {
+            "image": "/assets/images/case3_A.png",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "deaths": [
+                "3 Criminal"
+            ],
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+        },
+        "B": {
+            "image": "/assets/images/case3_B.png",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "deaths": [
+                "1 man"
+            ], 
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+        }
+    }, 
+    {
+        "id" : "case_4",
+        "question" : "What should the self-driving car do?",
+        "A": {
+            "image": "/assets/images/case4_A.png",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "deaths": [
+                "3 Criminal"
+            ],
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+        },
+        "B": {
+            "image": "/assets/images/case4_B.png",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "deaths": [
+                "1 man",
+                "1 boy",
+                "1 girl",
+                "1 dog",
+                "1 cat"
+            ], 
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+        }
+    },
+    {
+        "id" : "case_5",
+        "question" : "What should the self-driving car do?",
+        "A": {
+            "image": "/assets/images/case5_A.png",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "deaths": [
+                "3 Criminal"
+            ],
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+        },
+        "B": {
+            "image": "/assets/images/case5_B.png",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "deaths": [
+                "1 man",
+                "1 boy"
+            ], 
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+        }
+    }
+]

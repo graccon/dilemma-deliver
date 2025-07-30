@@ -6,18 +6,26 @@ import { useTimerLogStore } from "../stores/useTimerLogStore";
 
 interface FooterButtonProps {
   label: string;
-  to: string;
+  to?: string;
   disabled?: boolean;
+  onClick?: () => void; 
 }
 
-export default function FooterButton({ label, to, disabled = false }: FooterButtonProps) {
+export default function FooterButton({ label, to, onClick, disabled = false }: FooterButtonProps) {
   const navigate = useNavigate();
   const addLog = useTimerLogStore((state) => state.addLog);
 
   const handleClick = () => {
-    if (!disabled) {
-        addLog(window.location.pathname);
-        navigate(to);
+    if (disabled) return;
+
+    addLog(window.location.pathname);
+
+    if (onClick) {
+      onClick();
+    } else if (to) {
+      navigate(to);
+    } else {
+      console.warn("FooterButton: where do I go?");
     }
   };
 

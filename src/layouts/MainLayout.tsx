@@ -14,7 +14,6 @@ export default function MainLayout({ children, footerButton }: Props) {
         <HeaderContainer>
             <Heading>Dilemma Deliver</Heading>
         </HeaderContainer>
-        
       <Main>{children}</Main>
       <FooterContainer>{footerButton}</FooterContainer>
     </Container>
@@ -34,16 +33,15 @@ const HeaderContainer = styled.div`
   max-width: 1400px; 
   width: 100%;
   margin: 0 auto;
-  background-color: yellow;
-  padding: 18px 48px;
+  padding:0.8rem 0.8rem 0 3.6rem;
 `
 
 const Main = styled.main`
   flex: 1;
-  padding: 2rem;
+  padding: 0;
   max-width: 1400px; 
   width: 100%;
-  background-color: orange;
+  height: 100%; 
   margin: 0 auto;
 `;
 
@@ -57,7 +55,3 @@ const FooterContainer = styled.footer`
 //   justify-content: space-around;
   background-color: ${colors.black};
 `;
-
-const Help = styled.div`
-  width: 100%;
-`
