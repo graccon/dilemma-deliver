@@ -3,19 +3,32 @@ import styled from "styled-components";
 import MainLayout from "../layouts/MainLayout";
 import FooterButton from "../components/FooterButton";
 import MoralCase from "../models/MoralCase";
+import problems from "../assets/data/problems.json";
 import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
 
+
+import { useConfidenceStore } from "../stores/useConfidenceStore";
+
 export default function Session1() {
   const [isAnswered, setIsAnswered] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentCase, setCurrentCase] = useState<MoralCase | null>(null);
-  const total = 5;
+  const [currentConfidence, setCurrentConfidence] = useState(50); 
+  const total = problems.length;
+
+  const addConfidence = useConfidenceStore((state) => state.addConfidence); 
+  const INDEX_KEY = import.meta.env.VITE_S1_I_KEY; 
+
 
   useEffect(() => {
     initShuffledProblems();
+    const savedIndex = localStorage.getItem(INDEX_KEY);
+    if (savedIndex !== null) {
+      setCurrentIndex(Number(savedIndex));
+    }
   }, []);
 
   useEffect(() => {
@@ -24,12 +37,24 @@ export default function Session1() {
       const instance = new MoralCase(caseData);
       setCurrentCase(instance);
       setIsAnswered(false);
+      setCurrentConfidence(50);
     }
   }, [currentIndex]);
 
   const handleNext = () => {
+    addConfidence({
+      sessionId: "session1",
+      caseIndex: currentIndex,
+      confidence: currentConfidence,
+      timestamp: Date.now(),
+      type: "final",
+    });
+
+    const nextIndex = currentIndex + 1;
+    setCurrentIndex(nextIndex);
+    localStorage.setItem(INDEX_KEY, nextIndex.toString());
+  
     if (currentIndex < total - 1) {
-      setCurrentIndex((prev) => prev + 1);
     } else {
       window.location.href = "/session2";
     }
@@ -60,8 +85,17 @@ export default function Session1() {
             key={currentIndex}
             initialValue={50}
             onChange={(value) => {
-              console.log("confidence:", value);
-              setIsAnswered(value !== 50);
+              setCurrentConfidence(value);
+              setIsAnswered(true);
+            }}
+            onTouchEnd={(value) => {
+              addConfidence({
+                sessionId: "session1",
+                caseIndex: currentIndex,
+                confidence: value,
+                timestamp: Date.now(),
+                type: "onTouchEnd",
+              });
             }}
           />
         </SliderContainer>

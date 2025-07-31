@@ -1,0 +1,102 @@
+[
+    {
+      "caseId": "case_1",
+      "groups": {
+        "1": {
+          "agents": {
+            "Stat": { "option": "B" },
+            "Rule": { "option": "B" },
+            "Narr": { "option": "A" }
+          },
+          "rounds": [
+            {
+              "round": 1,
+              "Stat": { "label": "생명 수 우선", "message": "(그룹1) 1-1 더 적은 생명을 잃는 선택은 B야." },
+              "Rule": { "label": "규칙 준수", "message": "(그룹1) 1-1 법을 어긴 쪽이 책임을 져야 해." },
+              "Narr": { "label": "스토리 기반", "message": "(그룹1) 1-1 이 장면은 가슴 아픈 가족 이야기로 남을 거야." }
+            }
+          ]
+        }
+      }
+    }, 
+    {
+        "caseId": "case_2",
+        "groups": {
+          "1": {
+            "agents": {
+              "Stat": { "option": "B" },
+              "Rule": { "option": "B" },
+              "Narr": { "option": "A" }
+            },
+            "rounds": [
+              {
+                "round": 1,
+                "Stat": { "label": "생명 수 우선", "message": "(그룹1) 2-1 더 적은 생명을 잃는 선택은 B야." },
+                "Rule": { "label": "규칙 준수", "message": "(그룹1) 2-1 법을 어긴 쪽이 책임을 져야 해." },
+                "Narr": { "label": "스토리 기반", "message": "(그룹1) 2-1 이 장면은 가슴 아픈 가족 이야기로 남을 거야." }
+              }
+            ]
+          }
+        }
+    }, 
+    {
+        "caseId": "case_3",
+        "groups": {
+          "1": {
+            "agents": {
+              "Stat": { "option": "B" },
+              "Rule": { "option": "B" },
+              "Narr": { "option": "A" }
+            },
+            "rounds": [
+              {
+                "round": 1,
+                "Stat": { "label": "생명 수 우선", "message": "(그룹1) 3-1 더 적은 생명을 잃는 선택은 B야." },
+                "Rule": { "label": "규칙 준수", "message": "(그룹1) 3-1 법을 어긴 쪽이 책임을 져야 해." },
+                "Narr": { "label": "스토리 기반", "message": "(그룹1) 3-1 이 장면은 가슴 아픈 가족 이야기로 남을 거야." }
+              }
+            ]
+          }
+        }
+    }, 
+    {
+        "caseId": "case_4",
+        "groups": {
+          "1": {
+            "agents": {
+              "Stat": { "option": "B" },
+              "Rule": { "option": "B" },
+              "Narr": { "option": "A" }
+            },
+            "rounds": [
+              {
+                "round": 1,
+                "Stat": { "label": "생명 수 우선", "message": "(그룹1) 4-1 더 적은 생명을 잃는 선택은 B야." },
+                "Rule": { "label": "규칙 준수", "message": "(그룹1) 4-1 법을 어긴 쪽이 책임을 져야 해." },
+                "Narr": { "label": "스토리 기반", "message": "(그룹1) 4-1 이 장면은 가슴 아픈 가족 이야기로 남을 거야." }
+              }
+            ]
+          }
+        }
+    }, 
+    {
+        "caseId": "case_5",
+        "groups": {
+          "1": {
+            "agents": {
+              "Stat": { "option": "B" },
+              "Rule": { "option": "B" },
+              "Narr": { "option": "A" }
+            },
+            "rounds": [
+              {
+                "round": 1,
+                "Stat": { "label": "생명 수 우선", "message": "(그룹1) 5-1 더 적은 생명을 잃는 선택은 B야." },
+                "Rule": { "label": "규칙 준수", "message": "(그룹1) 5-1 법을 어긴 쪽이 책임을 져야 해." },
+                "Narr": { "label": "스토리 기반", "message": "(그룹1) 5-1 이 장면은 가슴 아픈 가족 이야기로 남을 거야." }
+              }
+            ]
+          }
+        }
+    }
+  ]

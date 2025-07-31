@@ -6,6 +6,7 @@ import colors from "../styles/colors";
 interface ConfidenceSliderProps {
   initialValue?: number;
   onChange?: (value: number) => void;
+  onTouchEnd?: (value: number) => void;
 }
 
 export function calculateConfidence(value: number): number {
@@ -29,6 +30,7 @@ export function getSliderBackground(value: number): string {
 const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
   initialValue = 50,
   onChange,
+  onTouchEnd,
 }) => {
   const [value, setValue] = useState(initialValue);
 
@@ -49,7 +51,7 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                 <IconBox>
                     <StayIcon src="/assets/icons/stay_icon.png" alt="stay icon" />
                 </IconBox>
-                <SecondTitle align="center">stay</SecondTitle>
+                <SecondTitle align="">stay</SecondTitle>
             </LabelContainer>
             
             <SliderBox>
@@ -67,6 +69,13 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                                     max={100}
                                     value={value}
                                     onChange={handleChange}
+                                    onTouchEnd={() => {
+                                      onTouchEnd?.(value);
+                                    }}
+                                    // onPointerDown={() => {
+                                    //   console.log("🖱️ mouse up");
+                                    //   onPointerDown?.(value);
+                                    // }}
                                     $bg={getSliderBackground(value)}
                             />
                         </StyledRangeWrapper>

@@ -1,5 +1,3 @@
-// components/FooterButton.tsx
-
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useTimerLogStore } from "../stores/useTimerLogStore";

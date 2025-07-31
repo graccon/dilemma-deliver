@@ -4,7 +4,7 @@ import colors from './colors';
 export const textStyles = {
     h1: (color = colors.black) => `
       font-family: 'Abhaya Libre', serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);  
+      font-size: clamp(1.6rem, 5vw, 2.4rem);  
       font-weight: 800;
       letter-spacing: -0.5px;
       color: ${color};
