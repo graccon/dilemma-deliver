@@ -4,7 +4,7 @@ import MainLayout from "../layouts/MainLayout";
 import FooterButton from "../components/FooterButton";
 import MoralCase from "../models/MoralCase";
 import problems from "../assets/data/problems.json";
-import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
+import { clearShuffledProblems, initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
@@ -25,9 +25,11 @@ export default function Session1() {
 
   useEffect(() => {
     initShuffledProblems();
+    console.log("VITE_S1_I_KEY:", import.meta.env.VITE_S1_I_KEY);
     const savedIndex = localStorage.getItem(INDEX_KEY);
     if (savedIndex !== null) {
       setCurrentIndex(Number(savedIndex));
+      
     }
   }, []);
 
@@ -57,6 +59,7 @@ export default function Session1() {
     if (currentIndex < total - 1) {
     } else {
       window.location.href = "/session2";
+      clearShuffledProblems();
     }
   };
 

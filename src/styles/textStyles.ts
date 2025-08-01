@@ -10,7 +10,7 @@ export const textStyles = {
       color: ${color};
     `,
 
-    h2: (color = colors.black) => `
+    h2: (color = colors.gray800) => `
       font-family: 'Roboto', sans-serif;
       font-size: 1.5rem;  
       font-weight: 400;
@@ -18,7 +18,7 @@ export const textStyles = {
       color: ${color};
     `,
 
-    h3: ({color = colors.black, align = "left"}={}) => `
+    h3: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
       font-size: clamp(2rem, 5vw, 2.4rem);  
       font-weight: 800;
@@ -26,7 +26,7 @@ export const textStyles = {
       text-align: ${align};
     `,
 
-    h4: ({color = colors.black, align = "left"}={}) => `
+    h4: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
       font-size: 1.3rem;  
       font-weight: 400;
@@ -35,7 +35,7 @@ export const textStyles = {
       text-align: ${align};
     `,
 
-    h5: ({color = colors.black, align = "left"}={}) => `
+    h5: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
       font-size: 1rem;  
       font-weight: 700;
@@ -46,7 +46,7 @@ export const textStyles = {
   
     body: (color = colors.black) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.3;
@@ -64,15 +64,49 @@ export const textStyles = {
         text-align: left;
     `,
 
+    nameTag: ({ color = colors.gray800, size = "0.8rem" } = {}) => `
+        font-family: 'Roboto', sans-serif;
+        font-size: ${size};
+        font-weight: 500;
+        color: ${color};
+        letter-spacing: -0.2px;
+        text-align: left;
+    `,
+
+    replyLabel: () => `
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: ${colors.gray700};
+    `,
+
     li: ({color = colors.black, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.4;
       letter-spacing: -0.2px;
       text-align: ${align};
   `,
+
+  bubbleText: () => `
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.3;∂
+    color: ${colors.gray800};
+    letter-spacing: -0.2px;
+  `,
+
+  replyReferenceText: () => `
+    font-size: 0.9rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.2px;
+    color: ${colors.gray500};
+  `
+
   };
 
 

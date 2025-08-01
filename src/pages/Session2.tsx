@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
+import { useUserStore } from "../stores/useUserStore";
+import { loadAgentChats } from "../services/loadAgentChats";
+import type { AgentChat } from "../services/loadAgentChats";
+import ChatBubble from "../components/ChatBubble";
+
 import styled from "styled-components";
 import MainLayout from "../layouts/MainLayout";
 import FooterButton from "../components/FooterButton";
 import MoralCase from "../models/MoralCase";
 import problems from "../assets/data/problems.json";
-import { resetShuffledProblems, getProblemByIndex } from "../services/problemSetting";
+import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
-import agentChatData from "../assets/data/agentChats.json";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
+
 
 export default function Session2() {
   const [isAnswered, setIsAnswered] = useState(false);
@@ -17,25 +22,16 @@ export default function Session2() {
   const [currentCase, setCurrentCase] = useState<MoralCase | null>(null);
   const [currentConfidence, setCurrentConfidence] = useState(50); 
   const total = problems.length;
+  const { group, prolificId, sessionId } = useUserStore();
+  const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
 
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY 
-  const agentLabel: Record<string, string> = {
-    Stat: "Stat",
-    Rule: "Rlue",
-    Narr: "Molu",
-  };
 
-interface AgentChat {
-  agent: string;
-  message: string;
-}
-const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
-
-  useEffect(() => {
+    useEffect(() => {
+      initShuffledProblems();
       const savedIndex = localStorage.getItem(INDEX_KEY);
       if (savedIndex !== null) {
-        resetShuffledProblems();
         setCurrentIndex(Number(savedIndex));
       }
     }, []);
@@ -47,31 +43,17 @@ const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
         setCurrentCase(instance);
         setIsAnswered(false);
         setCurrentConfidence(50);
-    
-        const caseId = caseData.id;;
-        const groupId = "1"; 
-
-        const caseEntry = agentChatData.find((entry) => entry.caseId === caseId);
-    if (caseEntry) {
-      const groupData = caseEntry.groups?.[groupId];
-      if (groupData && Array.isArray(groupData.rounds)) {
-        const flattenedChats = groupData.rounds.flatMap((round) => [
-          { agent: "Stat", message: round.Stat.message },
-          { agent: "Rule", message: round.Rule.message },
-          { agent: "Narr", message: round.Narr.message },
-        ]);
-        console.log(flattenedChats);
-        setAgentChats(flattenedChats);
-
-      } else {
-        setAgentChats([]);
       }
-    } else {
-      setAgentChats([]);
-    }
-    
-    
+
+      async function fetchChats() {
+        try {
+          const chats = await loadAgentChats(caseData.id, "1", group); //case, turn, group
+          setAgentChats(chats);
+        } catch (error) {
+          console.error("Error loading agent chats:", error);
+        }
       }
+      fetchChats();
     }, [currentIndex]);
 
     const handleNext = () => {
@@ -136,13 +118,30 @@ const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
         </ProblemContainer>
 
           <ChatContainer>
-          <ChatList>
-              {agentChats.map((chat, idx) => (
-                <ChatBubble key={idx} agent={chat.agent}>
-                  <strong>{agentLabel[chat.agent] || chat.agent}</strong>: {chat.message}
-                </ChatBubble>
-              ))}
-            </ChatList>
+            <ChatListWrapper>
+              {agentChats.length === 0 ? (
+                        <p>Loading agent chats...</p>
+                      ) : (
+                        <ChatList>
+                          {agentChats.map((chat: AgentChat, idx: number) => {
+                            let replyTarget: AgentChat | null = null;
+              
+                            if (chat.type === "reply") {
+                              replyTarget = agentChats
+                                .slice(0, idx)
+                                .reverse()
+                                .find(prevChat => prevChat.type === "talk") || null;
+                            }
+                            return (
+                              <ChatListItem key={idx}>
+                                <ChatBubble chat={chat} idx={idx} replyTo={replyTarget} />
+                              </ChatListItem>
+                            );
+                          })}
+                        </ChatList>
+                      )}
+            </ChatListWrapper>
+            <MoreButtonWatter>I can't decide yet</MoreButtonWatter>
           </ChatContainer>
         </Layout>
       </MainLayout>
@@ -152,42 +151,36 @@ const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
 export const Layout = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 0 3rem;
   width: 100wh; 
   gap: 1rem; 
 `;
 
-const ChatList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
+export const ChatListWrapper = styled.div`
+  flex: 10;
   overflow-y: auto;
+ 
 `;
 
-const ChatBubble = styled.div<{ agent?: string }>`
-  background-color: ${({ agent }) =>
-    agent === "Stat" ? "#D0F0FF" :
-    agent === "Rule" ? "#FFEFD0" :
-    agent === "Narr" ? "#FADADD" :
-    "#f0f0f0"};
-  padding: 0.75rem 1rem;
-  border-radius: 1rem;
-  max-width: 90%;
-  font-size: 0.95rem;
+export const MoreButtonWatter = styled.div`
+  flex: 1;
+  margin: auto;
 `;
+
 
 export const ChatContainer = styled.div`
   flex: 4;
   display: flex;
+  flex-direction: column;
   background-color: ${colors.white};
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-height: 78vh;
+  padding: 10px;
 `;
 
 
 export const ProblemContainer = styled.div`
-  flex: 10;
+  flex: 8;
   display: flex;
   flex-direction: column;
   gap: 1rem; 
@@ -211,4 +204,14 @@ export const SliderContainer = styled.div`
   border-radius: 1rem;
   background-color: ${colors.white};
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+`;
+
+const ChatList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const ChatListItem = styled.li`
+  margin-bottom: 24px;
 `;

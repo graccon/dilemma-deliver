@@ -27,7 +27,6 @@ export function getProblemByIndex(index: number) {
   return parsed[index] || null;
 }
 
-export function resetShuffledProblems() {
-  const shuffled = shuffle(problems);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(shuffled));
+export function clearShuffledProblems() {
+  localStorage.removeItem(STORAGE_KEY);
 }

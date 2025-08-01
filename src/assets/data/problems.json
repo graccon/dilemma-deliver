@@ -72,7 +72,7 @@
             "image": "/assets/images/case4_A.png",
             "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
             "deaths": [
-                "3 Criminal"
+                "3"
             ],
             "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
         },
@@ -80,11 +80,7 @@
             "image": "/assets/images/case4_B.png",
             "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
             "deaths": [
-                "1 man",
-                "1 boy",
-                "1 girl",
-                "1 dog",
-                "1 cat"
+                "1 doctor"
             ], 
             "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
         }
@@ -96,7 +92,7 @@
             "image": "/assets/images/case5_A.png",
             "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
             "deaths": [
-                "3 Criminal"
+                "3 executi...."
             ],
             "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
         },
