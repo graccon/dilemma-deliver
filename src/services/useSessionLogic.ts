@@ -3,9 +3,12 @@ import { initShuffledProblems, getProblemByIndex } from "../services/problemSett
 import MoralCase from "../models/MoralCase";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
 import problems from "../assets/data/problems.json";
-import { useAgentChat } from "./useAgentChat";
 import { recordTurnTaking, getTurnCount } from "../stores/turnLogStorage";
 import { getShuffledTurns } from "../stores/turnSetting";
+import { getChatLog, setChatLog } from "../stores/chatLogStorage";
+import { useUserStore } from "../stores/useUserStore";
+import { loadAgentChats } from "./loadAgentChats";
+import type { AgentChat } from "../services/loadAgentChats";
 
 
 const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
@@ -19,6 +22,8 @@ export function useSessionLogic() {
   const [currentConfidence, setCurrentConfidence] = useState(50);
   const [canTakeTurn, setCanTakeTurn] = useState(true);
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
+  const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
+  const { group } = useUserStore();
 
   useEffect(() => {
     initShuffledProblems();
@@ -37,10 +42,28 @@ export function useSessionLogic() {
       setCurrentConfidence(50);
       const turn_count = getTurnCount(instance.id);
       setCanTakeTurn(turn_count < SHUFFLED_TURNS.length);
+
+      async function fetchInitialChats() {
+        try {
+          const savedChats = getChatLog(instance.id); 
+          if (savedChats && savedChats.length > 0) {
+            setAgentChats(savedChats);
+          } else {
+            const turnCount = getTurnCount(instance.id);
+            const turnId = SHUFFLED_TURNS[turnCount];
+            const chats = await loadAgentChats(instance.id, turnId, group ?? "1");
+            setAgentChats(chats);
+            setChatLog(instance.id, chats);
+          }
+        } catch (error) {
+          console.error("Error loading agent chats:", error);
+        }
+      }
+      fetchInitialChats();
     }
   }, [currentIndex]);
 
-  const { agentChats, loading } = useAgentChat(`case_${currentIndex + 1}`, "1", "1");
+  
 
   const handleNext = () => {
     addConfidence({
@@ -60,15 +83,32 @@ export function useSessionLogic() {
     }
   };
 
+
     const handleMoreClick = async () => {
         const caseId = currentCase!.id; 
-        const turn_count = getTurnCount(caseId);
-        const isTurnAvailable = turn_count < SHUFFLED_TURNS.length;
-        setCanTakeTurn(isTurnAvailable);
-
-        console.log("턴테이킹입니다", SHUFFLED_TURNS[turn_count]);
         recordTurnTaking(caseId);
-        // 만약 턴테이킹 5이면 false가 나오는 변수가 있어야 돼. 
+
+        
+        const turnCount = getTurnCount(caseId);
+        try {
+            console.log("턴테이킹입니다", SHUFFLED_TURNS[turnCount - 1], turnCount);
+        
+            const turnId = SHUFFLED_TURNS[turnCount - 1];
+            const newChats = await loadAgentChats(caseId, turnId, group ?? "1");
+            
+            setAgentChats((prevChats) => {
+              const updatedChats = [...prevChats, ...newChats];
+              setChatLog(caseId, updatedChats); 
+              return updatedChats;
+            });
+
+            const isTurnAvailable = turnCount < SHUFFLED_TURNS.length;
+            setCanTakeTurn(isTurnAvailable);
+            if (!isTurnAvailable) return;
+        
+          } catch (err) {
+            console.error("에이전트 채팅 로딩 실패:", err);
+          }
     };
 
 
@@ -83,7 +123,6 @@ export function useSessionLogic() {
     currentConfidence,
     setCurrentConfidence,
     agentChats,
-    loading,
     handleMoreClick,
     canTakeTurn,
   };

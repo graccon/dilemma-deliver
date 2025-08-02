@@ -20,7 +20,6 @@ export default function Session2() {
     total,
     addConfidence,
     agentChats,
-    loading,
     handleMoreClick,
     canTakeTurn,
   } = useSessionLogic();

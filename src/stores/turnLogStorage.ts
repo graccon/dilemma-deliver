@@ -5,7 +5,7 @@ export function recordTurnTaking(caseId: string): void {
   const raw = localStorage.getItem(STORAGE_KEY);
   const logs: Record<string, number> = raw ? JSON.parse(raw) : {};
 
-  logs[caseId] = (logs[caseId] || 0) + 1;
+  logs[caseId] = (logs[caseId] || 1) + 1;
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
 }

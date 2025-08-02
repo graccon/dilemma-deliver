@@ -48,8 +48,6 @@ export default function ChatBubble({ chat, idx, replyTo }: ChatBubbleProps) {
   const fromAgentIcon = agentIcon[fromKey];
   const toAgentIcon = agentIcon[toKey];
 
-  console.log(idx);
-
   return (
     <BubbleWrapper>
        {type === "reply" && <IsReplyWrapper />}
@@ -80,7 +78,7 @@ export default function ChatBubble({ chat, idx, replyTo }: ChatBubbleProps) {
               : replyTo.message}
           </ReplyReference>
           )}
-          {message}
+          {idx} - {message}
         </Bubble>
         <GoodIcon
           src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
