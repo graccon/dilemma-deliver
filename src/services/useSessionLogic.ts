@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCase from "../models/MoralCase";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
@@ -25,6 +25,8 @@ export function useSessionLogic() {
   const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
   const { group } = useUserStore();
   const [likedIndex, setLikedIndex] = useState<number | null>(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
     initShuffledProblems();
@@ -51,23 +53,10 @@ export function useSessionLogic() {
       const turn_count = getTurnCount(instance.id);
       setCanTakeTurn(turn_count < SHUFFLED_TURNS.length);
 
-      async function fetchInitialChats() {
-        try {
-          const savedChats = getChatLog(instance.id); 
-          if (savedChats && savedChats.length > 0) {
-            setAgentChats(savedChats);
-          } else {
-            const turnCount = getTurnCount(instance.id);
-            const turnId = SHUFFLED_TURNS[turnCount];
-            const chats = await loadAgentChats(instance.id, turnId, group ?? "1");
-            setAgentChats(chats);
-            setChatLog(instance.id, chats);
-          }
-        } catch (error) {
-          console.error("Error loading agent chats:", error);
-        }
+      if (!hasFetchedRef.current) {
+        hasFetchedRef.current = true; 
+        fetchInitialChats(instance);
       }
-      fetchInitialChats();
     }
   }, [currentIndex]);
 
@@ -91,6 +80,24 @@ export function useSessionLogic() {
     }
   };
 
+  async function fetchInitialChats(instance: MoralCase) {
+    try {
+      const savedChats = getChatLog(instance.id); 
+      if (savedChats && savedChats.length > 0) {
+        setAgentChats(savedChats);
+        setShouldAnimate(false);
+      } else {
+        const turnCount = getTurnCount(instance.id);
+        const turnId = SHUFFLED_TURNS[turnCount];
+        const chats = await loadAgentChats(instance.id, turnId, group ?? "1");
+        appendChatsSequentially(chats);
+        // setShouldAnimate(true); 
+      }
+    } catch (error) {
+      console.error("Error loading agent chats:", error);
+    }
+  }
+
 
     const handleMoreClick = async () => {
         const caseId = currentCase!.id; 
@@ -103,12 +110,8 @@ export function useSessionLogic() {
         
             const turnId = SHUFFLED_TURNS[turnCount - 1];
             const newChats = await loadAgentChats(caseId, turnId, group ?? "1");
-            
-            setAgentChats((prevChats) => {
-              const updatedChats = [...prevChats, ...newChats];
-              setChatLog(caseId, updatedChats); 
-              return updatedChats;
-            });
+        
+            appendChatsSequentially(newChats);
 
             const isTurnAvailable = turnCount < SHUFFLED_TURNS.length;
             setCanTakeTurn(isTurnAvailable);
@@ -125,6 +128,7 @@ export function useSessionLogic() {
           if (currentCase) {
             setChatLog(currentCase.id, updated);
           }
+        //   setShouldAnimate(true);
           return updated;
         });
       }
@@ -143,7 +147,35 @@ export function useSessionLogic() {
           return newIndex;
         });
       };
-
+      function appendChatsSequentially(chatsToAdd: AgentChat[]): Promise<void> {
+        return new Promise((resolve) => {
+          let i = 0;
+          const interval = setInterval(() => {
+            if (i >= chatsToAdd.length) {
+              clearInterval(interval);
+              resolve();
+              return;
+            }
+      
+            const nextChat = chatsToAdd[i];
+            if (!nextChat) {
+              i++;
+              return;
+            }
+      
+            setAgentChats(prev => {
+              const updated = [...prev, nextChat];
+              if (currentCase) {
+                setChatLog(currentCase.id, updated);
+              }
+              return updated;
+            });
+      
+            i++;
+          }, 400);
+        });
+      }
+      
   return {
     isAnswered,
     setIsAnswered,
@@ -159,6 +191,8 @@ export function useSessionLogic() {
     canTakeTurn,
     setAgentChats,
     likedIndex, 
-    updateLikedIndex
+    updateLikedIndex,
+    shouldAnimate
   };
 }
+

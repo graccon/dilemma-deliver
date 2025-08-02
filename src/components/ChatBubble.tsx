@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import colors from "../styles/colors";
 import type { AgentChat } from "../services/loadAgentChats";
 import NameTag from "./NameTag";
@@ -11,6 +11,7 @@ interface ChatBubbleProps {
   replyTo?: AgentChat | null;
   liked: boolean;
   onLike: () => void;
+  shouldAnimate?: boolean;
 }
 
 const agentLabel = {
@@ -34,7 +35,7 @@ const agentIcon = {
   me: "/assets/icons/agent_me_icon.png"
 } as const;
 
-export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike }: ChatBubbleProps) {
+export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike, shouldAnimate = false  }: ChatBubbleProps) {
   const { message, type, from, to } = chat;
   const fromKey = from.toLowerCase() as keyof typeof agentLabel;
   const toKey = to.toLowerCase() as keyof typeof agentLabel;
@@ -48,8 +49,9 @@ export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike }: 
   const fromAgentIcon = agentIcon[fromKey];
   const toAgentIcon = agentIcon[toKey];
 
+
   return (
-    <BubbleWrapper>
+    <BubbleWrapper shouldAnimate={shouldAnimate}>
        {type === "reply" && <IsReplyWrapper />}
       <Container>
       <AgentName>
@@ -80,7 +82,7 @@ export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike }: 
           )}
           {idx} - {message}
         </Bubble>
-        {replyTo && (
+        {!replyTo && (
           <GoodIcon
             src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
             onClick={onLike}
@@ -96,11 +98,17 @@ const ReplyLabel = styled.span`
   ${textStyles.replyLabel()}
 `;
 
-const BubbleWrapper = styled.div`
+const BubbleWrapperBase = styled.div`
   display: flex; 
   flex-direction: row; 
   margin-bottom: 12px;
   align-items: stretch;
+`;
+
+const BubbleWrapper = styled(BubbleWrapperBase).withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop) && prop !== "shouldAnimate",
+})<{ shouldAnimate?: boolean }>`
+  animation: ${({ shouldAnimate }) => shouldAnimate && fadeInUp} 0.3s ease-out;
 `;
 
 const Container = styled.div`
@@ -171,4 +179,15 @@ const AgentIcon = styled.img`
 const GoodIcon = styled.img`
   width: 28px;
   height: 28px;
+`;
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;

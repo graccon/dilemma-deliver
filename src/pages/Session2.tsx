@@ -23,7 +23,8 @@ export default function Session2() {
     handleMoreClick,
     canTakeTurn,
     likedIndex,
-    updateLikedIndex
+    updateLikedIndex, 
+    shouldAnimate
   } = useSessionLogic();
 
   return (
@@ -71,7 +72,7 @@ export default function Session2() {
           <ChatContainer>
             <ChatListWrapper>
               {agentChats.length === 0 ? (
-                        <p>Loading agent chats...</p>
+                        <p></p>
                       ) : (
                         <ChatList>
                           {agentChats.map((chat: AgentChat, idx: number) => {
@@ -86,11 +87,12 @@ export default function Session2() {
                             return (
                               <ChatListItem key={idx}>
                                 <ChatBubble 
-                                chat={chat}
-                                idx={idx}
-                                replyTo={replyTarget}
-                                liked={likedIndex === idx}
-                                onLike={() => updateLikedIndex(idx)}
+                                  chat={chat}
+                                  idx={idx}
+                                  replyTo={replyTarget}
+                                  liked={likedIndex === idx}
+                                  shouldAnimate={shouldAnimate ?? true}
+                                  onLike={() => updateLikedIndex(idx)}
                               />
                               </ChatListItem>
                             );
