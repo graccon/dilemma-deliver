@@ -48,6 +48,8 @@ export default function ChatBubble({ chat, idx, replyTo }: ChatBubbleProps) {
   const fromAgentIcon = agentIcon[fromKey];
   const toAgentIcon = agentIcon[toKey];
 
+  console.log(idx);
+
   return (
     <BubbleWrapper>
        {type === "reply" && <IsReplyWrapper />}

@@ -105,8 +105,14 @@ export const textStyles = {
     font-style: italic;
     letter-spacing: -0.2px;
     color: ${colors.gray500};
-  `
+  `,
 
+  buttonLabel: ({ color = colors.gray800, size = "1.1rem" } = {}) => `
+  font-family: 'Roboto', sans-serif;
+  font-size: ${size};
+  font-weight: 500;
+  color: ${color};
+`,
   };
 
 

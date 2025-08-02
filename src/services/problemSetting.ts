@@ -1,10 +1,8 @@
-// services/problemSetting.ts
 import problems from "../assets/data/problems.json";
 
 const STORAGE_KEY = "shuffledProblems";
 export function shuffle<T>(array: T[]): T[] {
   const copy = [...array];
-
   for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (2 ** 32) * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];

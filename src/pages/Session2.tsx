@@ -1,79 +1,29 @@
-import { useEffect, useState } from "react";
-import { useUserStore } from "../stores/useUserStore";
-import { loadAgentChats } from "../services/loadAgentChats";
-import type { AgentChat } from "../services/loadAgentChats";
 import ChatBubble from "../components/ChatBubble";
-
 import styled from "styled-components";
 import MainLayout from "../layouts/MainLayout";
 import FooterButton from "../components/FooterButton";
-import MoralCase from "../models/MoralCase";
-import problems from "../assets/data/problems.json";
-import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
-import { useConfidenceStore } from "../stores/useConfidenceStore";
+import { useSessionLogic } from "../services/useSessionLogic";
+import type { AgentChat } from "../services/loadAgentChats";
+import MoreButton from "../components/MoreButton";
 
 
 export default function Session2() {
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentCase, setCurrentCase] = useState<MoralCase | null>(null);
-  const [currentConfidence, setCurrentConfidence] = useState(50); 
-  const total = problems.length;
-  const { group, prolificId, sessionId } = useUserStore();
-  const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
-
-  const addConfidence = useConfidenceStore((state) => state.addConfidence);
-  const INDEX_KEY = import.meta.env.VITE_S2_I_KEY 
-
-    useEffect(() => {
-      initShuffledProblems();
-      const savedIndex = localStorage.getItem(INDEX_KEY);
-      if (savedIndex !== null) {
-        setCurrentIndex(Number(savedIndex));
-      }
-    }, []);
-
-    useEffect(() => {
-      const caseData = getProblemByIndex(currentIndex);
-      if (caseData) {
-        const instance = new MoralCase(caseData);
-        setCurrentCase(instance);
-        setIsAnswered(false);
-        setCurrentConfidence(50);
-      }
-
-      async function fetchChats() {
-        try {
-          const chats = await loadAgentChats(caseData.id, "1", group); //case, turn, group
-          setAgentChats(chats);
-        } catch (error) {
-          console.error("Error loading agent chats:", error);
-        }
-      }
-      fetchChats();
-    }, [currentIndex]);
-
-    const handleNext = () => {
-      addConfidence({
-        sessionId: "session2",
-        caseIndex: currentIndex,
-        confidence: currentConfidence,
-        timestamp: Date.now(),
-        type: "final",
-      });
-
-      const nextIndex = currentIndex + 1;
-      setCurrentIndex((prev) => prev + 1);
-      localStorage.setItem(INDEX_KEY, nextIndex.toString());
-  
-      if (currentIndex < total - 1) {
-      } else {
-        window.location.href = "/postsurvey";
-      }
-    };
+  const {
+    isAnswered,
+    setIsAnswered,
+    currentIndex,
+    currentCase,
+    handleNext,
+    total,
+    addConfidence,
+    agentChats,
+    loading,
+    handleMoreClick,
+    canTakeTurn,
+  } = useSessionLogic();
 
   return (
     <MainLayout
@@ -141,7 +91,14 @@ export default function Session2() {
                         </ChatList>
                       )}
             </ChatListWrapper>
-            <MoreButtonWatter>I can't decide yet</MoreButtonWatter>
+  
+            <MoreButtonWrapper>
+              <MoreButton
+                    label={"I can't decide yet"}
+                    onClick={handleMoreClick}
+                    disabled={!canTakeTurn}
+                  />
+            </MoreButtonWrapper>
           </ChatContainer>
         </Layout>
       </MainLayout>
@@ -158,12 +115,18 @@ export const Layout = styled.div`
 export const ChatListWrapper = styled.div`
   flex: 10;
   overflow-y: auto;
+  padding: 12px 12px;
  
 `;
 
-export const MoreButtonWatter = styled.div`
+export const MoreButtonWrapper = styled.div`
   flex: 1;
-  margin: auto;
+  width: 100%;
+  padding-top: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 

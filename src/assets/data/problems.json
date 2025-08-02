@@ -15,8 +15,7 @@
             "image": "/assets/images/case1_B.png",
             "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
             "deaths": [
-                "1 woman",
-                "1 baby"
+                "1 pregnant"
             ], 
             "note": ""
         }
@@ -52,17 +51,21 @@
             "image": "/assets/images/case3_A.png",
             "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
             "deaths": [
-                "3 Criminal"
+                "3 female athlete",
+                "1 man",
+                "1 woman"
             ],
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+            "note": ""
         },
         "B": {
             "image": "/assets/images/case3_B.png",
             "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
             "deaths": [
-                "1 man"
+                "3 large woman",
+                "1 large man",
+                "1 woman"
             ], 
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
         }
     }, 
     {
@@ -70,17 +73,18 @@
         "question" : "What should the self-driving car do?",
         "A": {
             "image": "/assets/images/case4_A.png",
-            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
+            "description": "In this case, the self-driving car with sudden brake failure will continue ahead and crash into a concrete barrier. This will result in...",
             "deaths": [
-                "3"
+                "1 elderly man",
+                "1 elderly woman"
             ],
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+            "note": " "
         },
         "B": {
             "image": "/assets/images/case4_B.png",
             "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
             "deaths": [
-                "1 doctor"
+                "1 doctor" 
             ], 
             "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
         }
@@ -92,18 +96,17 @@
             "image": "/assets/images/case5_A.png",
             "description": "In this case, the self-driving car with sudden brake failure will continue ahead and drive through a pedestrian crossing ahead. This will result in...",
             "deaths": [
-                "3 executi...."
+                "3 executive man"
             ],
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
         },
         "B": {
             "image": "/assets/images/case5_B.png",
             "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
             "deaths": [
-                "1 man",
-                "1 boy"
+                "3 homeless"
             ], 
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
         }
     }
 ]
