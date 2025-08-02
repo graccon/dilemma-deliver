@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import type { AgentChat } from "../services/loadAgentChats";
@@ -10,6 +9,8 @@ interface ChatBubbleProps {
   chat: AgentChat;
   idx: number;
   replyTo?: AgentChat | null;
+  liked: boolean;
+  onLike: () => void;
 }
 
 const agentLabel = {
@@ -33,8 +34,7 @@ const agentIcon = {
   me: "/assets/icons/agent_me_icon.png"
 } as const;
 
-export default function ChatBubble({ chat, idx, replyTo }: ChatBubbleProps) {
-  const [liked, setLiked] = useState(false);
+export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike }: ChatBubbleProps) {
   const { message, type, from, to } = chat;
   const fromKey = from.toLowerCase() as keyof typeof agentLabel;
   const toKey = to.toLowerCase() as keyof typeof agentLabel;
@@ -80,10 +80,12 @@ export default function ChatBubble({ chat, idx, replyTo }: ChatBubbleProps) {
           )}
           {idx} - {message}
         </Bubble>
-        <GoodIcon
-          src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
-          onClick={() => setLiked(!liked)}
-        />
+        {replyTo && (
+          <GoodIcon
+            src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
+            onClick={onLike}
+          />
+        )}
       </BubbleContainer>
       </Container>
     </BubbleWrapper>

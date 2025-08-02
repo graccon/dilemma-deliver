@@ -22,6 +22,8 @@ export default function Session2() {
     agentChats,
     handleMoreClick,
     canTakeTurn,
+    likedIndex,
+    updateLikedIndex
   } = useSessionLogic();
 
   return (
@@ -30,7 +32,7 @@ export default function Session2() {
         <FooterButton
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
           onClick={handleNext}
-          disabled={!isAnswered}
+          disabled={!isAnswered || likedIndex === null}
         />
       }
     > 
@@ -83,7 +85,13 @@ export default function Session2() {
                             }
                             return (
                               <ChatListItem key={idx}>
-                                <ChatBubble chat={chat} idx={idx} replyTo={replyTarget} />
+                                <ChatBubble 
+                                chat={chat}
+                                idx={idx}
+                                replyTo={replyTarget}
+                                liked={likedIndex === idx}
+                                onLike={() => updateLikedIndex(idx)}
+                              />
                               </ChatListItem>
                             );
                           })}

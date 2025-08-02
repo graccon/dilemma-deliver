@@ -8,6 +8,7 @@ export interface AgentChat {
   to: string;
   type: "talk" | "reply";
   message: string;
+  liked?: boolean;
 }
 
 export interface AgentChatRow {

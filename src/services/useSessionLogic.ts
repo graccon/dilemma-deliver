@@ -24,6 +24,7 @@ export function useSessionLogic() {
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
   const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
   const { group } = useUserStore();
+  const [likedIndex, setLikedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     initShuffledProblems();
@@ -32,6 +33,13 @@ export function useSessionLogic() {
       setCurrentIndex(Number(savedIndex));
     }
   }, []);
+
+  useEffect(() => {
+    if (agentChats.length > 0) {
+      const liked = agentChats.findIndex(c => c.liked === true);
+      setLikedIndex(liked >= 0 ? liked : null);
+    }
+  }, [agentChats]);
 
   useEffect(() => {
     const caseData = getProblemByIndex(currentIndex);
@@ -111,6 +119,30 @@ export function useSessionLogic() {
           }
     };
 
+    function updateAndSaveChats(updater: (prev: AgentChat[]) => AgentChat[]) {
+        setAgentChats(prev => {
+          const updated = updater(prev);
+          if (currentCase) {
+            setChatLog(currentCase.id, updated);
+          }
+          return updated;
+        });
+      }
+
+      const updateLikedIndex = (index: number) => {
+        setLikedIndex((prev) => {
+          const newIndex = prev === index ? null : index;
+      
+          updateAndSaveChats((prevChats) =>
+            prevChats.map((chat, i) => ({
+              ...chat,
+              liked: i === newIndex,
+            }))
+          );
+      
+          return newIndex;
+        });
+      };
 
   return {
     isAnswered,
@@ -125,5 +157,8 @@ export function useSessionLogic() {
     agentChats,
     handleMoreClick,
     canTakeTurn,
+    setAgentChats,
+    likedIndex, 
+    updateLikedIndex
   };
 }
