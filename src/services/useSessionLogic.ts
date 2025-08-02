@@ -60,7 +60,6 @@ export function useSessionLogic() {
     }
   }, [currentIndex]);
 
-  
 
   const handleNext = () => {
     addConfidence({
@@ -91,7 +90,6 @@ export function useSessionLogic() {
         const turnId = SHUFFLED_TURNS[turnCount];
         const chats = await loadAgentChats(instance.id, turnId, group ?? "1");
         appendChatsSequentially(chats);
-        // setShouldAnimate(true); 
       }
     } catch (error) {
       console.error("Error loading agent chats:", error);
@@ -170,12 +168,12 @@ export function useSessionLogic() {
               }
               return updated;
             });
-      
             i++;
-          }, 400);
+          }, 1200);
+          setShouldAnimate(true);
         });
       }
-      
+
   return {
     isAnswered,
     setIsAnswered,

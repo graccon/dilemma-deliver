@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from "react";
 import ChatBubble from "../components/ChatBubble";
 import styled from "styled-components";
 import MainLayout from "../layouts/MainLayout";
@@ -11,6 +12,7 @@ import MoreButton from "../components/MoreButton";
 
 
 export default function Session2() {
+
   const {
     isAnswered,
     setIsAnswered,
@@ -26,6 +28,23 @@ export default function Session2() {
     updateLikedIndex, 
     shouldAnimate
   } = useSessionLogic();
+
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [agentChats]);
+
+  const [isAnimating, setIsAnimating] = useState(true);
+
+      useEffect(() => {
+        setIsAnimating(true);
+        const timer = setTimeout(() => {
+            setIsAnimating(false);
+        }, 300); 
+        return () => clearTimeout(timer);
+        }, [agentChats]);
 
   return (
     <MainLayout
@@ -70,7 +89,8 @@ export default function Session2() {
         </ProblemContainer>
 
           <ChatContainer>
-            <ChatListWrapper>
+ 
+            <ChatListWrapper $isAnimating={isAnimating}>
               {agentChats.length === 0 ? (
                         <p></p>
                       ) : (
@@ -97,6 +117,7 @@ export default function Session2() {
                               </ChatListItem>
                             );
                           })}
+                          <div ref={chatEndRef} />
                         </ChatList>
                       )}
             </ChatListWrapper>
@@ -121,11 +142,16 @@ export const Layout = styled.div`
   gap: 1rem; 
 `;
 
-export const ChatListWrapper = styled.div`
+
+export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   flex: 10;
-  overflow-y: auto;
   padding: 12px 12px;
- 
+  overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
+  scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
+
+  &::-webkit-scrollbar {
+    display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
+  }
 `;
 
 export const MoreButtonWrapper = styled.div`
