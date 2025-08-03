@@ -1,0 +1,12 @@
+{
+    "id" : "onboarding",
+    "question" : "What should the attacker car do?",
+    "A": {
+        "image": "/assets/images/onboarding_A.png",
+        "description": "In this case,The attacker shoots straight at the goal."
+    },
+    "B": {
+        "image": "/assets/images/onboarding_A.png",
+        "description": "In this case, The attacker passes to the teammate near the goal."
+    }
+}

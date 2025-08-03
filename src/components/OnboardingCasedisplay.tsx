@@ -1,0 +1,88 @@
+import styled from "styled-components";
+import { CaseTitle, OptionLabel, Body } from "../styles/textStyles";
+import type OnboardingCase from "../models/onboardingCase";
+
+type Props = {
+  caseData: OnboardingCase;
+  disabled: boolean;
+};
+
+export default function OnboardingCaseDisplay({ caseData, disabled }: Props) {
+  return (
+    <Container>
+      {disabled && <Overlay />}
+      <CaseTitle>{caseData.question}</CaseTitle>
+
+      <Grid>
+        <Option>
+          <DescriptionContainer>
+            <OptionLabel align="right">A</OptionLabel>
+            <Body>{caseData.A.description}</Body>
+          </DescriptionContainer>
+          <Image src={caseData.A.image} alt="Option A" />
+        </Option>
+
+        <Option>
+          <Image src={caseData.B.image} alt="Option B" />
+          <DescriptionContainer>
+            <OptionLabel align="left">B</OptionLabel>
+            <Body>{caseData.B.description}</Body>
+          </DescriptionContainer>
+        </Option>
+      </Grid>
+    </Container>
+  );
+}
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(32, 32, 32, 0.7);
+  z-index: 10;
+  pointer-events: auto;
+  border-radius: 1rem;
+`;
+
+export const Container = styled.div`
+  position: relative; 
+  padding: 0.6rem;
+  text-align: center;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+`;
+
+export const Grid = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+`;
+
+export const Option = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 10px;
+  max-width: 600px;
+`;
+
+export const Image = styled.img`
+  height: 18rem;
+  object-fit: contain;
+`;
+
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 1.2rem;
+`;
+
+export const DefaultDescrition = styled.div`
+  @media (max-width: 960px) {
+    display: none;
+  }
+`;

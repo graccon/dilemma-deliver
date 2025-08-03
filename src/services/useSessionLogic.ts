@@ -116,7 +116,6 @@ export function useSessionLogic() {
   // 채팅 순차 렌더링
   function appendChatsSequentially(chatsToAdd: AgentChat[], caseId: string): Promise<void> {
 
-
     return new Promise((resolve) => {
       let i = 0;
       const interval = setInterval(() => {

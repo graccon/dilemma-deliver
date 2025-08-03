@@ -86,7 +86,7 @@ export default function Session2() {
               key={currentIndex}
               initialValue={50}
               onChange={(value) => {
-                console.log("confidence:", value);
+                // console.log("confidence:", value);
                 setIsAnswered(value !== 50);
               }}
               onTouchEnd={(value) => {

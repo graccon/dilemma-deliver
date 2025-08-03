@@ -2,35 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { SilderTitle, SecondTitle, Span } from "../styles/textStyles";
 import colors from "../styles/colors"; 
+import { calculateConfidence, getSliderBackground } from "./ConfidenceSilder";
 
-interface ConfidenceSliderProps {
-  initialValue?: number;
-  onChange?: (value: number) => void;
-  onTouchEnd?: (value: number) => void;
+interface ConfidenceSliderInOnboardingProps {
+    initialValue?: number;
+    onChange?: (value: number) => void;
+    disabled: boolean;
 }
-
-export function calculateConfidence(value: number): number {
-  return value === 50 ? 50 : value < 50 ? 100 - value : value;
-}
-
-export function getSliderBackground(value: number): string {
-  if (value < 50) {
-    return `linear-gradient(to right,
-      ${colors.gray300} ${value}%,
-      ${colors.gray500} ${value}% 50%,
-      ${colors.gray300} 50% 100%)`;
-  } else {
-    return `linear-gradient(to right,
-      ${colors.gray300} 0% 50%,
-      ${colors.gray500} 50% ${value}%,
-      ${colors.gray300} ${value}% 100%)`;
-  }
-}
-
-const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
+const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> = ({
   initialValue = 50,
   onChange,
-  onTouchEnd,
+  disabled,
 }) => {
   const [value, setValue] = useState(initialValue);
 
@@ -42,6 +24,7 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
 
   return (
     <Container>
+        {disabled && <Overlay />}
         <SliderWrapper>
             <TitleContainer>
                 <SilderTitle>Move the slider to show your confidence.</SilderTitle>
@@ -69,13 +52,6 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                                     max={100}
                                     value={value}
                                     onChange={handleChange}
-                                    onTouchEnd={() => {
-                                      onTouchEnd?.(value);
-                                    }}
-                                    // onPointerDown={() => {
-                                    //   console.log("🖱️ mouse up");
-                                    //   onPointerDown?.(value);
-                                    // }}
                                     $bg={getSliderBackground(value)}
                             />
                         </StyledRangeWrapper>
@@ -113,12 +89,29 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
   );
 };
 
-export default ConfidenceSlider;
+export default ConfidenceSliderInOnboarding;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(32, 32, 32, 0.7);
+  z-index: 10;
+  pointer-events: auto;
+`;
 
 export const Container = styled.div`
-    padding: 1rem;
-    border-radius: 1rem;
-    height: 100%;
+  position: relative; 
+  padding: 0.6rem;
+  text-align: center;
+  height: 100%;
+  overflow: hidden;
+
+  padding: 1rem;
+  border-radius: 1rem;
+  height: 100%;
 `;
 
 const SliderWrapper = styled.div`
@@ -130,11 +123,11 @@ const SliderWrapper = styled.div`
   height: 100%;
 `;
 
-const ValueWrapper = styled.div`
-  display: flex;
-  justify-content: center;  
-  align-items: center;       
-  gap: 0.3rem;           
+const TitleContainer = styled.div`
+  width: 24%;
+  @media (max-width: 960px) {
+        display: none;
+    }
 `;
 
 const LabelContainer = styled.div`
@@ -145,11 +138,17 @@ const LabelContainer = styled.div`
   align-items: center;
 `;
 
-const TitleContainer = styled.div`
-  width: 24%;
-  @media (max-width: 960px) {
-        display: none;
-    }
+const IconBox = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StayIcon = styled.img`
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
 `;
 
 const SliderBox = styled.div`
@@ -169,6 +168,13 @@ const SilderWrapper = styled.div`
 const RangeWrapper = styled.div`
   flex-grow: 1;
   height: 100%;
+`;
+
+const ValueWrapper = styled.div`
+  display: flex;
+  justify-content: center;  
+  align-items: center;       
+  gap: 0.3rem;           
 `;
 
 const StyledRangeWrapper = styled.div`
@@ -196,15 +202,6 @@ const StyledRange = styled.input<{ $bg: string }>`
   }
 `;
 
-const RangeMarks = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: ${colors.gray500};
-  padding: 30px, 20px;
-`;
-
 const DotTrack = styled.div`
   position: relative;
   width: 100%;
@@ -223,15 +220,11 @@ const Dot = styled.div`
   border-radius: 5px;
 `;
 
-const IconBox = styled.div`
-  flex: 1;
+const RangeMarks = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StayIcon = styled.img`
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: ${colors.gray500};
+  padding: 30px, 20px;
 `;
