@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useTimerLogStore } from "../stores/useTimerLogStore";
+import { textStyles } from "../styles/textStyles";
+import colors from "../styles/colors";
+import nextIcon from "/assets/icons/next_icon.png";
 
 interface FooterButtonProps {
   label: string;
@@ -28,19 +31,35 @@ export default function FooterButton({ label, to, onClick, disabled = false }: F
   };
 
   return (
-    <Button disabled={disabled} onClick={handleClick}>
-      {label}
+    <Button disabled={disabled} onClick={handleClick} color={colors.white}>
+      <Label>{label}</Label>
+      <Icon src={nextIcon} alt="Next" />
     </Button>
   );
 }
 
-const Button = styled.button<{ disabled: boolean }>`
-  padding: 12px 24px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#1E90FF")};
-  color: white;
+const Button = styled.button<{ disabled: boolean, color?: string }>`
+  ${(color) => textStyles.buttonLabel(color)}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 12rem;
+  height: 3rem;
+  padding: 0 1rem;
+  border: 2px solid ${colors.white};
+  border-radius: 50rem;
+  background-color: ${({ disabled }) => (disabled ? colors.gray800 : colors.black )};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   transition: background-color 0.3s ease;
+`;
+
+const Icon = styled.img`
+  width: 18px;
+  height: 18px;
+`;
+
+const Label = styled.span`
+  flex: 1;         
+  text-align: center;    
 `;

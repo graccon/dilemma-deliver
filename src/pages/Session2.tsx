@@ -9,9 +9,11 @@ import colors from "../styles/colors";
 import { useSessionLogic } from "../services/useSessionLogic";
 import type { AgentChat } from "../services/loadAgentChats";
 import MoreButton from "../components/MoreButton";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Session2() {
+  const INDEX_KEY = import.meta.env.VITE_S2_I_KEY; 
 
   const {
     isAnswered,
@@ -26,8 +28,10 @@ export default function Session2() {
     canTakeTurn,
     likedIndex,
     updateLikedIndex, 
-    shouldAnimate
+    shouldAnimate,
+    isFetchingRef
   } = useSessionLogic();
+  
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -44,7 +48,17 @@ export default function Session2() {
             setIsAnimating(false);
         }, 300); 
         return () => clearTimeout(timer);
-        }, [agentChats]);
+  }, [agentChats]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const currentIndex = parseInt(localStorage.getItem(INDEX_KEY) || "0", 10);
+    if (currentIndex >= 5) {
+      alert("You have already completed Session 2.");
+      navigate("/postsurvey"); 
+    }
+  }, []);
+
 
   return (
     <MainLayout
@@ -126,7 +140,7 @@ export default function Session2() {
               <MoreButton
                     label={"I can't decide yet"}
                     onClick={handleMoreClick}
-                    disabled={!canTakeTurn}
+                    disabled={!canTakeTurn || isFetchingRef.current}
                   />
             </MoreButtonWrapper>
           </ChatContainer>

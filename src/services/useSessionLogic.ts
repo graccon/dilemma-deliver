@@ -10,7 +10,7 @@ import { useConfidenceStore } from "../stores/useConfidenceStore";
 import { loadAgentChats } from "./loadAgentChats";
 import type { AgentChat } from "../services/loadAgentChats";
 
-const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
+const INDEX_KEY = "session2_currentIndex";
 const SHUFFLED_TURNS = getShuffledTurns();
 
 export function useSessionLogic() {
@@ -72,7 +72,7 @@ export function useSessionLogic() {
 
     const turnCount = getTurnCount(caseId);
     if (turnCount > 0 || fetchedRef.current.has(caseId)) {
-      console.log("🔁 Already fetched. Skip fetch.");
+      console.log(" Already fetched. Skip fetch.");
       return;
     }
 
@@ -112,7 +112,6 @@ export function useSessionLogic() {
         isFetchingRef.current = false; 
       }
 };
-
 
   // 채팅 순차 렌더링
   function appendChatsSequentially(chatsToAdd: AgentChat[], caseId: string): Promise<void> {

@@ -10,6 +10,11 @@ export default function Home() {
   const setUser = useUserStore((state) => state.setUser);
 
   useEffect(() => {
+    localStorage.clear(); // 전체 삭제
+    localStorage.removeItem("chatLog_case_1");
+  }, []);
+
+  useEffect(() => {
     const group = searchParams.get("group") || "";
     const prolificId = searchParams.get("prolific_id") || "";
     const sessionId = searchParams.get("session_id") || "";

@@ -8,7 +8,7 @@ import { clearShuffledProblems, initShuffledProblems, getProblemByIndex } from "
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
-
+import { useNavigate } from "react-router-dom";
 
 import { useConfidenceStore } from "../stores/useConfidenceStore";
 
@@ -29,7 +29,15 @@ export default function Session1() {
     const savedIndex = localStorage.getItem(INDEX_KEY);
     if (savedIndex !== null) {
       setCurrentIndex(Number(savedIndex));
-      
+    }
+  }, []);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const currentIndex = parseInt(localStorage.getItem(INDEX_KEY) || "0", 10);
+    if (currentIndex >= 5) {
+      alert("You have already completed Session 1.");
+      navigate("/session2"); 
     }
   }, []);
 

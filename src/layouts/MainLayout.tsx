@@ -46,7 +46,7 @@ const Main = styled.main`
 `;
 
 const FooterContainer = styled.footer`
-  padding: 1.3rem;
+  padding: 0.85rem 1.4rem;
   display: flex;
   flex-row: column;
   text-align: center;
