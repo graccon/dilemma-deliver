@@ -13,6 +13,8 @@ export function useOnboardingLogic() {
     const [shouldAnimate, setShouldAnimate] = useState(false);
     const [likedIndex, setLikedIndex] = useState<number | null>(null);
     const [sliderValue, setSliderValue] = useState<number>(50);
+    const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
+
 
     useEffect(() => {
         const data = getOnboarding();
@@ -34,10 +36,11 @@ export function useOnboardingLogic() {
 
 
     useEffect(() => {
+      console.log("check", { missionStep, sliderValue, hasSentStep2Chat });
         if (!caseData) return;
         const fetchChats = async () => {
           try {
-            setAgentChats([]); // 이전 채팅 초기화
+            setAgentChats([]);
             const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); // caseId "0", step, groupId "0"
             console.log("💬 Loaded chats:", chats);
             await appendChatsSequentially(chats, "0");
@@ -50,8 +53,10 @@ export function useOnboardingLogic() {
       }, [missionStep, caseData]);
 
       useEffect(() => {
+        if (hasSentStep2Chat) {
+          console.log("이미..");
+          return;}
         if (missionStep === 2 && sliderValue === 25) {
-          console.log("you got it!");
           const newChats: AgentChat[] = [
             {
               from: "stat",
@@ -61,6 +66,7 @@ export function useOnboardingLogic() {
             },
         ]
         setAgentChats((prev) => [...prev, ...newChats]);
+        setHasSentStep2Chat(true);
         }
       }, [sliderValue, missionStep]);
 
