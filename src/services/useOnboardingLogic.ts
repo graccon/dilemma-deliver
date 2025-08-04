@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOnboarding } from "./onboardingSetting";
-import type OnboardingCase from "../models/onboardingCase";
+import type OnboardingCase from "../models/OnboardingCase";
 import { saveMissionStep, loadMissionStep } from "../stores/missionStepStorage";
 import type { AgentChat } from "../services/loadAgentChats";
 import { loadAgentChats } from "./loadAgentChats";
@@ -79,8 +79,8 @@ export function useOnboardingLogic() {
       }
 
       // 채팅 순차 렌더링
-        function appendChatsSequentially(chatsToAdd: AgentChat[], caseId: string): Promise<void> {
-          return new Promise((resolve) => {
+        function appendChatsSequentially(chatsToAdd: AgentChat[], _caseId: string): Promise<void> {
+                      return new Promise((resolve) => {
             let i = 0;
             const interval = setInterval(() => {
               if (i >= chatsToAdd.length) {
