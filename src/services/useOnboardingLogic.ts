@@ -26,6 +26,7 @@ export function useOnboardingLogic() {
 
     const advanceMission = () => {
         if (missionStep === 2 && sliderValue !== 25) {
+            console.log("hey", sliderValue)
           return;
         }
         setMissionStep(missionStep + 1);
@@ -51,6 +52,15 @@ export function useOnboardingLogic() {
       useEffect(() => {
         if (missionStep === 2 && sliderValue === 25) {
           console.log("you got it!");
+          const newChats: AgentChat[] = [
+            {
+              from: "stat",
+              to: "me",
+              type: "talk",
+              message: "@ME Nice work !",
+            },
+        ]
+        setAgentChats((prev) => [...prev, ...newChats]);
         }
       }, [sliderValue, missionStep]);
 
@@ -85,7 +95,6 @@ export function useOnboardingLogic() {
                 i++;
                 return;
               }
-        
               setAgentChats((prev) => {
                 const updated = [...prev, chat];
                 return updated;
