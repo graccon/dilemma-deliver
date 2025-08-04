@@ -36,11 +36,10 @@ export function useOnboardingLogic() {
 
 
     useEffect(() => {
-      console.log("check", { missionStep, sliderValue, hasSentStep2Chat });
         if (!caseData) return;
         const fetchChats = async () => {
           try {
-            setAgentChats([]);
+            // if (missionStep < 4) setAgentChats([]);
             const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); // caseId "0", step, groupId "0"
             console.log("💬 Loaded chats:", chats);
             await appendChatsSequentially(chats, "0");
@@ -53,9 +52,7 @@ export function useOnboardingLogic() {
       }, [missionStep, caseData]);
 
       useEffect(() => {
-        if (hasSentStep2Chat) {
-          console.log("이미..");
-          return;}
+        if (hasSentStep2Chat) {return;}
         if (missionStep === 2 && sliderValue === 25) {
           const newChats: AgentChat[] = [
             {
@@ -72,18 +69,12 @@ export function useOnboardingLogic() {
 
     function getLabelByMissionStep(step: number): string {
         switch (step) {
-          case 1:
-            return "Got it !";
-          case 2:
-            return "Got it !";
-          case 3:
           case 4:
-            return "Still unsure";
+            return "I can’t decide yet";
           default:
-            return "Continue thinking";
+            return "Got it !";
         }
       }
-
       // 채팅 순차 렌더링
         function appendChatsSequentially(chatsToAdd: AgentChat[], _caseId: string): Promise<void> {
                       return new Promise((resolve) => {
@@ -134,17 +125,27 @@ export function useOnboardingLogic() {
           });
         }
 
+        function appendUserChat(message: string) {
+          const newChat: AgentChat = {
+            from: "me",
+            to: "all",
+            type: "talk",
+            message,
+          };
+          setAgentChats((prev) => [...prev, newChat]);
+        }
+
     return {
         caseData,
         agentChats,
         likedIndex,
         missionStep,
-        sliderValue,
         setMissionStep,
         advanceMission,
         getLabelByMissionStep,
         updateLikedIndex,
         shouldAnimate,
         setSliderValue,
+        appendUserChat,
     };
 }

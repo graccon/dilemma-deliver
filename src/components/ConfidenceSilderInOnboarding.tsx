@@ -105,7 +105,6 @@ const Overlay = styled.div`
 
 export const Container = styled.div`
   position: relative; 
-  padding: 0.6rem;
   text-align: center;
   height: 100%;
   overflow: hidden;

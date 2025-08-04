@@ -100,6 +100,7 @@ export function useSessionLogic() {
 
     const turnId = SHUFFLED_TURNS[turnCount - 1]; 
     try {
+      appendUserChat("I can’t decide yet");
       isFetchingRef.current = true;
       const newChats = await loadAgentChats(caseId, turnId, group ?? "1");
       await appendChatsSequentially(newChats, caseId);
@@ -165,6 +166,16 @@ export function useSessionLogic() {
       if (currentCase) setChatLog(currentCase.id, updated);
       return updated;
     });
+  }
+
+  function appendUserChat(message: string) {
+    const newChat: AgentChat = {
+      from: "me",
+      to: "all",
+      type: "talk",
+      message,
+    };
+    setAgentChats((prev) => [...prev, newChat]);
   }
 
   // 다음 문제 이동

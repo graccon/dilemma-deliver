@@ -76,7 +76,7 @@ export const textStyles = {
     replyLabel: () => `
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
-        font-size: 0.85rem;
+        font-size: 1 rem;
         color: ${colors.gray700};
     `,
 
@@ -92,7 +92,7 @@ export const textStyles = {
 
   bubbleText: () => `
     font-family: 'Roboto', sans-serif;
-    font-size: 0.9rem;
+    font-size: 1 rem;
     font-weight: 400;
     line-height: 1.3;∂
     color: ${colors.gray800};
@@ -107,7 +107,7 @@ export const textStyles = {
     color: ${colors.gray500};
   `,
 
-  buttonLabel: ({ color = colors.gray800, size = "1.1rem" } = {}) => `
+  buttonLabel: ({ color = colors.gray800, size = "1.2rem" } = {}) => `
   font-family: 'Roboto', sans-serif;
   font-size: ${size};
   font-weight: 500;

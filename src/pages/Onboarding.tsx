@@ -9,6 +9,7 @@ import OnboardingCaseDisplay from "../components/OnboardingCasedisplay";
 import ConfidenceSliderInOnboarding from "../components/ConfidenceSilderInOnboarding";
 import ChatBubble from "../components/ChatBubble";
 import type { AgentChat } from "../services/loadAgentChats";
+import UserChatBubble from "../components/UserChatBubble";
 
 
 export default function Onboarding() {
@@ -19,8 +20,8 @@ export default function Onboarding() {
     missionStep,
     advanceMission,
     shouldAnimate,
-    sliderValue,
     setSliderValue,
+    appendUserChat,
     getLabelByMissionStep,
     updateLikedIndex,
   } = useOnboardingLogic();
@@ -54,7 +55,8 @@ export default function Onboarding() {
           </CaseContainer>
           <SliderContainer>
             <ConfidenceSliderInOnboarding 
-              initialValue={sliderValue}
+              initialValue={50}
+              key={missionStep}
               onChange={(value) => {
                 setSliderValue(value);
               }}
@@ -70,7 +72,7 @@ export default function Onboarding() {
                                     <ChatList>
                                       {agentChats.map((chat: AgentChat, idx: number) => {
                                         let replyTarget: AgentChat | null = null;
-                          
+
                                         if (chat.type === "reply") {
                                           replyTarget = agentChats
                                             .slice(0, idx)
@@ -78,16 +80,20 @@ export default function Onboarding() {
                                             .find(prevChat => prevChat.type === "talk") || null;
                                         }
                                         return (
-                                          <ChatListItem key={idx}>
-                                            <ChatBubble 
-                                              chat={chat}
-                                              mode="onboarding"
-                                              
-                                              replyTo={replyTarget}
-                                              liked={likedIndex === idx}
-                                              shouldAnimate={shouldAnimate ?? true}
-                                              onLike={() => updateLikedIndex(idx)}
-                                          />
+                                          <ChatListItem key={idx} isUser={chat.from === "me"}>
+                                            {chat.from === "me" ? (
+                                              <UserChatBubble message={chat.message}/>
+                                            ) : (
+                                              <ChatBubble 
+                                                chat={chat}
+                                                mode="onboarding"
+                                                replyTo={replyTarget}
+                                                liked={likedIndex === idx}
+                                                shouldAnimate={shouldAnimate ?? true}
+                                                onLike={() => updateLikedIndex(idx)}
+                                              />
+                                            )}
+                                    
                                           </ChatListItem>
                                         );
                                       })}
@@ -99,9 +105,11 @@ export default function Onboarding() {
           <MoreButton
                 label={getLabelByMissionStep(missionStep)}
                 onClick={() => {
-                  if (missionStep === 1) {
+                  if (missionStep < 4) {
+                    const label = getLabelByMissionStep(missionStep);
+                    appendUserChat(label);
                     advanceMission();
-                  } else {
+                  } else { 
                     console.log("다음 미션 처리 예정");
                   }
                 }}
@@ -173,7 +181,7 @@ export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   padding: 12px 12px;
   overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
   scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
-
+  scrollbar-gutter: stable;
   &::-webkit-scrollbar {
     display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
   }
@@ -185,6 +193,8 @@ const ChatList = styled.ul`
   margin: 0;
 `;
 
-const ChatListItem = styled.li`
+const ChatListItem = styled.li<{ isUser?: boolean }>`
+  display: flex;
+  justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
   margin-bottom: 24px;
 `;

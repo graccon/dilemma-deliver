@@ -10,6 +10,7 @@ import { useSessionLogic } from "../services/useSessionLogic";
 import type { AgentChat } from "../services/loadAgentChats";
 import MoreButton from "../components/MoreButton";
 import { useNavigate } from "react-router-dom";
+import UserChatBubble from "../components/UserChatBubble";
 
 
 export default function Session2() {
@@ -119,15 +120,19 @@ export default function Session2() {
                                 .find(prevChat => prevChat.type === "talk") || null;
                             }
                             return (
-                              <ChatListItem key={idx}>
-                                <ChatBubble 
-                                  chat={chat}
-                                  mode="default"
-                                  replyTo={replyTarget}
-                                  liked={likedIndex === idx}
-                                  shouldAnimate={shouldAnimate ?? true}
-                                  onLike={() => updateLikedIndex(idx)}
-                              />
+                              <ChatListItem key={idx} isUser={chat.from === "me"}>
+                                {chat.from === "me" ? (
+                                  <UserChatBubble message={chat.message}/>
+                                ) : (
+                                  <ChatBubble 
+                                    chat={chat}
+                                    mode="default"
+                                    replyTo={replyTarget}
+                                    liked={likedIndex === idx}
+                                    shouldAnimate={shouldAnimate ?? true}
+                                    onLike={() => updateLikedIndex(idx)}
+                                />
+                                )}
                               </ChatListItem>
                             );
                           })}
@@ -162,7 +167,7 @@ export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   padding: 12px 12px;
   overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
   scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
-
+  scrollbar-gutter: stable;
   &::-webkit-scrollbar {
     display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
   }
@@ -189,7 +194,6 @@ export const ChatContainer = styled.div`
   max-height: 78vh;
   padding: 10px;
 `;
-
 
 export const ProblemContainer = styled.div`
   flex: 8;
@@ -224,6 +228,8 @@ const ChatList = styled.ul`
   margin: 0;
 `;
 
-const ChatListItem = styled.li`
+const ChatListItem = styled.li<{ isUser?: boolean }>`
+  display: flex;
+  justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
   margin-bottom: 24px;
 `;
