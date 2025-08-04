@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { CaseTitle, OptionLabel, Body } from "../styles/textStyles";
-import type OnboardingCase from "../models/onboardingCase";
+import type OnboardingCase from "../models/OnboardingCase";
+
 
 type Props = {
   caseData: OnboardingCase;

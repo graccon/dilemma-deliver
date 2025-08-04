@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getOnboarding } from "./onboardingSetting";
+import { getOnboarding } from "./OnboardingSetting";
 import type OnboardingCase from "../models/OnboardingCase";
 import { saveMissionStep, loadMissionStep } from "../stores/missionStepStorage";
 import type { AgentChat } from "../services/loadAgentChats";
