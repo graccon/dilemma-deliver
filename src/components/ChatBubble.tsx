@@ -7,47 +7,76 @@ import isPropValid from "@emotion/is-prop-valid";
 
 interface ChatBubbleProps {
   chat: AgentChat;
-  idx: number;
+  // idx: number; 
   replyTo?: AgentChat | null;
   liked: boolean;
   onLike: () => void;
   shouldAnimate?: boolean;
+  mode?: ChatMode;
 }
-
-const agentLabel = {
-  stat: "Veko",
-  rule: "Lumi",
-  narr: "Molu",
-  me: "ME"
+type ChatMode = "onboarding" | "default";
+const agentAssets: Record<ChatMode, {
+  label: Record<"stat" | "rule" | "narr" | "me", string>;
+  color: Record<"stat" | "rule" | "narr" | "me", string>;
+  icon: Record<"stat" | "rule" | "narr" | "me", string>;
+}> = {
+  onboarding: {
+    label: {
+      stat: "Agent 1",
+      rule: "Agent 2",
+      narr: "Agent 3",
+      me: "ME"
+    },
+    color: {
+      stat: colors.gray400,
+      rule: colors.gray400,
+      narr: colors.gray400,
+      me: colors.gray400
+    },
+    icon: {
+      stat: "/assets/icons/agent_agent1_icon.png",
+      rule: "/assets/icons/agent_agent2_icon.png",
+      narr: "/assets/icons/agent_agent3_icon.png",
+      me: "/assets/icons/agent_me_icon.png"
+    }
+  },
+  default: {
+    label: {
+      stat: "Veko",
+      rule: "Lumi",
+      narr: "Molu",
+      me: "ME"
+    },
+    color: {
+      stat: colors.highlightBlue,
+      rule: colors.highlightRed,
+      narr: colors.highlightGreen,
+      me: colors.gray400
+    },
+    icon: {
+      stat: "/assets/icons/agent_veko_icon.png",
+      rule: "/assets/icons/agent_lumi_icon.png",
+      narr: "/assets/icons/agent_molu_icon.png",
+      me: "/assets/icons/agent_me_icon.png"
+    }
+  }
 } as const;
 
-const agentColor = {
-  stat: colors.highlightBlue,
-  rule: colors.highlightRed,
-  narr: colors.highlightGreen,
-  me: colors.gray400,
-} as const;
-
-const agentIcon = {
-  stat: "/assets/icons/agent_veko_icon.png",
-  rule: "/assets/icons/agent_lumi_icon.png",
-  narr: "/assets/icons/agent_molu_icon.png",
-  me: "/assets/icons/agent_me_icon.png"
-} as const;
-
-export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike, shouldAnimate = false  }: ChatBubbleProps) {
+export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false  }: ChatBubbleProps) {
   const { message, type, from, to } = chat;
-  const fromKey = from.toLowerCase() as keyof typeof agentLabel;
-  const toKey = to.toLowerCase() as keyof typeof agentLabel;
+  const currentMode = mode ?? "default"; 
+  const assets = agentAssets[currentMode];
+  const fromKey = from.toLowerCase() as keyof typeof assets.label;
+  const toKey = to.toLowerCase() as keyof typeof assets.label;
 
-  const fromAgentName = agentLabel[fromKey];
-  const toAgentName = agentLabel[toKey];
+  const fromAgentName = assets.label[fromKey];
+  const toAgentName = assets.label[toKey];
 
-  const fromAgentColor = agentColor[fromKey];
-  const toAgentColor = agentColor[toKey];
+  const fromAgentColor = assets.color[fromKey];
+  const toAgentColor = assets.color[toKey];
 
-  const fromAgentIcon = agentIcon[fromKey];
-  const toAgentIcon = agentIcon[toKey];
+  const fromAgentIcon = assets.icon[fromKey];
+  const toAgentIcon = assets.icon[toKey];
 
 
   return (
@@ -80,7 +109,7 @@ export default function ChatBubble({ chat, idx, replyTo, liked=false, onLike, sh
               : replyTo.message}
           </ReplyReference>
           )}
-          {idx} - {message}
+          {message}
         </Bubble>
         {!replyTo && (
           <GoodIcon

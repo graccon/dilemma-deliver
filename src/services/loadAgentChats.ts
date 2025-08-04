@@ -52,8 +52,19 @@ export async function loadAgentChats(caseId: string, turn: string = "1", groupId
   
   if (!filtered) return [];
 
-
-  const groupKey = Object.values(MessageGroup)[parseInt(groupId) - 1] as MessageGroupKey;
+  const groupIdToKeyMap: Record<string, MessageGroupKey> = {
+    "0": MessageGroup.DirectToUserInOrder,
+    "1": MessageGroup.DirectToUser,
+    "2": MessageGroup.AgentRoundRobin,
+    "3": MessageGroup.ToStatMerged,
+    "4": MessageGroup.ToRuleMerged,
+    "5": MessageGroup.ToNarrMerged,
+    "6": MessageGroup.StatSpeakOthersDebate,
+    "7": MessageGroup.RuleSpeakOthersDebate,
+    "8": MessageGroup.NarrSpeakOthersDebate,
+  };
+  
+  const groupKey = groupIdToKeyMap[groupId];
   const groupConfig = MessageGroupConfigMap[groupKey];
 
   if (!groupConfig || !groupConfig.candidates || groupConfig.candidates.length === 0) {

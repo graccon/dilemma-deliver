@@ -8,6 +8,12 @@ export interface MessageGroupConfig {
   }
 
 export const MessageGroupConfigMap: Record<MessageGroupKey, MessageGroupConfig> = {
+    [MessageGroup.DirectToUserInOrder]: {
+        name: "0. 사용자에게 직접 순서대로 말하기",
+        candidates: [
+            ["stat_to_me", "rule_to_me", "narr_to_me"]
+        ]
+    },
     [MessageGroup.DirectToUser]: {
         name: "1. 사용자에게 직접 말하기",
         candidates: [

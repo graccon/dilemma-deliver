@@ -122,7 +122,6 @@ export default function Session2() {
                               <ChatListItem key={idx}>
                                 <ChatBubble 
                                   chat={chat}
-                                  idx={idx}
                                   replyTo={replyTarget}
                                   liked={likedIndex === idx}
                                   shouldAnimate={shouldAnimate ?? true}

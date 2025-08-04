@@ -32,7 +32,7 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
 
             <LabelContainer>
                 <IconBox>
-                    <StayIcon src="/assets/icons/stay_icon.png" alt="stay icon" />
+                    <StayIcon src="/assets/icons/stay_onboarding_icon.png" alt="stay icon" />
                 </IconBox>
                 <SecondTitle align="">stay</SecondTitle>
             </LabelContainer>
@@ -80,7 +80,7 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
 
             <LabelContainer>
                 <IconBox>
-                    <StayIcon src="/assets/icons/swerve_icon.png" alt="swerve icon" />
+                    <StayIcon src="/assets/icons/swerve_onboarding_icon.png" alt="swerve icon" />
                 </IconBox>
                 <SecondTitle align="center">swerve</SecondTitle>
             </LabelContainer>
@@ -100,6 +100,7 @@ const Overlay = styled.div`
   background-color: rgba(32, 32, 32, 0.7);
   z-index: 10;
   pointer-events: auto;
+  transition: opacity 0.5s ease;
 `;
 
 export const Container = styled.div`

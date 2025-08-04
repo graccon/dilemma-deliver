@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import colors from "../styles/colors";
 import styled from "styled-components";
 import MainLayout from "../layouts/MainLayout";
@@ -7,13 +7,30 @@ import { useOnboardingLogic } from "../services/useOnboardingLogic";
 import MoreButton from "../components/MoreButton";
 import OnboardingCaseDisplay from "../components/OnboardingCasedisplay";
 import ConfidenceSliderInOnboarding from "../components/ConfidenceSilderInOnboarding";
+import ChatBubble from "../components/ChatBubble";
+import type { AgentChat } from "../services/loadAgentChats";
+
 
 export default function Onboarding() {
   const {
     caseData,
+    agentChats,
+    likedIndex,
     missionStep,
     advanceMission,
+    shouldAnimate,
+    sliderValue,
+    setSliderValue,
+    getLabelByMissionStep,
+    updateLikedIndex,
   } = useOnboardingLogic();
+
+  const chatEndRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (chatEndRef.current) {
+        chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, [agentChats]);
 
   const [isAnimating, setIsAnimating] = useState(true);
         useEffect(() => {
@@ -37,9 +54,9 @@ export default function Onboarding() {
           </CaseContainer>
           <SliderContainer>
             <ConfidenceSliderInOnboarding 
-              initialValue={50}
+              initialValue={sliderValue}
               onChange={(value) => {
-                console.log("confidence:", value);
+                setSliderValue(value);
               }}
               disabled={missionStep < 2}
             />
@@ -47,11 +64,40 @@ export default function Onboarding() {
         </ProblemContainer>
        <ChatContainer>
           <ChatListWrapper $isAnimating={isAnimating}>
-            // 채팅
+            {agentChats.length === 0 ? (
+                                    <p></p>
+                                  ) : (
+                                    <ChatList>
+                                      {agentChats.map((chat: AgentChat, idx: number) => {
+                                        let replyTarget: AgentChat | null = null;
+                          
+                                        if (chat.type === "reply") {
+                                          replyTarget = agentChats
+                                            .slice(0, idx)
+                                            .reverse()
+                                            .find(prevChat => prevChat.type === "talk") || null;
+                                        }
+                                        return (
+                                          <ChatListItem key={idx}>
+                                            <ChatBubble 
+                                              chat={chat}
+                                              mode="onboarding"
+                                              
+                                              replyTo={replyTarget}
+                                              liked={likedIndex === idx}
+                                              shouldAnimate={shouldAnimate ?? true}
+                                              onLike={() => updateLikedIndex(idx)}
+                                          />
+                                          </ChatListItem>
+                                        );
+                                      })}
+                                      <div ref={chatEndRef} />
+                                    </ChatList>
+                                  )}
           </ChatListWrapper>
           <MoreButtonWrapper>
           <MoreButton
-                label={"I can't decide yet"}
+                label={getLabelByMissionStep(missionStep)}
                 onClick={() => {
                   if (missionStep === 1) {
                     advanceMission();
@@ -131,4 +177,14 @@ export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   &::-webkit-scrollbar {
     display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
   }
+`;
+
+const ChatList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const ChatListItem = styled.li`
+  margin-bottom: 24px;
 `;

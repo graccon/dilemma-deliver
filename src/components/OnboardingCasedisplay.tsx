@@ -10,7 +10,7 @@ type Props = {
 export default function OnboardingCaseDisplay({ caseData, disabled }: Props) {
   return (
     <Container>
-      {disabled && <Overlay />}
+      {<Overlay $visible={disabled} />}
       <CaseTitle>{caseData.question}</CaseTitle>
 
       <Grid>
@@ -34,7 +34,9 @@ export default function OnboardingCaseDisplay({ caseData, disabled }: Props) {
   );
 }
 
-const Overlay = styled.div`
+const Overlay = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "$visible"
+})<{ $visible: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -42,8 +44,9 @@ const Overlay = styled.div`
   height: 100%;
   background-color: rgba(32, 32, 32, 0.7);
   z-index: 10;
-  pointer-events: auto;
-  border-radius: 1rem;
+  pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  transition: opacity 0.5s ease;
 `;
 
 export const Container = styled.div`

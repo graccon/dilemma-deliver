@@ -14,7 +14,7 @@ export default function MoralCaseDisplay({ caseData, index, total }: Props) {
       <Container>
         <ContentContainer>
             <CaseTitle>
-            What should the self-driving car do?{" "}
+                What should the self-driving car do?{" "}
             {index !== undefined && total && `(${index + 1} / ${total})`}
             </CaseTitle>
             <Grid>

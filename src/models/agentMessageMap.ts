@@ -21,6 +21,7 @@ export const agentMessageMap = {
 
 
 export const MessageGroup = {
+    DirectToUserInOrder: "group0",
     DirectToUser: "group1",
     AgentRoundRobin: "group2",
     ToStatMerged: "group3",
