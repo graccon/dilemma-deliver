@@ -10,9 +10,16 @@ export const textStyles = {
       color: ${color};
     `,
 
+    secondH1: () => `
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: ${colors.black};
+`,
+
     h2: (color = colors.gray800) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1.5rem;  
+      font-size: 1.8rem;  
       font-weight: 400;
       letter-spacing: -0.2px;
       color: ${color};
@@ -53,6 +60,16 @@ export const textStyles = {
       letter-spacing: -0.2px;
       text-align: left;
     `,
+
+    homeBody: () => `
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.2px;
+      text-align: left;
+    `,
+
 
     span: ({color = colors.black, size = "0.9rem"}={}) => `
         font-family: 'Roboto', sans-serif;

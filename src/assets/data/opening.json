@@ -1,0 +1,70 @@
+[
+    {
+        "title" : "Study Title",
+        "paragraphs" : [
+            "Dilemma Deliver: How Do People Make Moral Decisions with AI Advice?"
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Procedures",
+        "paragraphs" : [
+            "The study includes a pre-survey, onboarding, two decision tasks, and a post-survey",
+            "If you choose to participate, you will be shown a series of moral dilemmas involving self-driving cars. In some parts, you will decide based only on your own judgment, and in others, you will be shown comments from AI agents with different perspectives.",
+            "The study will take approximately 30 minutes to complete."
+        ],
+        "image": "/assets/images/procedures_figure.png"
+    }, 
+    {
+        "title" : "Purpose of the Study",
+        "paragraphs" : [
+            "You are invited to take part in a research study that explores how people make moral decisions in situations involving autonomous vehicles. This study is part of an effort to understand how AI advisors might influence human judgment in ethically complex scenarios. You must be 18 years or older to participate."
+        ],
+        "image": "/assets/images/purpose_figure.png"
+    }, 
+    {
+        "title" : "Potential Risks and Benefits",
+        "paragraphs" : [
+            "There are no foreseeable risks beyond those encountered in daily life. Some scenarios may involve sensitive content related to life-and-death decisions. There are no direct benefits to you, but your participation will contribute to research on human-AI interaction and ethical decision-making."
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Compensation",
+        "paragraphs" : [
+            "You will receive monetary compensation through Prolific in accordance with their payment policies.",
+            "Please note: Compensation will be granted only if you complete the entire study, including all five steps."
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Confidentiality",
+        "paragraphs" : [
+            "All responses are anonymous. No personally identifiable information will be collected. The data may be published in academic journals or presented at conferences, but individual responses cannot be traced back to you."
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Voluntary Participation",
+        "paragraphs" : [
+            "Your participation is entirely voluntary. You may withdraw from the study at any time without penalty."
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Questions or Concerns",
+        "paragraphs" : [
+            "If you have questions about the study, please contact the principal investigator :",
+            "[Your Name], [Your Institution], [your.email@university.edu]"
+        ],
+        "image": null
+    }, 
+    {
+        "title" : "Consent",
+        "paragraphs" : [
+            "I have read and understand the above consent form.",
+            "I certify that I am 18 years old or older. By clicking the “Start Survey” button to enter the survey, I indicate my willingness to voluntarily take part in this study."
+        ],
+        "image": null
+    }
+]
