@@ -4,6 +4,7 @@ import { useTimerLogStore } from "../stores/useTimerLogStore";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
 import nextIcon from "/assets/icons/next_icon.png";
+import nextDisabledIcon from "/assets/icons/next_disabled_icon.png";
 
 interface FooterButtonProps {
   label: string;
@@ -33,13 +34,16 @@ export default function FooterButton({ label, to, onClick, disabled = false }: F
   return (
     <Button disabled={disabled} onClick={handleClick} color={colors.white}>
       <Label>{label}</Label>
-      <Icon src={nextIcon} alt="Next" />
+      <Icon src={disabled ? nextDisabledIcon : nextIcon} alt="Next" />
     </Button>
   );
 }
 
 const Button = styled.button<{ disabled: boolean, color?: string }>`
-  ${(color) => textStyles.buttonLabel(color)}
+  ${({ color, disabled }) =>
+    textStyles.buttonLabel({
+      color: disabled ? colors.gray600 : color ?? colors.white,
+    })}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,9 +51,9 @@ const Button = styled.button<{ disabled: boolean, color?: string }>`
   width: 12rem;
   height: 3rem;
   padding: 0 1rem;
-  border: 2px solid ${colors.white};
+  border: 2px solid ${({ disabled }) => (disabled ? colors.gray600 : colors.white )};
   border-radius: 50rem;
-  background-color: ${({ disabled }) => (disabled ? colors.gray800 : colors.black )};
+  background-color: ${colors.gray800};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   transition: background-color 0.3s ease;
 `;

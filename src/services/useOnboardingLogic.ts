@@ -7,6 +7,7 @@ import { loadAgentChats } from "./loadAgentChats";
 
 
 export function useOnboardingLogic() {
+    const [isAnswered, setIsAnswered] = useState(false);
     const [caseData, setCaseData] = useState<OnboardingCase | null>(null);
     const [missionStep, setMissionStepState] = useState<number>(() => loadMissionStep());
     const [agentChats, setAgentChats] = useState<AgentChat[]>([]);
@@ -27,13 +28,20 @@ export function useOnboardingLogic() {
     };
 
     const advanceMission = () => {
-        if (missionStep === 2 && sliderValue !== 25) {
-            console.log("hey", sliderValue)
+        if (missionStep === 2 && !hasSentStep2Chat) {
+            // console.log("hey", sliderValue)
           return;
         }
         setMissionStep(missionStep + 1);
       };
 
+    useEffect(() => {
+      if (sliderValue !== 50) {
+        setIsAnswered(true);
+      } else {
+        setIsAnswered(false);
+      }
+    }, [sliderValue]);
 
     useEffect(() => {
         if (!caseData) return;
@@ -71,6 +79,10 @@ export function useOnboardingLogic() {
         switch (step) {
           case 4:
             return "I can’t decide yet";
+          case 5:
+            return "I can’t decide yet";
+          case 6:
+            return "I can’t decide yet";
           default:
             return "Got it !";
         }
@@ -98,7 +110,7 @@ export function useOnboardingLogic() {
               });
         
               i++;
-            }, 100);
+            }, 1200);
             setShouldAnimate(true);
           });
         }
@@ -140,6 +152,7 @@ export function useOnboardingLogic() {
         agentChats,
         likedIndex,
         missionStep,
+        isAnswered,
         setMissionStep,
         advanceMission,
         getLabelByMissionStep,

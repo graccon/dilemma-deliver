@@ -14,6 +14,7 @@ import UserChatBubble from "../components/UserChatBubble";
 
 export default function Onboarding() {
   const {
+    isAnswered,
     caseData,
     agentChats,
     likedIndex,
@@ -44,7 +45,8 @@ export default function Onboarding() {
 
   return (
     <MainLayout
-      footerButton={<FooterButton label="Next" to="/session1" disabled={missionStep < 5} />}
+      footerButton={
+        <FooterButton label="Next Session" to="/session1" disabled={!isAnswered || likedIndex === null} />}
     >
       <Layout>
         <ProblemContainer>
@@ -56,7 +58,7 @@ export default function Onboarding() {
           <SliderContainer>
             <ConfidenceSliderInOnboarding 
               initialValue={50}
-              key={missionStep}
+              key={missionStep} 
               onChange={(value) => {
                 setSliderValue(value);
               }}
@@ -67,52 +69,49 @@ export default function Onboarding() {
        <ChatContainer>
           <ChatListWrapper $isAnimating={isAnimating}>
             {agentChats.length === 0 ? (
-                                    <p></p>
-                                  ) : (
-                                    <ChatList>
-                                      {agentChats.map((chat: AgentChat, idx: number) => {
-                                        let replyTarget: AgentChat | null = null;
+                <p></p>
+              ) : (
+                <ChatList>
+                  {agentChats.map((chat: AgentChat, idx: number) => {
+                    let replyTarget: AgentChat | null = null;
 
-                                        if (chat.type === "reply") {
-                                          replyTarget = agentChats
-                                            .slice(0, idx)
-                                            .reverse()
-                                            .find(prevChat => prevChat.type === "talk") || null;
-                                        }
-                                        return (
-                                          <ChatListItem key={idx} isUser={chat.from === "me"}>
-                                            {chat.from === "me" ? (
-                                              <UserChatBubble message={chat.message}/>
-                                            ) : (
-                                              <ChatBubble 
-                                                chat={chat}
-                                                mode="onboarding"
-                                                replyTo={replyTarget}
-                                                liked={likedIndex === idx}
-                                                shouldAnimate={shouldAnimate ?? true}
-                                                onLike={() => updateLikedIndex(idx)}
-                                              />
-                                            )}
-                                    
-                                          </ChatListItem>
-                                        );
-                                      })}
-                                      <div ref={chatEndRef} />
-                                    </ChatList>
-                                  )}
+                    if (chat.type === "reply") {
+                      replyTarget = agentChats
+                        .slice(0, idx)
+                        .reverse()
+                        .find(prevChat => prevChat.type === "talk") || null;
+                    }
+                    return (
+                      <ChatListItem key={idx} $isUser={chat.from === "me"}>
+                        {chat.from === "me" ? (
+                          <UserChatBubble message={chat.message}/>
+                        ) : (
+                          <ChatBubble 
+                            chat={chat}
+                            mode={missionStep < 4 ? "explain" : "onboarding"}
+                            replyTo={replyTarget}
+                            liked={likedIndex === idx}
+                            shouldAnimate={shouldAnimate ?? true}
+                            onLike={() => updateLikedIndex(idx)}
+                          />
+                        )}
+                
+                      </ChatListItem>
+                    );
+                  })}
+                  <div ref={chatEndRef} />
+                </ChatList>
+              )}
           </ChatListWrapper>
           <MoreButtonWrapper>
           <MoreButton
                 label={getLabelByMissionStep(missionStep)}
                 onClick={() => {
-                  if (missionStep < 4) {
-                    const label = getLabelByMissionStep(missionStep);
-                    appendUserChat(label);
-                    advanceMission();
-                  } else { 
-                    console.log("다음 미션 처리 예정");
-                  }
+                  const label = getLabelByMissionStep(missionStep);
+                  appendUserChat(label);
+                  advanceMission();
                 }}
+                disabled = {missionStep > 6}
               />
       </MoreButtonWrapper>
        </ChatContainer>
@@ -193,8 +192,8 @@ const ChatList = styled.ul`
   margin: 0;
 `;
 
-const ChatListItem = styled.li<{ isUser?: boolean }>`
+const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
-  justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
+  justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
   margin-bottom: 24px;
 `;

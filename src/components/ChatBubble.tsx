@@ -14,32 +14,35 @@ interface ChatBubbleProps {
   shouldAnimate?: boolean;
   mode?: ChatMode;
 }
-type ChatMode = "onboarding" | "default";
+type ChatMode = "onboarding" | "default" | "explain";
+
+const onboardingMode = {
+  label: {
+    stat: "Agent 1",
+    rule: "Agent 2",
+    narr: "Agent 3",
+    me: "ME"
+  },
+  color: {
+    stat: colors.gray400,
+    rule: colors.gray400,
+    narr: colors.gray400,
+    me: colors.gray400
+  },
+  icon: {
+    stat: "/assets/icons/agent_agent1_icon.png",
+    rule: "/assets/icons/agent_agent2_icon.png",
+    narr: "/assets/icons/agent_agent3_icon.png",
+    me: "/assets/icons/agent_me_icon.png"
+  }}
+
 const agentAssets: Record<ChatMode, {
   label: Record<"stat" | "rule" | "narr" | "me", string>;
   color: Record<"stat" | "rule" | "narr" | "me", string>;
   icon: Record<"stat" | "rule" | "narr" | "me", string>;
 }> = {
-  onboarding: {
-    label: {
-      stat: "Agent 1",
-      rule: "Agent 2",
-      narr: "Agent 3",
-      me: "ME"
-    },
-    color: {
-      stat: colors.gray400,
-      rule: colors.gray400,
-      narr: colors.gray400,
-      me: colors.gray400
-    },
-    icon: {
-      stat: "/assets/icons/agent_agent1_icon.png",
-      rule: "/assets/icons/agent_agent2_icon.png",
-      narr: "/assets/icons/agent_agent3_icon.png",
-      me: "/assets/icons/agent_me_icon.png"
-    }
-  },
+  explain: onboardingMode, 
+  onboarding: onboardingMode,
   default: {
     label: {
       stat: "Veko",
@@ -78,6 +81,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
   const fromAgentIcon = assets.icon[fromKey];
   const toAgentIcon = assets.icon[toKey];
 
+  const shouldShowLikeButton = !replyTo && currentMode !== "explain";
 
   return (
     <BubbleWrapper shouldAnimate={shouldAnimate}>
@@ -111,7 +115,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
           )}
           {message}
         </Bubble>
-        {!replyTo && (
+        {shouldShowLikeButton && (
           <GoodIcon
             src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
             onClick={onLike}

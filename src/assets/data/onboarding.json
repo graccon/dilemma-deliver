@@ -6,7 +6,7 @@
         "description": "In this case,The attacker shoots straight at the goal."
     },
     "B": {
-        "image": "/assets/images/onboarding_A.png",
+        "image": "/assets/images/onboarding_B.png",
         "description": "In this case, The attacker passes to the teammate near the goal."
     }
 }

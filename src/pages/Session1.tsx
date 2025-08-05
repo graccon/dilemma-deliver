@@ -97,7 +97,11 @@ export default function Session1() {
             initialValue={50}
             onChange={(value) => {
               setCurrentConfidence(value);
-              setIsAnswered(true);
+              if (value !== 50) {
+                setIsAnswered(true);
+              } else {
+                setIsAnswered(false);
+              }
             }}
             onTouchEnd={(value) => {
               addConfidence({
