@@ -119,8 +119,8 @@ export default function Session2() {
                           .reverse()
                           .find(prevChat => prevChat.type === "talk") || null;
                       }
-                      
-                      const hideToTag = chat.type === "talk";
+                      const nextChat = agentChats[idx + 1];
+                      const hideToTag = chat.to === "me" || nextChat?.type === "reply";
                       const hideFromTag = chat.type === "reply";
 
                       return (
@@ -217,20 +217,27 @@ export const MoreButtonWrapper = styled.div`
 
 export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   flex: 10;
-  overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
-  scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
+  overflow-y: scroll;
   scrollbar-gutter: stable;
-  &::-webkit-scrollbar {
-    display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
+  scroll-padding-bottom: 40px; 
+  padding-top: 10px; 
+   &::-webkit-scrollbar-thumb {
+    background-color: ${colors.gray300};
+    border-radius: 20px;
   }
+    &::-webkit-scrollbar {
+  width: 8px;
+}
 `;
 
 const ChatList = styled.ul`
   list-style: none;
+  padding: 0;
+  margin: 0;
 `;
 
 const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
   justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;

@@ -177,12 +177,17 @@ export const MoreButtonWrapper = styled.div`
 
 export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   flex: 10;
-  overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
-  scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
+  overflow-y: scroll;
   scrollbar-gutter: stable;
-  &::-webkit-scrollbar {
-    display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
+  scroll-padding-bottom: 40px; 
+  padding-top: 10px; 
+   &::-webkit-scrollbar-thumb {
+    background-color: ${colors.gray300};
+    border-radius: 20px;
   }
+    &::-webkit-scrollbar {
+  width: 8px;
+}
 `;
 
 const ChatList = styled.ul`
