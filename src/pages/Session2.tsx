@@ -11,10 +11,12 @@ import type { AgentChat } from "../services/loadAgentChats";
 import MoreButton from "../components/MoreButton";
 import { useNavigate } from "react-router-dom";
 import UserChatBubble from "../components/UserChatBubble";
+import { useUserStore } from "../stores/useUserStore";
 
 
 export default function Session2() {
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY; 
+  const { group } = useUserStore();
 
   const {
     isAnswered,
@@ -60,7 +62,6 @@ export default function Session2() {
     }
   }, []);
 
-
   return (
     <MainLayout
       footerButton={
@@ -102,9 +103,7 @@ export default function Session2() {
             />
           </SliderContainer>
         </ProblemContainer>
-
           <ChatContainer>
- 
             <ChatListWrapper $isAnimating={isAnimating}>
             {agentChats.length === 0 ? (
                 <p></p>
@@ -126,7 +125,9 @@ export default function Session2() {
                       return (
                         <ChatListItem key={idx} $isUser={chat.from === "me"}>
                           {chat.from === "me" ? (
-                            <UserChatBubble message={chat.message} />
+                              <UserChatBubble message={chat.message} 
+                                mode={ group === "2" ? "system" : "default" }
+                                />
                           ) : (
                             <ChatBubble
                               chat={chat}

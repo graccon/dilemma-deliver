@@ -46,7 +46,6 @@ export function useSessionLogic() {
     setCurrentConfidence(50);
     
     const turnCount = getTurnCount(instance.id);
-    console.log("turnCount --> ",turnCount);
     setCanTakeTurn(turnCount < SHUFFLED_TURNS.length);
 
     fetchInitialChats(instance);
