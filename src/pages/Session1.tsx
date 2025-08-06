@@ -11,6 +11,7 @@ import colors from "../styles/colors";
 import { useNavigate } from "react-router-dom";
 
 import { useConfidenceStore } from "../stores/useConfidenceStore";
+import { getCurrentSessionIndex } from "../services/sessionUtils";
 
 export default function Session1() {
   const [isAnswered, setIsAnswered] = useState(false);
@@ -25,8 +26,7 @@ export default function Session1() {
 
   useEffect(() => {
     initShuffledProblems();
-    console.log("VITE_S1_I_KEY:", import.meta.env.VITE_S1_I_KEY);
-    const savedIndex = localStorage.getItem(INDEX_KEY);
+    const savedIndex = getCurrentSessionIndex(INDEX_KEY);
     if (savedIndex !== null) {
       setCurrentIndex(Number(savedIndex));
     }
@@ -34,7 +34,7 @@ export default function Session1() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const currentIndex = parseInt(localStorage.getItem(INDEX_KEY) || "0", 10);
+    const currentIndex = getCurrentSessionIndex(INDEX_KEY);
     if (currentIndex >= 5) {
       alert("You have already completed Session 1.");
       navigate("/session2"); 

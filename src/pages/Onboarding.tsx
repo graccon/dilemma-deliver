@@ -112,7 +112,7 @@ export default function Onboarding() {
                   appendUserChat(label);
                   advanceMission();
                 }}
-                disabled = {missionStep > 6}
+                disabled = {missionStep > 5}
               />
       </MoreButtonWrapper>
        </ChatContainer>

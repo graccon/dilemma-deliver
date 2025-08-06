@@ -12,10 +12,11 @@ import MoreButton from "../components/MoreButton";
 import { useNavigate } from "react-router-dom";
 import UserChatBubble from "../components/UserChatBubble";
 import { useUserStore } from "../stores/useUserStore";
+import { getCurrentSessionIndex } from "../services/sessionUtils";
 
 
 export default function Session2() {
-  const INDEX_KEY = import.meta.env.VITE_S2_I_KEY; 
+  const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
   const { group } = useUserStore();
 
   const {
@@ -55,7 +56,7 @@ export default function Session2() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const currentIndex = parseInt(localStorage.getItem(INDEX_KEY) || "0", 10);
+    const currentIndex =  getCurrentSessionIndex(INDEX_KEY);
     if (currentIndex >= 5) {
       alert("You have already completed Session 2.");
       navigate("/postsurvey"); 
