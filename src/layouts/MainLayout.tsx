@@ -30,7 +30,7 @@ const Container = styled.div`
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1400px; 
+  max-width: 1200px; 
   width: 100%;
   margin: 0 auto;
   padding:0.8rem 0.8rem 0 3.6rem;
@@ -39,7 +39,7 @@ const HeaderContainer = styled.div`
 const Main = styled.main`
   flex: 1;
   padding: 0;
-  max-width: 1400px; 
+  max-width: 1200px; 
   width: 100%;
   height: 100%; 
   margin: 0 auto;

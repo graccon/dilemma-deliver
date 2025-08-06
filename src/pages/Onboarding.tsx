@@ -195,5 +195,5 @@ const ChatList = styled.ul`
 const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
   justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 24px;
+  margin-bottom: 0px;
 `;

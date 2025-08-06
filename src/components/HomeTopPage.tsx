@@ -92,7 +92,6 @@ const LeftSide = styled.div`
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
 `;
 
 const Content = styled.div`
@@ -109,6 +108,6 @@ const StyledImage = styled.img`
   flex-shrink: 0;
   width: 420px;
   height: auto;
-  margin: 1rem auto;
-
+  margin: 0rem auto;
+  background-color: pink;
 `;

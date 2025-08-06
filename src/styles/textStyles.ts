@@ -19,7 +19,7 @@ export const textStyles = {
 
     h2: (color = colors.gray800) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1.8rem;  
+      font-size: 1.5rem;  
       font-weight: 400;
       letter-spacing: -0.2px;
       color: ${color};
@@ -27,7 +27,7 @@ export const textStyles = {
 
     h3: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
-      font-size: clamp(2rem, 5vw, 2.4rem);  
+      font-size: 3rem;
       font-weight: 800;
       color: ${color};
       text-align: ${align};
@@ -53,7 +53,7 @@ export const textStyles = {
   
     body: (color = colors.black) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.3;
@@ -99,7 +99,7 @@ export const textStyles = {
 
     li: ({color = colors.black, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.4;
@@ -141,15 +141,9 @@ export const Heading = styled.h1<{ color?: string }>`
 export const CaseTitle = styled.h2<{ color?: string }>`
     ${({ color }) => textStyles.h2(color)}
 `;
-
-export const OptionLabel = styled.h3<{ color?: string; align?: string }>`
-  ${({ color, align }) => textStyles.h3({ color, align })}
-`;
-
 export const SilderTitle = styled.h4<{ color?: string; align?: string }>`
     ${({ color, align }) => textStyles.h4({color, align})}
 `;
-
 export const SecondTitle = styled.h5<{ color?: string; align?: string }>`
     ${({ color, align }) => textStyles.h5({color, align})}
 `;

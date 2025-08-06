@@ -79,6 +79,7 @@ export default function Session2() {
                 caseData={currentCase}
                 index={currentIndex}
                 total={total}
+                mode="ChatWith"
               />
             )}
           </CaseContainer>
@@ -105,39 +106,49 @@ export default function Session2() {
           <ChatContainer>
  
             <ChatListWrapper $isAnimating={isAnimating}>
-              {agentChats.length === 0 ? (
-                        <p></p>
-                      ) : (
-                        <ChatList>
-                          {agentChats.map((chat: AgentChat, idx: number) => {
-                            let replyTarget: AgentChat | null = null;
-              
-                            if (chat.type === "reply") {
-                              replyTarget = agentChats
-                                .slice(0, idx)
-                                .reverse()
-                                .find(prevChat => prevChat.type === "talk") || null;
-                            }
-                            return (
-                              <ChatListItem key={idx} isUser={chat.from === "me"}>
-                                {chat.from === "me" ? (
-                                  <UserChatBubble message={chat.message}/>
-                                ) : (
-                                  <ChatBubble 
-                                    chat={chat}
-                                    mode="default"
-                                    replyTo={replyTarget}
-                                    liked={likedIndex === idx}
-                                    shouldAnimate={shouldAnimate ?? true}
-                                    onLike={() => updateLikedIndex(idx)}
-                                />
-                                )}
-                              </ChatListItem>
-                            );
-                          })}
-                          <div ref={chatEndRef} />
-                        </ChatList>
-                      )}
+            {agentChats.length === 0 ? (
+                <p></p>
+              ) : (
+                <ChatList>
+                  {agentChats.map((chat: AgentChat, idx: number) => {
+                      let replyTarget: AgentChat | null = null;
+
+                      if (chat.type === "reply") {
+                        replyTarget = agentChats
+                          .slice(0, idx)
+                          .reverse()
+                          .find(prevChat => prevChat.type === "talk") || null;
+                      }
+                      
+                      const hideToTag =
+                          idx < agentChats.length - 1 &&
+                          agentChats[idx + 1].type === "reply" &&
+                          agentChats[idx + 1].to === chat.from;
+                      const hideFromTag = chat.type === "reply";
+
+                      return (
+                        <ChatListItem key={idx} $isUser={chat.from === "me"}>
+                          {chat.from === "me" ? (
+                            <UserChatBubble message={chat.message} />
+                          ) : (
+                            <ChatBubble
+                              chat={chat}
+                              mode="default"
+                              replyTo={replyTarget}
+                              liked={likedIndex === idx}
+                              shouldAnimate={shouldAnimate ?? true}
+                              onLike={() => updateLikedIndex(idx)}
+                              hideFromTag={hideFromTag}
+                              hideToTag={hideToTag}
+                            />
+                          )}
+                        </ChatListItem>
+                      );
+                    })
+                  }
+                   <div ref={chatEndRef} />
+                </ChatList>
+                )}
             </ChatListWrapper>
   
             <MoreButtonWrapper>
@@ -164,12 +175,19 @@ export const Layout = styled.div`
 export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   flex: 10;
   padding: 12px 12px;
-  overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
-  scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
+  overflow-y: scroll;
   scrollbar-gutter: stable;
-  &::-webkit-scrollbar {
-    display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
+  scroll-padding-bottom: 40px; 
+  padding-top: 10px; 
+
+   &::-webkit-scrollbar-thumb {
+    background-color: ${colors.gray300};
+    border-radius: 20px;
   }
+    &::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent; // 기본 배경도 정의해줌
+}
 `;
 
 export const MoreButtonWrapper = styled.div`
@@ -184,14 +202,13 @@ export const MoreButtonWrapper = styled.div`
 
 
 export const ChatContainer = styled.div`
-  flex: 4;
+  flex: 5;
   display: flex;
   flex-direction: column;
   background-color: ${colors.white};
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  max-height: 78vh;
-  padding: 10px;
+  max-height: 80vh;
 `;
 
 export const ProblemContainer = styled.div`
@@ -199,11 +216,11 @@ export const ProblemContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem; 
-  height: 78vh;
+  height: 80vh;
 `;
 
 export const CaseContainer = styled.div`
-  flex: 10;
+  flex: 8;
   width: 100%;
   margin: 0 auto;
   overflow-y: auto; 
@@ -227,8 +244,8 @@ const ChatList = styled.ul`
   margin: 0;
 `;
 
-const ChatListItem = styled.li<{ isUser?: boolean }>`
+const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
-  justify-content: ${({ isUser }) => (isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 24px;
+  justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
+  margin-bottom: 10px;
 `;

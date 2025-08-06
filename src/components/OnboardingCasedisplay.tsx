@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { CaseTitle, OptionLabel, Body } from "../styles/textStyles";
+import { CaseTitle, Body } from "../styles/textStyles";
 import type OnboardingCase from "../models/OnboardingCase";
+import { textStyles } from "../styles/textStyles";
 
 type Props = {
   caseData: OnboardingCase;
@@ -56,6 +57,13 @@ export const Container = styled.div`
   height: 100%;
   overflow: hidden;
   border-radius: 1rem;
+`;
+
+export const OptionLabel = styled.h3<{ align?: "left" | "right" | "center" }>`
+  ${({ align = "left" }) => textStyles.h3({ align })}
+  flex: 1;
+  background-color: cyan;
+  padding: 0.5rem 1rem;
 `;
 
 export const Grid = styled.div`

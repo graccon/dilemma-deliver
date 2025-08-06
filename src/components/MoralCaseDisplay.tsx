@@ -1,15 +1,21 @@
 import MoralCase from "../models/MoralCase";
 import styled from "styled-components";
-import { CaseTitle, OptionLabel, Body, Li } from "../styles/textStyles";
+import { CaseTitle } from "../styles/textStyles";
 import Spacer from "./Spacer";
+import { textStyles } from "../styles/textStyles";
 
 type Props = {
   caseData: MoralCase;
   index?: number; 
   total?: number;
+  mode?: DisplayMode;
 };
 
-export default function MoralCaseDisplay({ caseData, index, total }: Props) {
+type DisplayMode = "ChatWith" | "CaseOnly" ;
+
+export default function MoralCaseDisplay({ caseData, index, total, mode="CaseOnly"}: Props) {
+    const isCaseOnly = mode === "CaseOnly"; 
+
     return (
       <Container>
         <ContentContainer>
@@ -19,41 +25,55 @@ export default function MoralCaseDisplay({ caseData, index, total }: Props) {
             </CaseTitle>
             <Grid>
             <Option>
-                <DescriptionContainer>
-                    <OptionLabel align="right">A</OptionLabel>
-                    <DefaultDescrition>
-                        <Body>{caseData.A.description}</Body>
-                        <Spacer height="0.5rem" />
-                        <Body>Dead :</Body>
-                        <DeathList>
-                        {caseData.A.deaths.map((d, idx) => (
-                            <Li key={idx}>• {d}</Li>
-                        ))}
-                        </DeathList>
-                        <Spacer height="0.5rem" />
-                        <Body>{caseData.A.note}</Body>
-                    </DefaultDescrition>
-                </DescriptionContainer>
-                <Image src={caseData.A.image} alt="Option A" />
+                <ImageWrapper>
+                    <DescriptionContainer>
+                        <OptionLabel align="right">A</OptionLabel>
+                        {isCaseOnly && <Body>{caseData.A.description}</Body>}
+                        <DeadWrapper $align="flex-end">
+                        <Body>Dead :</Body>   
+                        <DeadListWrapper>
+                            <DeathList>
+                            {caseData.A.deaths.map((d, idx) => (
+                                <Li key={idx}>• {d}</Li>
+                            ))}
+                            </DeathList>
+                        </DeadListWrapper>  
+                    </DeadWrapper> 
+                    </DescriptionContainer>
+
+                    <Image src={caseData.A.image} alt="Option A" />
+                    
+                </ImageWrapper>
+
+                <BottomDescriptionContainer>  
+                    <Spacer height="2rem"/>
+                    <Body>{caseData.A.note}</Body>
+                </BottomDescriptionContainer>
             </Option>
             
             <Option>
-            <Image src={caseData.B.image} alt="Option B" />
-            <DescriptionContainer>
-                <OptionLabel>B</OptionLabel>
-                <DefaultDescrition>
-                    <Body>{caseData.B.description}</Body>
-                    <Spacer height="0.5rem" />
-                <Body>Dead :</Body>
-                <DeathList>
-                {caseData.B.deaths.map((d, idx) => (
-                    <Li key={idx}>• {d}</Li>
-                ))}
-                </DeathList>
-                <Spacer height="0.5rem" />
+                <ImageWrapper>
+                    <Image src={caseData.B.image} alt="Option B" />
+                    <DescriptionContainer>
+                        <OptionLabel>B</OptionLabel>
+                        {isCaseOnly && <Body>{caseData.B.description}</Body>}
+                        <DeadWrapper >
+                            <Body>Dead :</Body>
+                                <DeadListWrapper>
+                                    <DeathList>
+                                    {caseData.B.deaths.map((d, idx) => (
+                                        <Li key={idx}>• {d}</Li>
+                                    ))}
+                                    </DeathList>
+                                </DeadListWrapper>  
+                            </DeadWrapper>
+                    </DescriptionContainer>
+                </ImageWrapper>
+
+            <BottomDescriptionContainer>     
+                <Spacer height="2rem"/>
                 <Body>{caseData.B.note}</Body>
-                </DefaultDescrition>
-            </DescriptionContainer>
+            </BottomDescriptionContainer>
                 
             </Option>
             </Grid>
@@ -62,15 +82,8 @@ export default function MoralCaseDisplay({ caseData, index, total }: Props) {
     );
   }
 
-
-export const DefaultDescrition = styled.div`
-    @media (max-width: 960px) {
-        display: none;
-    }
-`
-
 export const Container = styled.div`
-    padding: 0.6rem;
+    padding: 1rem;
     text-align: center;
     height: 100%;
 `;
@@ -80,29 +93,65 @@ export const ContentContainer = styled.div`
     margin: 0 auto;
 `;
 
+export const Option = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 10px;
+  max-width: 600px;
+`;
+
 export const Grid = styled.div`
   display: flex;
   justify-content:space-evenly;
   gap: 1rem; 
   flex-wrap: wrap;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
 `;
 
-export const Option = styled.div`
+export const OptionLabel = styled.h3<{ align?: "left" | "right" | "center" }>`
+  ${({ align = "left" }) => textStyles.h3({ align })}
+  width: 100%;
+  padding: 0.5rem 0rem;
+`;
+
+export const DeadWrapper = styled.div<{ $align?: "flex-start" | "flex-end" | "center" }>`
     display: flex;
     flex-direction: row;
-    flex: 1 1 10px;
-    max-width: 600px; 
+    justify-content: ${({ $align = "flex-start" }) => $align}; 
+`;
+
+export const DeadListWrapper = styled.div`  
+    justify-content:"flex-start";
+`;
+
+export const Body = styled.p`  
+    ${textStyles.body()}
+`;
+
+export const Li = styled.li`  
+    ${textStyles.li()}
+    font-weight: 700;
+`;
+
+export const ImageWrapper= styled.div`
+    display: flex;
+    flex-direction: row;
 `;
 
 export const DescriptionContainer= styled.div`
     display: flex;
+    flex: 1;
     flex-direction: column;
-    padding: 0 1.2rem; 
+    padding: 0px 20px;
+    justify-content:"flex-start";
+`;
+export const BottomDescriptionContainer= styled.div`
+    padding: 0px 30px;
 `;
 
+
 export const Image = styled.img`
-   height: 18rem; 
+   height: 15rem; 
    object-fit: contain;
 `;
 

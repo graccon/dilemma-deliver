@@ -97,11 +97,3 @@ const Content = styled.div`
 const Title = styled.h2`
   ${textStyles.secondH1()}
 `;
-
-const StyledImage = styled.img`
-  flex-shrink: 0;
-  width: 420px;
-  height: auto;
-  margin: 1rem auto;
-
-`;

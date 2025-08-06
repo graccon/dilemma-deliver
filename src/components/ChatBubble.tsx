@@ -4,6 +4,8 @@ import type { AgentChat } from "../services/loadAgentChats";
 import NameTag from "./NameTag";
 import { textStyles } from "../styles/textStyles";
 import isPropValid from "@emotion/is-prop-valid";
+import AgentTag from "./AgentTag";
+import LikeButton from "./LikeButton";
 
 interface ChatBubbleProps {
   chat: AgentChat;
@@ -13,6 +15,8 @@ interface ChatBubbleProps {
   onLike: () => void;
   shouldAnimate?: boolean;
   mode?: ChatMode;
+  hideFromTag?: boolean;
+  hideToTag?: boolean; 
 }
 type ChatMode = "onboarding" | "default" | "explain";
 
@@ -65,153 +69,143 @@ const agentAssets: Record<ChatMode, {
   }
 } as const;
 
-export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false  }: ChatBubbleProps) {
+const agentSpeakingIcons = {
+  stat: "/assets/icons/agent_veko_speaking_icon.png",
+  rule: "/assets/icons/agent_lumi_speaking_icon.png",
+  narr: "/assets/icons/agent_molu_speaking_icon.png",
+} as const;
+
+const agentListeningIcons = {
+  stat: "/assets/icons/agent_veko_listening_icon.png",
+  rule: "/assets/icons/agent_lumi_listening_icon.png",
+  narr: "/assets/icons/agent_molu_listening_icon.png",
+} as const;
+
+export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false, hideFromTag, hideToTag }: ChatBubbleProps) {
   const { message, type, from, to } = chat;
   const currentMode = mode ?? "default"; 
   const assets = agentAssets[currentMode];
-  const fromKey = from.toLowerCase() as keyof typeof assets.label;
-  const toKey = to.toLowerCase() as keyof typeof assets.label;
-
+  const fromKey = (chat.type === "reply" ? to : from).toLowerCase() as keyof typeof assets.label;
+  const toKey = (chat.type === "reply" ? from : to).toLowerCase() as keyof typeof assets.label;
+  const isToMe = to.toLowerCase() === "me";
   const fromAgentName = assets.label[fromKey];
   const toAgentName = assets.label[toKey];
 
   const fromAgentColor = assets.color[fromKey];
   const toAgentColor = assets.color[toKey];
 
-  const fromAgentIcon = assets.icon[fromKey];
-  const toAgentIcon = assets.icon[toKey];
+  const fromAgentIcon =
+  toKey === "me"
+    ? assets.icon[fromKey]
+    : agentSpeakingIcons[fromKey as keyof typeof agentSpeakingIcons];
+
+  const toAgentIcon =
+  toKey === "me"
+    ? assets.icon[toKey]
+    : agentListeningIcons[toKey as keyof typeof agentListeningIcons];
+    
 
   const shouldShowLikeButton = !replyTo && currentMode !== "explain";
+  const shouldShowToTag = !hideToTag && !isToMe;
 
   return (
-    <BubbleWrapper shouldAnimate={shouldAnimate}>
-       {type === "reply" && <IsReplyWrapper />}
+    <BubbleWrapper shouldAnimate={shouldAnimate} $isReply={!!replyTo} $isToMe={!!isToMe}>
       <Container>
-      <AgentName>
-        <AgentTagWrapper>
-          <AgentIcon src={fromAgentIcon} alt={fromAgentName} />
-          <NameTag name={fromAgentName} color={fromAgentColor} />
-        </AgentTagWrapper>
 
-        {type === "reply" ? (
-          <ReplyLabel>replied to</ReplyLabel>
-        ) : (
-          <ToIcon src="/assets/icons/to_icon.png" />
-        )}
-        <AgentTagWrapper>
-          <AgentIcon src={toAgentIcon} alt={toAgentName} />
-          <NameTag name={toAgentName} color={toAgentColor} />
-        </AgentTagWrapper>
-      </AgentName>
+      <AgentTagWrapper>
+          <AgentTag show={!hideFromTag} name={fromAgentName} icon={fromAgentIcon} color={fromAgentColor} />
+      </AgentTagWrapper>
 
-      <BubbleContainer>
-        <Bubble liked={liked}>
-          {replyTo && (
-            <ReplyReference title={replyTo.message}>
-            {replyTo.message.length > 50
-              ? `${replyTo.message.slice(0, 40)}...`
-              : replyTo.message}
-          </ReplyReference>
-          )}
-          {message}
-        </Bubble>
-        {shouldShowLikeButton && (
-          <GoodIcon
-            src={liked ? "/assets/icons/good_active_icon.png" : "/assets/icons/good_inactive_icon.png"}
-            onClick={onLike}
-          />
-        )}
-      </BubbleContainer>
+        <BubbleContainer>
+          <Bubble $liked={liked} $isReply={!!replyTo}>
+            {message}
+          </Bubble>
+          <LikeButton liked={liked} onClick={onLike} show={shouldShowLikeButton} />
+        </BubbleContainer>
+        <AgentTagWrapper>
+          <AgentTag show={shouldShowToTag} name={toAgentName} icon={toAgentIcon} color={toAgentColor} />
+        </AgentTagWrapper>
       </Container>
     </BubbleWrapper>
   );
 }
 
-const ReplyLabel = styled.span`
-  ${textStyles.replyLabel()}
-`;
-
 const BubbleWrapperBase = styled.div`
   display: flex; 
   flex-direction: row; 
-  margin-bottom: 12px;
-  align-items: stretch;
+  width: 100%;
 `;
 
 const BubbleWrapper = styled(BubbleWrapperBase).withConfig({
-  shouldForwardProp: (prop) => isPropValid(prop) && prop !== "shouldAnimate",
-})<{ shouldAnimate?: boolean }>`
+  shouldForwardProp: (prop) =>
+    isPropValid(prop) && prop !== "shouldAnimate" && prop !== "$isReply" && prop !== "$isToMe",
+})<{
+  shouldAnimate?: boolean;
+  $isReply?: boolean;
+  $isToMe: boolean;
+}>`
   animation: ${({ shouldAnimate }) => shouldAnimate && fadeInUp} 0.3s ease-out;
+  margin-bottom: ${({ $isReply, $isToMe }) =>
+    $isReply || $isToMe ? "24px" : "0px"};
 `;
 
 const Container = styled.div`
-  flex: 54; 
   display: flex;  
-  flex-direction: column;
-`;
-
-const IsReplyWrapper = styled.div`
-  flex: 1; 
-  margin-right: 12px;
-  background-color: ${colors.gray300};
-  border-radius: 4px;
-  height: auto;
-`;
-
-const AgentName = styled.div`
-  display: flex;         
-  align-items: center;
-  gap: 10px;          
-  padding: 0px 10px;
-  margin-bottom: 3px;
+  flex-direction: row;
+  width: 100%;
+  gap: 5px;
 `;
 
 const BubbleBase = styled.div`
-  padding: 8px 16px;
-  border-radius: 12px 12px;
+  padding: 12px 20px;
   border-width: 2px;
+  width: 300px;
+  min-height: 80px;
   ${textStyles.bubbleText()}
 `;
 
-const Bubble = styled(BubbleBase).withConfig({
-  shouldForwardProp: (prop) => isPropValid(prop) && prop !== "liked",
-})<{ liked: boolean }>`
-  background-color: ${({ liked }) => (liked ? colors.highlightYellow : colors.white)};
-  border-style: solid;
-  border-color: ${({ liked }) => (liked ? colors.gray800 : colors.gray300)};
+const Bubble = styled(BubbleBase)<{
+  $liked: boolean;
+  $isReply: boolean;
+}>`
+  background-color: ${({ $liked }) => ($liked ? colors.highlightYellow : colors.gray200)};
+  border-radius: ${({ $isReply }) =>
+    $isReply ? "2rem 2rem 0.3rem 2rem" : "2rem 2rem 2rem 0.3rem"};
+  min-height: ${({ $isReply }) =>
+    $isReply ? "40px" : "80px"};
 `;
 
 const BubbleContainer = styled.div`
+  flex: 7;
+  width: 100%;
   display: flex;    
-  align-items: flex-end 
-`;
-
-const ReplyReference = styled.div`
-  border-bottom: 1.2px solid rgba(128, 128, 128, 0.15);
-  padding: 2px 2px 5px 2px;
-  margin-bottom: 6px;
-  ${textStyles.replyReferenceText()};
+  align-items: flex-end;
+  position: relative; 
 `;
 
 const AgentTagWrapper = styled.div`
-  display: inline-flex;
+  display: flex;       
+  width: 50px;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
-`;
-
-const ToIcon = styled.img`
-  width: 12px;
-  height: 12px;
+  justify-content: flex-end;
+  position: relative;
+  overflow: visible;
 `;
 
 const AgentIcon = styled.img`
-  width: 26px;
-  height: 26px;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  bottom: 1.2rem; 
 `;
 
 const GoodIcon = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: -2px;
+  right: -20px;
 `;
 
 const fadeInUp = keyframes`

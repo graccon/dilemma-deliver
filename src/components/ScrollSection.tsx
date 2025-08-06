@@ -8,7 +8,6 @@ const ScrollWrapper = styled.div`
   max-width: 1024px;
   height: calc(100vh - 9rem);
   margin: 0 auto;
-
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
@@ -19,7 +18,7 @@ const ScrollPage = styled.div`
   scroll-snap-align: start;
   min-height: 100%;
   height: 100%;
-  padding: 2rem 4rem;
+  padding: 1rem 4rem;
   box-sizing: border-box;
 `;
 

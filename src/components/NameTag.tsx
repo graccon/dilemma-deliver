@@ -7,7 +7,7 @@ interface NameTagProps {
 }
 
 export default function NameTag({ name, color }: NameTagProps) {
-  return <Tag $bgcolor={color} $color="black">@ {name}</Tag>;
+  return <Tag $bgcolor={color} $color="black">{name}</Tag>;
 }
 
 const Tag = styled.span<{ $bgcolor: string; $color: string }>`
