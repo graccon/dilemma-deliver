@@ -18,73 +18,149 @@ interface ChatBubbleProps {
   hideToTag?: boolean; 
 }
 type ChatMode = "onboarding" | "default" | "explain";
+type AgentKey = "stat" | "rule" | "narr" | "me";
 
-const onboardingMode = {
-  label: {
-    stat: "Agent 1",
-    rule: "Agent 2",
-    narr: "Agent 3",
-    me: "ME"
-  },
-  color: {
-    stat: colors.gray400,
-    rule: colors.gray400,
-    narr: colors.gray400,
-    me: colors.gray400
-  },
+type AgentProfile = {
+  label: string;
+  color: string;
   icon: {
-    stat: "/assets/icons/agent_agent1_icon.png",
-    rule: "/assets/icons/agent_agent2_icon.png",
-    narr: "/assets/icons/agent_agent3_icon.png",
-    me: "/assets/icons/agent_me_icon.png"
-  }}
+    default: string;
+    speaking: string;
+    listening: string;
+  };
+};
 
-const agentAssets: Record<ChatMode, {
-  label: Record<"stat" | "rule" | "narr" | "me", string>;
-  color: Record<"stat" | "rule" | "narr" | "me", string>;
-  icon: Record<"stat" | "rule" | "narr" | "me", string>;
-}> = {
-  explain: onboardingMode, 
-  onboarding: onboardingMode,
+const agentProfiles: Record<ChatMode, Record<AgentKey, AgentProfile>> = {
   default: {
-    label: {
-      stat: "Veko",
-      rule: "Lumi",
-      narr: "Molu",
-      me: "ME"
+    stat: {
+      label: "Veko",
+      color: colors.highlightBlue,
+      icon: {
+        default: "/assets/icons/agent_veko_icon.png",
+        speaking: "/assets/icons/agent_veko_speaking_icon.png",
+        listening: "/assets/icons/agent_veko_listening_icon.png"
+      }
     },
-    color: {
-      stat: colors.highlightBlue,
-      rule: colors.highlightRed,
-      narr: colors.highlightGreen,
-      me: colors.gray400
+    rule: {
+      label: "Lumi",
+      color: colors.highlightRed,
+      icon: {
+        default: "/assets/icons/agent_lumi_icon.png",
+        speaking: "/assets/icons/agent_lumi_speaking_icon.png",
+        listening: "/assets/icons/agent_lumi_listening_icon.png"
+      }
     },
-    icon: {
-      stat: "/assets/icons/agent_veko_icon.png",
-      rule: "/assets/icons/agent_lumi_icon.png",
-      narr: "/assets/icons/agent_molu_icon.png",
-      me: "/assets/icons/agent_me_icon.png"
+    narr: {
+      label: "Molu",
+      color: colors.highlightGreen,
+      icon: {
+        default: "/assets/icons/agent_molu_icon.png",
+        speaking: "/assets/icons/agent_molu_speaking_icon.png",
+        listening: "/assets/icons/agent_molu_listening_icon.png"
+      }
+    },
+    me: {
+      label: "ME",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_me_icon.png",
+        speaking: "/assets/icons/agent_me_icon.png",
+        listening: "/assets/icons/agent_me_icon.png"
+      }
     }
-  }
-} as const;
+  },
+  onboarding: {
+    stat: {
+      label: "Agent 1",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent1_icon.png",
+        speaking: "/assets/icons/agent_agent1_speaking_icon.png",
+        listening: "/assets/icons/agent_agent1_listening_icon.png"
+      }
+    },
+    rule: {
+      label: "Agent 2",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent2_icon.png",
+        speaking: "/assets/icons/agent_agent2_speaking_icon.png",
+        listening: "/assets/icons/agent_agent2_listening_icon.png"
+      }
+    },
+    narr: {
+      label: "Agent 3",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent3_icon.png",
+        speaking: "/assets/icons/agent_agent3_speaking_icon.png",
+        listening: "/assets/icons/agent_agent3_listening_icon.png"
+      }
+    },
+    me: {
+      label: "ME",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_me_icon.png",
+        speaking: "/assets/icons/agent_me_icon.png",
+        listening: "/assets/icons/agent_me_icon.png"
+      }
+    }
+  },
+  explain: {
+    stat: {
+      label: "Agent 1",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent1_icon.png",
+        speaking: "/assets/icons/agent_agent1_speaking_icon.png",
+        listening: "/assets/icons/agent_agent1_listening_icon.png"
+      }
+    },
+    rule: {
+      label: "Agent 2",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent2_icon.png",
+        speaking: "/assets/icons/agent_agent2_speaking_icon.png",
+        listening: "/assets/icons/agent_agent2_listening_icon.png"
+      }
+    },
+    narr: {
+      label: "Agent 3",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_agent3_icon.png",
+        speaking: "/assets/icons/agent_agent3_speaking_icon.png",
+        listening: "/assets/icons/agent_agent3_listening_icon.png"
+      }
+    },
+    me: {
+      label: "ME",
+      color: colors.gray400,
+      icon: {
+        default: "/assets/icons/agent_me_icon.png",
+        speaking: "/assets/icons/agent_me_icon.png",
+        listening: "/assets/icons/agent_me_icon.png"
+      }
+    }
+  },
+};
 
-const agentSpeakingIcons = {
-  stat: "/assets/icons/agent_veko_speaking_icon.png",
-  rule: "/assets/icons/agent_lumi_speaking_icon.png",
-  narr: "/assets/icons/agent_molu_speaking_icon.png",
-} as const;
-
-const agentListeningIcons = {
-  stat: "/assets/icons/agent_veko_listening_icon.png",
-  rule: "/assets/icons/agent_lumi_listening_icon.png",
-  narr: "/assets/icons/agent_molu_listening_icon.png",
-} as const;
 
 function parseMessage(message: string): React.ReactNode[] {
-  const parts = message.split(/(\*\*.*?\*\*)/g); 
+  const parts = message.split(/(\*\*.*?\*\*|@\w+)/g); // **강조** 또는 @멘션 분리
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    if (part.startsWith("@")) {
+      const mention = part.slice(1); 
+      return (
+        <MentionTag key={i}>
+          @ {mention}
+        </MentionTag>
+      );
     }
     return <span key={i}>{part}</span>;
   });
@@ -93,26 +169,23 @@ function parseMessage(message: string): React.ReactNode[] {
 export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false, hideFromTag, hideToTag }: ChatBubbleProps) {
   const { message, from, to } = chat;
   const currentMode = mode ?? "default"; 
-  const assets = agentAssets[currentMode];
-  const fromKey = (chat.type === "reply" ? to : from).toLowerCase() as keyof typeof assets.label;
-  const toKey = (chat.type === "reply" ? from : to).toLowerCase() as keyof typeof assets.label;
+  const fromKey = (chat.type === "reply" ? to : from).toLowerCase() as AgentKey;
+  const toKey = (chat.type === "reply" ? from : to).toLowerCase() as AgentKey;
+    
   const isToMe = to.toLowerCase() === "me";
-  const fromAgentName = assets.label[fromKey];
-  const toAgentName = assets.label[toKey];
-
-  const fromAgentColor = assets.color[fromKey];
-  const toAgentColor = assets.color[toKey];
+  
+  const profileFrom = agentProfiles[currentMode][fromKey];
+  const profileTo = agentProfiles[currentMode][toKey];
 
   const fromAgentIcon =
-  toKey === "me"
-    ? assets.icon[fromKey]
-    : agentSpeakingIcons[fromKey as keyof typeof agentSpeakingIcons];
+    toKey === "me"
+      ? profileFrom.icon.default
+      : profileFrom.icon.speaking;
 
   const toAgentIcon =
-  toKey === "me"
-    ? assets.icon[toKey]
-    : agentListeningIcons[toKey as keyof typeof agentListeningIcons];
-    
+    toKey === "me"
+      ? profileTo.icon.default
+      : profileTo.icon.listening;
 
   const shouldShowLikeButton = !replyTo && currentMode !== "explain";
   const shouldShowToTag = !hideToTag && !isToMe;
@@ -122,7 +195,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
       <Container>
 
       <AgentTagWrapper>
-          <AgentTag show={!hideFromTag} name={fromAgentName} icon={fromAgentIcon} color={fromAgentColor} />
+          <AgentTag show={!hideFromTag} name={profileFrom.label} icon={fromAgentIcon} color={profileFrom.color} />
       </AgentTagWrapper>
 
         <BubbleContainer>
@@ -132,7 +205,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
           <LikeButton liked={liked} onClick={onLike} show={shouldShowLikeButton} />
         </BubbleContainer>
         <AgentTagWrapper>
-          <AgentTag show={shouldShowToTag} name={toAgentName} icon={toAgentIcon} color={toAgentColor} />
+          <AgentTag show={shouldShowToTag} name={profileTo.label} icon={toAgentIcon} color={profileTo.color} />
         </AgentTagWrapper>
       </Container>
     </BubbleWrapper>
@@ -155,7 +228,7 @@ const BubbleWrapper = styled(BubbleWrapperBase).withConfig({
 }>`
   animation: ${({ shouldAnimate }) => shouldAnimate && fadeInUp} 0.3s ease-out;
   margin-bottom: ${({ $isReply, $isToMe }) =>
-    $isReply || $isToMe ? "24px" : "0px"};
+    $isReply || $isToMe ? "3px" : "3px"};
 `;
 
 const Container = styled.div`
@@ -202,7 +275,6 @@ const AgentTagWrapper = styled.div`
   overflow: visible;
 `;
 
-
 const fadeInUp = keyframes`
   from {
     opacity: 0;
@@ -212,4 +284,11 @@ const fadeInUp = keyframes`
     opacity: 1;
     transform: translateY(0);
   }
+`;
+
+const MentionTag = styled.span`
+  ${textStyles.mentionTag()}
+  background-color: ${colors.gray300};
+  padding: 3px 6px;
+  border-radius: 1rem;
 `;

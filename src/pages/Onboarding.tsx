@@ -82,6 +82,10 @@ export default function Onboarding() {
                         .reverse()
                         .find(prevChat => prevChat.type === "talk") || null;
                     }
+                
+                    const hideToTag = chat.type === "talk";
+                    const hideFromTag = chat.type === "reply";
+
                     return (
                       <ChatListItem key={idx} $isUser={chat.from === "me"}>
                         {chat.from === "me" ? (
@@ -94,6 +98,8 @@ export default function Onboarding() {
                             liked={likedIndex === idx}
                             shouldAnimate={shouldAnimate ?? true}
                             onLike={() => updateLikedIndex(idx)}
+                            hideFromTag={hideFromTag}
+                            hideToTag={hideToTag}
                           />
                         )}
                 

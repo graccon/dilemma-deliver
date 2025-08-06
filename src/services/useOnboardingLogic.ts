@@ -5,7 +5,6 @@ import { saveMissionStep, loadMissionStep } from "../stores/missionStepStorage";
 import type { AgentChat } from "../services/loadAgentChats";
 import { loadAgentChats } from "./loadAgentChats";
 
-
 export function useOnboardingLogic() {
     const [isAnswered, setIsAnswered] = useState(false);
     const [caseData, setCaseData] = useState<OnboardingCase | null>(null);
@@ -49,8 +48,12 @@ export function useOnboardingLogic() {
         const fetchChats = async () => {
           try {
             // if (missionStep < 4) setAgentChats([]);
-            const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); // caseId "0", step, groupId "0"
-            console.log("💬 Loaded chats:", chats);
+            console.log("missionStep : ", missionStep)
+            if (missionStep === 1) {
+              await appendChatsSequentially(step1Chats, "0");
+              return;
+            }
+            const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); 
             await appendChatsSequentially(chats, "0");
 
             if (missionStep === 2) {
@@ -82,6 +85,8 @@ export function useOnboardingLogic() {
 
     function getLabelByMissionStep(step: number): string {
         switch (step) {
+          case 1:
+            return "Let’s get started";
           case 4:
             return "I can’t decide yet";
           case 5:
@@ -168,3 +173,37 @@ export function useOnboardingLogic() {
         appendUserChat,
     };
 }
+
+
+const step1Chats: AgentChat[] = [
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
+  },
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "But it’s a bit more complex than it looks... I might need some help explaining things. Let me call in some backup.",
+  },
+  {
+    from: "stat",
+    to: "narr",
+    type: "talk",
+    message: "Hey team, give me a hand!\n@agent1\n@agent2",
+  },
+  {
+    from: "rule",
+    to: "stat",
+    type: "reply",
+    message: "Sure thing. I’m here!",
+  },
+  {
+    from: "narr",
+    to: "stat",
+    type: "reply",
+    message: "Of course! I'm good at this kind of stuff. We will help you.",
+  },
+];

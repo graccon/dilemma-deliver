@@ -90,6 +90,13 @@ export const textStyles = {
         text-align: left;
     `,
 
+    mentionTag: () => `
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: ${colors.gray700};
+`,
+
     replyLabel: () => `
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
