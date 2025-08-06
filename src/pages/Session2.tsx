@@ -120,10 +120,7 @@ export default function Session2() {
                           .find(prevChat => prevChat.type === "talk") || null;
                       }
                       
-                      const hideToTag =
-                          idx < agentChats.length - 1 &&
-                          agentChats[idx + 1].type === "reply" &&
-                          agentChats[idx + 1].to === chat.from;
+                      const hideToTag = chat.type === "talk";
                       const hideFromTag = chat.type === "reply";
 
                       return (
@@ -171,56 +168,27 @@ export const Layout = styled.div`
   gap: 1rem; 
 `;
 
-
-export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
-  flex: 10;
-  padding: 12px 12px;
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
-  scroll-padding-bottom: 40px; 
-  padding-top: 10px; 
-
-   &::-webkit-scrollbar-thumb {
-    background-color: ${colors.gray300};
-    border-radius: 20px;
-  }
-    &::-webkit-scrollbar {
-  width: 8px;
-  background-color: transparent; // 기본 배경도 정의해줌
-}
-`;
-
-export const MoreButtonWrapper = styled.div`
-  flex: 1;
-  width: 100%;
-  padding-top: 18px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-
 export const ChatContainer = styled.div`
-  flex: 5;
+  flex: 6;
   display: flex;
   flex-direction: column;
-  background-color: ${colors.white};
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  max-height: 80vh;
+  max-height: 78vh;
+  padding: 10px 0px 10px 10px;
+  background-color: ${colors.white};
 `;
 
 export const ProblemContainer = styled.div`
-  flex: 8;
+  flex: 10;
   display: flex;
   flex-direction: column;
   gap: 1rem; 
-  height: 80vh;
+  height: 78vh;
 `;
 
 export const CaseContainer = styled.div`
-  flex: 8;
+  flex: 10;
   width: 100%;
   margin: 0 auto;
   overflow-y: auto; 
@@ -238,14 +206,31 @@ export const SliderContainer = styled.div`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 `;
 
+export const MoreButtonWrapper = styled.div`
+  flex: 1;
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
+  flex: 10;
+  overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
+  scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
+  scrollbar-gutter: stable;
+  &::-webkit-scrollbar {
+    display: ${({ $isAnimating }) => ($isAnimating ? "none" : "block")};
+  }
+`;
+
 const ChatList = styled.ul`
   list-style: none;
-  padding: 0;
-  margin: 0;
 `;
 
 const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
   justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;

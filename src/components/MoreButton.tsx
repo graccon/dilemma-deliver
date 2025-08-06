@@ -34,8 +34,8 @@ const Button = styled.button<{ disabled: boolean }>`
   ${({ }) => textStyles.buttonLabel()}
   width: 92%;
   height: 94%;
-  color: ${({ disabled }) => (disabled ? colors.white : colors.gray700)};
-  border: 2.2px solid  ${({ disabled }) => (disabled ? colors.white : colors.gray700)};
+  color: ${({ disabled }) => (disabled ? colors.white : colors.gray800)};
+  border: 2.2px solid  ${({ disabled }) => (disabled ? colors.white : colors.gray800)};
   border-radius: 50rem;
   background-color: ${colors.white};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};

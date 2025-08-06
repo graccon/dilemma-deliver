@@ -15,6 +15,7 @@ export function useOnboardingLogic() {
     const [likedIndex, setLikedIndex] = useState<number | null>(null);
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
+    const [canInteractSlider, setCanInteractSlider] = useState(false);
 
 
     useEffect(() => {
@@ -51,6 +52,10 @@ export function useOnboardingLogic() {
             const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); // caseId "0", step, groupId "0"
             console.log("💬 Loaded chats:", chats);
             await appendChatsSequentially(chats, "0");
+
+            if (missionStep === 2) {
+              setCanInteractSlider(true);
+            }
           } catch (err) {
             console.error("❌ Error loading onboarding chats:", err);
           }
@@ -67,7 +72,7 @@ export function useOnboardingLogic() {
               from: "stat",
               to: "me",
               type: "talk",
-              message: "@ME Nice work !",
+              message: "@ME Nice work ! 🥳 \nOne last step to go. \n**Tap ‘Got it’ again.**",
             },
         ]
         setAgentChats((prev) => [...prev, ...newChats]);
@@ -153,6 +158,7 @@ export function useOnboardingLogic() {
         likedIndex,
         missionStep,
         isAnswered,
+        canInteractSlider,
         setMissionStep,
         advanceMission,
         getLabelByMissionStep,

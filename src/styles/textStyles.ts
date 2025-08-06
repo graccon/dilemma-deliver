@@ -19,7 +19,7 @@ export const textStyles = {
 
     h2: (color = colors.gray800) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1.5rem;  
+      font-size: 1.2rem;  
       font-weight: 400;
       letter-spacing: -0.2px;
       color: ${color};
@@ -27,7 +27,7 @@ export const textStyles = {
 
     h3: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
-      font-size: 3rem;
+      font-size: 2rem;
       font-weight: 800;
       color: ${color};
       text-align: ${align};
@@ -35,7 +35,7 @@ export const textStyles = {
 
     h4: ({color = colors.gray800, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1.3rem;  
+      font-size: 1.1rem;  
       font-weight: 400;
       letter-spacing: -0.2px;
       color: ${color};
@@ -53,7 +53,7 @@ export const textStyles = {
   
     body: (color = colors.black) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.3;
@@ -99,7 +99,7 @@ export const textStyles = {
 
     li: ({color = colors.black, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 400;
       color: ${color};
       line-height: 1.4;

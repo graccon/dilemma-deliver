@@ -27,5 +27,5 @@ const Icon = styled.img`
   height: 36px;
   position: absolute;
   top: -2px;
-  right: -20px;
+  right: -12px;
 `;

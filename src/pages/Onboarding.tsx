@@ -22,6 +22,7 @@ export default function Onboarding() {
     advanceMission,
     shouldAnimate,
     setSliderValue,
+    canInteractSlider,
     appendUserChat,
     getLabelByMissionStep,
     updateLikedIndex,
@@ -52,7 +53,7 @@ export default function Onboarding() {
         <ProblemContainer>
           <CaseContainer>
             {caseData && (
-              <OnboardingCaseDisplay disabled={missionStep < 2} caseData={caseData} />
+              <OnboardingCaseDisplay disabled={!canInteractSlider} caseData={caseData} />
             )}
           </CaseContainer>
           <SliderContainer>
@@ -62,7 +63,7 @@ export default function Onboarding() {
               onChange={(value) => {
                 setSliderValue(value);
               }}
-              disabled={missionStep < 2}
+              disabled={!canInteractSlider}
             />
           </SliderContainer>
         </ProblemContainer>
@@ -128,18 +129,18 @@ export const Layout = styled.div`
 `;
 
 export const ChatContainer = styled.div`
-  flex: 4;
+  flex: 6;
   display: flex;
   flex-direction: column;
-  background-color: ${colors.white};
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   max-height: 78vh;
-  padding: 10px;
+  padding: 10px 0px 10px 10px;
+  background-color: ${colors.white};
 `;
 
 export const ProblemContainer = styled.div`
-  flex: 8;
+  flex: 10;
   display: flex;
   flex-direction: column;
   gap: 1rem; 
@@ -169,7 +170,6 @@ export const MoreButtonWrapper = styled.div`
   flex: 1;
   width: 100%;
   padding-top: 18px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,7 +177,6 @@ export const MoreButtonWrapper = styled.div`
 
 export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   flex: 10;
-  padding: 12px 12px;
   overflow-y: ${({ $isAnimating }) => ($isAnimating ? "hidden" : "auto")};
   scrollbar-width: ${({ $isAnimating }) => ($isAnimating ? "none" : "auto")};
   scrollbar-gutter: stable;
@@ -188,12 +187,10 @@ export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
 
 const ChatList = styled.ul`
   list-style: none;
-  padding: 0;
-  margin: 0;
 `;
 
 const ChatListItem = styled.li<{ $isUser?: boolean }>`
   display: flex;
   justify-content: ${({ $isUser }) => ($isUser ? "flex-end" : "flex-start")};
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 `;

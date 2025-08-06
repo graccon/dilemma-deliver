@@ -28,7 +28,7 @@ export default function AgentTag({ show, name, icon, color }: AgentTagProps) {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 50px;
+  width: 58px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;

@@ -83,7 +83,7 @@ export default function MoralCaseDisplay({ caseData, index, total, mode="CaseOnl
   }
 
 export const Container = styled.div`
-    padding: 1rem;
+    padding: 1rem 0.5rem;
     text-align: center;
     height: 100%;
 `;
@@ -125,12 +125,13 @@ export const DeadListWrapper = styled.div`
 `;
 
 export const Body = styled.p`  
+    min-width: 40px;
     ${textStyles.body()}
 `;
 
 export const Li = styled.li`  
     ${textStyles.li()}
-    font-weight: 700;
+    font-weight: 600;
 `;
 
 export const ImageWrapper= styled.div`
@@ -145,10 +146,10 @@ export const DescriptionContainer= styled.div`
     padding: 0px 20px;
     justify-content:"flex-start";
 `;
+
 export const BottomDescriptionContainer= styled.div`
     padding: 0px 30px;
 `;
-
 
 export const Image = styled.img`
    height: 15rem; 

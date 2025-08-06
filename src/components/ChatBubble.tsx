@@ -1,11 +1,10 @@
 import styled, { keyframes } from "styled-components";
 import colors from "../styles/colors";
 import type { AgentChat } from "../services/loadAgentChats";
-import NameTag from "./NameTag";
 import { textStyles } from "../styles/textStyles";
 import isPropValid from "@emotion/is-prop-valid";
-import AgentTag from "./AgentTag";
 import LikeButton from "./LikeButton";
+import AgentTag from "./AgentTag";
 
 interface ChatBubbleProps {
   chat: AgentChat;
@@ -81,8 +80,18 @@ const agentListeningIcons = {
   narr: "/assets/icons/agent_molu_listening_icon.png",
 } as const;
 
+function parseMessage(message: string): React.ReactNode[] {
+  const parts = message.split(/(\*\*.*?\*\*)/g); 
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false, hideFromTag, hideToTag }: ChatBubbleProps) {
-  const { message, type, from, to } = chat;
+  const { message, from, to } = chat;
   const currentMode = mode ?? "default"; 
   const assets = agentAssets[currentMode];
   const fromKey = (chat.type === "reply" ? to : from).toLowerCase() as keyof typeof assets.label;
@@ -118,7 +127,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
 
         <BubbleContainer>
           <Bubble $liked={liked} $isReply={!!replyTo}>
-            {message}
+            {parseMessage(message)}
           </Bubble>
           <LikeButton liked={liked} onClick={onLike} show={shouldShowLikeButton} />
         </BubbleContainer>
@@ -160,7 +169,8 @@ const BubbleBase = styled.div`
   padding: 12px 20px;
   border-width: 2px;
   width: 300px;
-  min-height: 80px;
+  // min-height: 80px;
+  white-space: pre-line;
   ${textStyles.bubbleText()}
 `;
 
@@ -170,13 +180,12 @@ const Bubble = styled(BubbleBase)<{
 }>`
   background-color: ${({ $liked }) => ($liked ? colors.highlightYellow : colors.gray200)};
   border-radius: ${({ $isReply }) =>
-    $isReply ? "2rem 2rem 0.3rem 2rem" : "2rem 2rem 2rem 0.3rem"};
+    $isReply ? "1.5rem 1.5rem 0.3rem 1.5rem" : "1.5rem 1.5rem 1.5rem 0.3rem"};
   min-height: ${({ $isReply }) =>
     $isReply ? "40px" : "80px"};
 `;
 
 const BubbleContainer = styled.div`
-  flex: 7;
   width: 100%;
   display: flex;    
   align-items: flex-end;
@@ -185,7 +194,7 @@ const BubbleContainer = styled.div`
 
 const AgentTagWrapper = styled.div`
   display: flex;       
-  width: 50px;
+  width: 58px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
@@ -193,20 +202,6 @@ const AgentTagWrapper = styled.div`
   overflow: visible;
 `;
 
-const AgentIcon = styled.img`
-  width: 48px;
-  height: 48px;
-  position: absolute;
-  bottom: 1.2rem; 
-`;
-
-const GoodIcon = styled.img`
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  top: -2px;
-  right: -20px;
-`;
 
 const fadeInUp = keyframes`
   from {
