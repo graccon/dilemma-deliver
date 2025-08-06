@@ -288,7 +288,7 @@ const fadeInUp = keyframes`
 
 const MentionTag = styled.span`
   ${textStyles.mentionTag()}
-  background-color: ${colors.gray300};
+  background-color: ${colors.gray400};
   padding: 3px 6px;
   border-radius: 1rem;
 `;

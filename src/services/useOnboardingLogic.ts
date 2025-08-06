@@ -47,7 +47,7 @@ export function useOnboardingLogic() {
         if (!caseData) return;
         const fetchChats = async () => {
           try {
-            // if (missionStep < 4) setAgentChats([]);
+            if (missionStep === 4) setAgentChats([]);
             console.log("missionStep : ", missionStep)
             if (missionStep === 1) {
               await appendChatsSequentially(step1Chats, "0");
@@ -180,7 +180,7 @@ const step1Chats: AgentChat[] = [
     from: "stat",
     to: "me",
     type: "talk",
-    message: "Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
+    message: "@Me Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
   },
   {
     from: "stat",
@@ -192,7 +192,7 @@ const step1Chats: AgentChat[] = [
     from: "stat",
     to: "narr",
     type: "talk",
-    message: "Hey team, give me a hand!\n@agent1\n@agent2",
+    message: "Hey team, give me a hand!\n@agent1 @agent2",
   },
   {
     from: "rule",
