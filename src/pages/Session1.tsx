@@ -9,9 +9,19 @@ import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
 import { useNavigate } from "react-router-dom";
-
+import { useTimerLogStore } from "../stores/useTimerLogStore";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
+import { useSessionLogStore } from "../stores/sessionLogStore";
+
+function getLastDurationBeforeCurrent(): number {
+  const { logs } = useTimerLogStore.getState();
+  if (logs.length < 2) return 0;
+
+  const lastLog = logs[logs.length - 2];
+  const now = Date.now();
+  return now - lastLog.timestamp;
+}
 
 export default function Session1() {
   const [isAnswered, setIsAnswered] = useState(false);
@@ -59,6 +69,16 @@ export default function Session1() {
       timestamp: Date.now(),
       type: "final",
     });
+
+    const timeSpent = getLastDurationBeforeCurrent();
+    useSessionLogStore.getState().addLog({
+      sessionId: "session1",
+      caseId: currentCase?.id ?? "undefined",
+      confidence: currentConfidence,
+      durationMs: timeSpent,
+      agentChats: null,
+      turntakingCount: null
+    })
 
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);

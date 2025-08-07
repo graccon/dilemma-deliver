@@ -9,9 +9,20 @@ import { useUserStore } from "../stores/useUserStore";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
 import { loadAgentChats } from "./loadAgentChats";
 import type { AgentChat } from "../services/loadAgentChats";
+import { useTimerLogStore } from "../stores/useTimerLogStore";
+import { useSessionLogStore } from "../stores/sessionLogStore";
 
 const INDEX_KEY = "session2_currentIndex";
 const SHUFFLED_TURNS = getShuffledTurns();
+
+function getLastDurationBeforeCurrent(): number {
+  const { logs } = useTimerLogStore.getState();
+  if (logs.length < 2) return 0;
+
+  const lastLog = logs[logs.length - 2];
+  const now = Date.now();
+  return now - lastLog.timestamp;
+}
 
 export function useSessionLogic() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -188,6 +199,17 @@ export function useSessionLogic() {
       timestamp: Date.now(),
       type: "final",
     });
+
+    const timeSpent = getLastDurationBeforeCurrent();
+    const likedChat = agentChats.find((c) => c.liked);
+    useSessionLogStore.getState().addLog({
+      sessionId: "session2",
+      caseId: currentCase?.id ?? "undefined",
+      confidence: currentConfidence,
+      durationMs: timeSpent,
+      agentChats: likedChat ? [likedChat] : [],
+      turntakingCount: getTurnCount(currentCase.id)
+    })
 
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
