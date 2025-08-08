@@ -13,7 +13,7 @@ export const textStyles = {
     secondH1: () => `
     font-family: 'Abhaya Libre', serif;
     font-size: 1.8rem;
-    font-weight: 800;
+    font-weight: 700;
     color: ${colors.black};
 `,
 
@@ -79,7 +79,6 @@ export const textStyles = {
       text-align: left;
     `,
 
-
     span: ({color = colors.black, size = "0.9rem"}={}) => `
         font-family: 'Roboto', sans-serif;
         font-size: ${size};
@@ -97,6 +96,14 @@ export const textStyles = {
         color: ${color};
         letter-spacing: -0.2px;
         text-align: left;
+    `,
+
+    labelTag: ({ color = colors.gray800, size = "1.2rem" } = {}) => `
+        font-family: 'Roboto', sans-serif;
+        font-size: ${size};
+        font-weight: 600;
+        color: ${color};
+        letter-spacing: -0.2px;
     `,
 
     mentionTag: () => `

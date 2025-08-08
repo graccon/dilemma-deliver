@@ -102,7 +102,6 @@ export default function Onboarding() {
                             hideToTag={hideToTag}
                           />
                         )}
-                
                       </ChatListItem>
                     );
                   })}

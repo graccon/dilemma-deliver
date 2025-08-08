@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { AgentChat } from "../services/loadAgentChats";
 
-type SessionLog = {
+export type SessionLog = {
   sessionId: string;
   caseId: string;
   confidence: number;
@@ -11,7 +11,7 @@ type SessionLog = {
   turntakingCount: number | null;
 };
 
-interface SessionLogState {
+export interface SessionLogState {
   logs: SessionLog[];
   addLog: (log: SessionLog) => void;
   clearLogs: () => void;

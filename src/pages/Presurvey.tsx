@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import FooterButton from "../components/FooterButton"
-import MainLayout from "../layouts/MainLayout"
+import MainLayout from "../layouts/MainLayout";
 import { surveyQuestionsBFI, surveyQuestionsLOC, surveyQuestionsAIUsed } from "../assets/data/surveyItems"
 import LinearScale from "../components/LinearScale";
 import styled from "styled-components";
@@ -21,6 +21,8 @@ const totalQuestionCount =
   surveyQuestionsLOC.length +
   surveyQuestionsAIUsed.length;
 
+
+
 export default function Presurvey() {
     const [answers, setAnswers] = useState<SurveyAnswers>({});
     const isAllAnswered =
@@ -34,22 +36,22 @@ export default function Presurvey() {
       }
     }, []);
 
+  
     const handleAnswerChange = (questionId: string, value: number) => {
       const updated = { ...answers, [questionId]: value };
       setAnswers(updated);
       setPresurveyAnswers(updated);
-      console.log(answeredCount, totalQuestionCount);
     };
   
     return (
       <MainLayout
         footerButton={
-          <FooterButton label="Start Survey" to="/onboarding" disabled={!isAllAnswered} />
+          <FooterButton label="Next Sesstion" to="/onboarding" disabled={!isAllAnswered} />
         }
       >
         <Container>
-        <Spacer height="60px"/>
-          <PageTitle>Presurvey page</PageTitle>
+          <Spacer height="60px"/>
+          <PageTitle>Pre-survey page</PageTitle>
           <Description>Thank you for taking the time to participate.<br /> This survey consists of 22 questions, and your thoughtful responses are very valuable to our research.<br />Please answer each question to the best of your ability.</Description>
           
           <Spacer height="40px"/>
@@ -89,7 +91,7 @@ export default function Presurvey() {
             {surveyQuestionsLOC.map((item, idx) => (
               <LinearScaleWrapper key={item.id}>
                 <LinearScale
-                  index={idx + 16}
+                  index={idx + 1}
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "does not apply at all", max: "applies completely" }}
@@ -109,7 +111,7 @@ export default function Presurvey() {
             {surveyQuestionsAIUsed.map((item, idx) => (
               <LinearScaleWrapper key={item.id}>
                 <LinearScale
-                  index={idx + 20}
+                  index={idx + 1}
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "Strongly Disagree", max: "Strongly Agree"}}
