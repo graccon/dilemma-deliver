@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
 import { getPresurveyAnswers, setPresurveyAnswers, type SurveyAnswers } from "../stores/presurveyStore";
+import ProgressBar from "./ProgressBar";
+import Spacer from "../components/Spacer";
 
 const Divider = styled.hr`
   margin: 2rem auto; 
@@ -19,11 +21,11 @@ const totalQuestionCount =
   surveyQuestionsLOC.length +
   surveyQuestionsAIUsed.length;
 
-
 export default function Presurvey() {
     const [answers, setAnswers] = useState<SurveyAnswers>({});
     const isAllAnswered =
       Object.values(answers).filter((value) => value !== 0).length === totalQuestionCount;
+    const answeredCount = Object.values(answers).filter((v) => v !== 0).length;
 
     useEffect(() => {
       const saved = getPresurveyAnswers();
@@ -36,6 +38,7 @@ export default function Presurvey() {
       const updated = { ...answers, [questionId]: value };
       setAnswers(updated);
       setPresurveyAnswers(updated);
+      console.log(answeredCount, totalQuestionCount);
     };
   
     return (
@@ -45,8 +48,17 @@ export default function Presurvey() {
         }
       >
         <Container>
+        <Spacer height="60px"/>
           <PageTitle>Presurvey page</PageTitle>
-          <Description>Please answer all the questions carefully. This survey consists of 22 questions in total.</Description>
+          <Description>Thank you for taking the time to participate.<br /> This survey consists of 22 questions, and your thoughtful responses are very valuable to our research.<br />Please answer each question to the best of your ability.</Description>
+          
+          <Spacer height="40px"/>
+          <ProgressBarContainer>
+            <ProgressBarWrapper>
+              <ProgressBar progress={answeredCount/ totalQuestionCount} />
+            </ProgressBarWrapper>
+            <ProgressBarLabel> {answeredCount} / {totalQuestionCount}</ProgressBarLabel>
+          </ProgressBarContainer>
 
           <StickyTitle>
             Instruction: The following statements may apply more or less to you.
@@ -109,7 +121,7 @@ export default function Presurvey() {
             ))}
           </SurveyContainer>
 
-
+          <Spacer height="100px"/>
         </Container>
       </MainLayout>
     )
@@ -126,7 +138,7 @@ export const Container = styled.div`
 `;
 
 export const Description = styled.p`
-  ${textStyles.h4()};
+  ${textStyles.homeBody()};
   padding-bottom: 1rem;
 `;
 
@@ -135,9 +147,8 @@ export const PageTitle = styled.div`
   padding: 1rem 0rem;
 `;
 
-export const SurveyContainer = styled.h1`
+export const SurveyContainer = styled.div`
   width: 100%; 
-  // background-color: blue;
 `;
 
 export const LinearScaleWrapper = styled.div`
@@ -149,18 +160,41 @@ export const LinearScaleWrapper = styled.div`
 export const StickyTitle = styled.div`
   ${textStyles.h2()};
   position: sticky;
-  top: 0;
+  top: 0px;
   background-color: ${colors.gray200}; 
   z-index: 1;
-  padding: 1.2rem 2.5rem;
+  padding: 1.5rem 0rem 1rem 2rem;
   border: 3px solid ${colors.gray400};
   border-radius: 1rem;
 `;
 
 export const MainTitle = styled.div`
-  ${textStyles.mainTitle()}
+  ${textStyles.mainTitle()};
   font-weight: 600;
   padding: 10px 0px;
   text-decoration: underline;
 `;
+export const ProgressBarContainer = styled.div`
+  position: sticky;
+  z-index: 10; 
+  top: 8px;
+  width: 100%;
+  margin: 0.5rem auto;
+  margin-top:0px;
+  display: flex;
+  flex-direction: row;
+  height: 24px;
+`;
 
+export const ProgressBarWrapper = styled.div`
+  flex: 9;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const ProgressBarLabel = styled.div`
+   ${textStyles.h5()};
+  flex: 1;
+  display: flex;
+  justify-content: center;
+`;

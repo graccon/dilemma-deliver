@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { textStyles } from "../styles/textStyles";
@@ -63,12 +62,13 @@ const ButtonGroup = styled.div`
 `;
 
 const ScaleButton = styled.button<{ $isSelected: boolean }>`
+ ${textStyles.h5({ align: "center" })};
   width: 2.5rem;
   height: 2.5rem;
-  border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.yellow : colors.gray400)};
-  background-color: ${({ $isSelected }) => ($isSelected ? colors.yellow : colors.gray100)};
+  border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.gray800 : colors.gray500)};
+  background-color: ${({ $isSelected }) => ($isSelected ? colors.gray400 : colors.gray100)};
+  color: ${({ $isSelected }) => ($isSelected ? colors.gray800 : colors.gray500)};
   border-radius: 6px;
-  font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
 `;
