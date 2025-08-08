@@ -50,6 +50,15 @@ export const textStyles = {
       color: ${color};
       text-align: ${align};
     `,
+
+    mainTitle: ({color = colors.gray800, align = "left"}={}) => `
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.4rem;  
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: ${color};
+    text-align: ${align};
+  `,
   
     body: (color = colors.black) => `
       font-family: 'Roboto', sans-serif;

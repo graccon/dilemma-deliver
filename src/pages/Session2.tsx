@@ -14,7 +14,6 @@ import UserChatBubble from "../components/UserChatBubble";
 import { useUserStore } from "../stores/useUserStore";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
 
-
 export default function Session2() {
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
   const { group } = useUserStore();
@@ -29,6 +28,7 @@ export default function Session2() {
     addConfidence,
     agentChats,
     handleMoreClick,
+    setCurrentConfidence,
     canTakeTurn,
     likedIndex,
     updateLikedIndex, 
@@ -91,6 +91,7 @@ export default function Session2() {
               initialValue={50}
               onChange={(value) => {
                 setIsAnswered(value !== 50);
+                setCurrentConfidence(value);
               }}
               onTouchEnd={(value) => {
                 addConfidence({

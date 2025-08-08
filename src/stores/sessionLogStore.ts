@@ -18,7 +18,7 @@ interface SessionLogState {
 }
 
 export const useSessionLogStore = create<SessionLogState>()(
-  persist(
+  persist<SessionLogState>(
     (set, get) => ({
       logs: [],
       addLog: (log) => set({ logs: [...get().logs, log] }),
