@@ -11,11 +11,11 @@ interface LinearScaleProps {
     min: string;
     max: string;
   };
+  value: number;
+  onChange: (value: number) => void;
 }
 
-export default function LinearScale({ index, scale, question, labels }: LinearScaleProps) {
-  const [selected, setSelected] = useState<number | null>(null);
-
+export default function LinearScale({ index, scale, question, labels, value, onChange }: LinearScaleProps) {
   return (
     <Container>
       <QuestionText>{index}. {question}</QuestionText>
@@ -23,16 +23,14 @@ export default function LinearScale({ index, scale, question, labels }: LinearSc
         <Label $align="right">{labels.min}</Label>
         <ButtonGroup>
           {Array.from({ length: scale }, (_, i) => {
-            const value = i + 1;
+            const current = i + 1;
             return (
               <ScaleButton
-                key={value}
-                isSelected={selected === value}
-                onClick={() =>
-                    setSelected(selected === value ? null : value)
-                  }
+                key={current}
+                $isSelected={value === current}
+                onClick={() => onChange(value === current ? 0 : current)}
               >
-                {value}
+                {current}
               </ScaleButton>
             );
           })}
@@ -64,11 +62,11 @@ const ButtonGroup = styled.div`
   justify-content: space-evenly; 
 `;
 
-const ScaleButton = styled.button<{ isSelected: boolean }>`
+const ScaleButton = styled.button<{ $isSelected: boolean }>`
   width: 2.5rem;
   height: 2.5rem;
-  border: 2px solid ${({ isSelected }) => (isSelected ? colors.yellow : colors.gray400)};
-  background-color: ${({ isSelected }) => (isSelected ? colors.yellow : colors.gray100)};
+  border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.yellow : colors.gray400)};
+  background-color: ${({ $isSelected }) => ($isSelected ? colors.yellow : colors.gray100)};
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;

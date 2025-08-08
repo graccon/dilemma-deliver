@@ -1,10 +1,12 @@
+import { useEffect, useState } from "react";
 import FooterButton from "../components/FooterButton"
 import MainLayout from "../layouts/MainLayout"
-import styled from "styled-components";
 import { surveyQuestionsBFI, surveyQuestionsLOC, surveyQuestionsAIUsed } from "../assets/data/surveyItems"
 import LinearScale from "../components/LinearScale";
+import styled from "styled-components";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
+import { getPresurveyAnswers, setPresurveyAnswers, type SurveyAnswers } from "../stores/presurveyStore";
 
 const Divider = styled.hr`
   margin: 2rem auto; 
@@ -12,12 +14,34 @@ const Divider = styled.hr`
   border: 1px solid ${colors.gray300};
 `;
 
+const totalQuestionCount = 
+  surveyQuestionsBFI.length +
+  surveyQuestionsLOC.length +
+  surveyQuestionsAIUsed.length;
+
+
 export default function Presurvey() {
+    const [answers, setAnswers] = useState<SurveyAnswers>({});
+    const isAllAnswered =
+      Object.values(answers).filter((value) => value !== 0).length === totalQuestionCount;
+
+    useEffect(() => {
+      const saved = getPresurveyAnswers();
+      if (saved) {
+        setAnswers(saved);
+      }
+    }, []);
+
+    const handleAnswerChange = (questionId: string, value: number) => {
+      const updated = { ...answers, [questionId]: value };
+      setAnswers(updated);
+      setPresurveyAnswers(updated);
+    };
   
     return (
       <MainLayout
         footerButton={
-          <FooterButton label="Start Survey" to="/onboarding" disabled={false} />
+          <FooterButton label="Start Survey" to="/onboarding" disabled={!isAllAnswered} />
         }
       >
         <Container>
@@ -36,6 +60,8 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "Does not apply to me at all", max: "Applies to me perfectly" }}
+                  value={answers[item.id] ?? 0}
+                  onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
               </LinearScaleWrapper>
@@ -55,6 +81,8 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "does not apply at all", max: "applies completely" }}
+                  value={answers[item.id] ?? 0}
+                  onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
               </LinearScaleWrapper>
@@ -73,6 +101,8 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "Strongly Disagree", max: "Strongly Agree"}}
+                  value={answers[item.id] ?? 0}
+                  onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
               </LinearScaleWrapper>
@@ -116,7 +146,7 @@ export const LinearScaleWrapper = styled.div`
   max-width: 700px;
 `;
 
-export const StickyTitle = styled.h2`
+export const StickyTitle = styled.div`
   ${textStyles.h2()};
   position: sticky;
   top: 0;
@@ -127,7 +157,7 @@ export const StickyTitle = styled.h2`
   border-radius: 1rem;
 `;
 
-export const MainTitle = styled.h3`
+export const MainTitle = styled.div`
   ${textStyles.mainTitle()}
   font-weight: 600;
   padding: 10px 0px;
