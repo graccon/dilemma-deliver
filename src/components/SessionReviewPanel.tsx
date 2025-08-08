@@ -23,18 +23,27 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
   const session2Map = useMemo(() => new Map(session2Logs.map((log) => [log.caseId, log])), [session2Logs]);
 
   const commonCaseIds = useMemo(() => {
-      return [...session1Map.keys()].filter((id) => {
-          const log1 = session1Map.get(id);
-          const log2 = session2Map.get(id);
-          if (!log1 || !log2) return false;
-
-          if (mode === "confidenceChange") {
-              return log1.confidence !== log2.confidence;
-          }
-          if (mode === "confidenceUnchange") {
-            return Math.abs(log1.confidence - log2.confidence) < 0.01; 
-          }
-          return true;
+    return [...session1Map.keys()]
+      .filter((id) => {
+        const log1 = session1Map.get(id);
+        const log2 = session2Map.get(id);
+        if (!log1 || !log2) return false;
+  
+        const diff = Math.abs(log1.confidence - log2.confidence);
+  
+        switch (mode) {
+          case "confidenceChange":
+            return diff >= 0.01;
+          case "confidenceUnchange":
+            return diff < 0.01;
+          default:
+            return true;
+        }
+      })
+      .sort((a, b) => {
+        const aNum = parseInt(a.replace("case_", ""));
+        const bNum = parseInt(b.replace("case_", ""));
+        return aNum - bNum;
       });
   }, [session1Map, session2Map, mode]);
 
