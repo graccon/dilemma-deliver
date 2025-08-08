@@ -7,6 +7,16 @@ import styled from "styled-components";
 import SessionReviewPanel from "../components/SessionReviewPanel";
 import OpenEndedInput from "../components/OpenEndedInput";
 import Spacer from "../components/Spacer";
+import colors from "../styles/colors";
+import { surveyFeaturePreference } from "../assets/data/surveyItems"
+import FeatureSlider from "../components/FeatureSlider";
+
+// const Divider = styled.hr`
+//   margin: 2rem auto; 
+//   width: 100%;
+//   border: 1px solid ${colors.gray300};
+// `;
+
 
 export default function Postsurvey() {
   const logs = useSessionLogStore((state) => state.logs);
@@ -29,6 +39,16 @@ export default function Postsurvey() {
   });
 
   let questionNumber = 1;
+
+  const [values, setValues] = useState<number[]>(surveyFeaturePreference.map(() => 0));
+
+  const handleSliderChange = (index: number, newValue: number) => {
+    setValues((prev) => {
+      const newValues = [...prev];
+      newValues[index] = newValue;
+      return newValues;
+    });
+  };
 
   return (
     <MainLayout
@@ -91,7 +111,30 @@ export default function Postsurvey() {
             />
           </OpenEndedInputWrapper>
           <Spacer height="50px" />
-  
+
+          <StickyTitle>
+            Instruction: The following sliders ask you to indicate how much weight you place on each factor in your decision-making.
+            <MainTitle>Evaluate Feature Importance</MainTitle>
+          </StickyTitle>
+          <SurveyContainer>
+            {surveyFeaturePreference.map((item, idx) => (
+                <FeatureSlider
+                  key={item.id}
+                  question={item.question}
+                  value={values[idx]}
+                  onChange={(v) => handleSliderChange(idx, v)}
+                  scale={item.scale ?? 10}
+                  labels={{
+                    min: item.labels?.min ?? "중요하지 않음",
+                    max: item.labels?.max ?? "매우 중요함"
+                  }}
+                  leftImageSrc= {item.labelImages!.min}
+                  rightImageSrc= {item.labelImages!.max}
+                /> 
+                
+            ))}
+          </SurveyContainer>
+          {/* <Divider /> */}
     </Container>
     </MainLayout>
   );
@@ -136,4 +179,32 @@ export const QuestionTitle = styled.div`
   ${textStyles.h2()};
   padding: 1rem 0rem;
   font-weight: 600;
+`;
+
+export const StickyTitle = styled.div`
+  ${textStyles.h2()};
+  position: sticky;
+  top: 0px;
+  background-color: ${colors.gray200}; 
+  z-index: 1;
+  padding: 1.5rem 0rem 1rem 2rem;
+  border: 3px solid ${colors.gray400};
+  border-radius: 1rem;
+`;
+
+export const MainTitle = styled.div`
+  ${textStyles.mainTitle()};
+  font-weight: 600;
+  padding: 10px 0px;
+  text-decoration: underline;
+`;
+
+export const SurveyContainer = styled.div`
+  width: 100%; 
+`;
+
+export const LinearScaleWrapper = styled.div`
+  width: 100%; 
+  margin: 2rem auto;
+  max-width: 700px;
 `;

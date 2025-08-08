@@ -141,3 +141,20 @@ export const surveyQuestionsAIUsed: SurveyQuestion[] = [
         question: "I trust that the information provided by conversational AI services is accurate.",
       }
 ];
+
+export const surveyFeaturePreference: SurveyQuestion[] = [
+  {
+    id: "FP_1",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Does Not Matter",
+      max: "Matters a lot"
+    },
+    question: "Saving More Lives",
+    labelImages: {
+      min: "/assets/icons/agent_lumi_icon.png",
+      max: "/assets/icons/agent_lumi_icon.png"
+  }
+  }
+];
