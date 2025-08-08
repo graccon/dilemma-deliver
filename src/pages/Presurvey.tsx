@@ -45,6 +45,7 @@ export default function Presurvey() {
   
     return (
       <MainLayout
+        currentStep={1}
         footerButton={
           <FooterButton label="Next Sesstion" to="/onboarding" disabled={!isAllAnswered} />
         }
@@ -176,6 +177,7 @@ export const MainTitle = styled.div`
   padding: 10px 0px;
   text-decoration: underline;
 `;
+
 export const ProgressBarContainer = styled.div`
   position: sticky;
   z-index: 10; 

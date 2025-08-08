@@ -1,24 +1,34 @@
 import styled from 'styled-components';
 import type { ReactNode } from 'react';
-import { Heading } from "../styles/textStyles"
 import colors from "../styles/colors"; 
+import ProgressSteps from '../components/ProgressSteps';
+import { textStyles } from "../styles/textStyles";
 
 interface Props {
   children: ReactNode;
   footerButton?: ReactNode;
+  currentStep?: number;
 }
 
-export default function MainLayout({ children, footerButton }: Props) {
+export default function MainLayout({ children, footerButton, currentStep }: Props) {
   return (
     <Container>
         <HeaderContainer>
             <Heading>Dilemma Deliver</Heading>
+            {currentStep !== undefined && <ProgressSteps currentStep={currentStep} />} 
         </HeaderContainer>
       <Main>{children}</Main>
       <FooterContainer>{footerButton}</FooterContainer>
     </Container>
   );
 }
+
+const Heading = styled.h1`
+    ${textStyles.h1()};
+    flex: 1;
+    padding-top: 0.8rem;
+`;
+
 
 const Container = styled.div`
   display: flex;
@@ -29,11 +39,12 @@ const Container = styled.div`
 
 const HeaderContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   max-width: 1200px; 
   width: 100%;
   margin: 0 auto;
-  padding:0.8rem 0.8rem 0 3.6rem;
+  padding: 0rem 0.8rem 0 3.6rem;
+
 `
 
 const Main = styled.main`

@@ -17,7 +17,6 @@ import FeatureSlider from "../components/FeatureSlider";
 //   border: 1px solid ${colors.gray300};
 // `;
 
-
 export default function Postsurvey() {
   const logs = useSessionLogStore((state) => state.logs);
 
@@ -52,8 +51,9 @@ export default function Postsurvey() {
 
   return (
     <MainLayout
+            currentStep={4}
             footerButton={
-              <FooterButton label="Next Sesstion" to="/onboarding" disabled={false} />
+              <FooterButton label="Next Sesstion" to="/thankyou" disabled={false} />
             }
           >
       <Container>

@@ -50,8 +50,9 @@ export default function Home() {
 
   return (
     <MainLayout
+      currentStep={0}
       footerButton={
-        <FooterButton label="Start Survey" to="/onboarding" disabled={showHint} />
+        <FooterButton label="Start Survey" to="/presurvey" disabled={showHint} />
       }
     >
       <ScrollSection ref={scrollRef}>

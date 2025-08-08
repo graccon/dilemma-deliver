@@ -93,6 +93,7 @@ export default function Session1() {
 
   return (
     <MainLayout
+      currentStep={3}
       footerButton={
         <FooterButton
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
