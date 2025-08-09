@@ -270,3 +270,18 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     }
   },
 ];
+
+export const surveyQuestionsAfter: SurveyQuestion[] = [
+  {
+    id: "After_1",
+    type: "scale",
+    scale: 5,
+    question: "I was influenced by the AI agent.",
+  },
+  {
+    id: "After_2",
+    type: "scale",
+    scale: 5,
+    question: "The unpleasantness of the AI's advice.",
+  }
+]

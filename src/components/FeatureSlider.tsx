@@ -70,7 +70,7 @@ export default function FeatureSlider({
             value={value}
             onChange={(e) => onChange(Number(e.target.value))}
           />
-          <TickMarks count={scale}>
+          <TickMarks $count={scale}>
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} />
             ))}
@@ -124,7 +124,7 @@ const SliderWrapper = styled.div`
   padding: 0 1rem;
 `;
 
-const TickMarks = styled.div<{ count: number }>`
+const TickMarks = styled.div<{ $count: number }>`
   position: absolute;
   width: 91%;
   top: 22px;
