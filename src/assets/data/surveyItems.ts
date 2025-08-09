@@ -167,8 +167,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Protecting Passengers",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_protecting_passengers_1.png",
+      max: "/assets/images/feature_protecting_passengers_2.png"
     }
   },
   {
@@ -181,8 +181,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Upholding the Law",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_upholding_the_law_1.png",
+      max: "/assets/images/feature_upholding_the_law_2.png"
     }
   },
   {
@@ -195,8 +195,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Avoiding Intervention",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/icons/swerve_icon.png",
+      max: "/assets/icons/stay_icon.png"
     }
   },
   {
@@ -210,7 +210,7 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     question: "Gender Preference",
     labelImages: {
       min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      max: "/assets/images/feature_woman.png"
     }
   },
   {
@@ -223,8 +223,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Species Preference",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_protecting_passengers_1.png",
+      max: "/assets/images/feature_pets.png"
     }
   },
   {
@@ -237,8 +237,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Age Preference",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_age_1.png",
+      max: "/assets/images/feature_age_2.png"
     }
   },
   {
@@ -251,8 +251,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Fitness Preference",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_fitness_1.png",
+      max: "/assets/images/feature_fitness_2.png"
     }
   },
   {
@@ -265,8 +265,8 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Social Value Preference",
     labelImages: {
-      min: "/assets/images/feature_man.png",
-      max: "/assets/images/feature_many.png"
+      min: "/assets/images/feature_social_value_1.png",
+      max: "/assets/images/feature_social_value_2.png"
     }
   },
 ];

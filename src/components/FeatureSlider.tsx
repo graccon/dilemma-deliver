@@ -58,7 +58,7 @@ export default function FeatureSlider({
       <QuestionText>{question}</QuestionText>
       <Content>
         <LabelGroup>
-          <img src={leftImageSrc} alt="min icon" width={50} />
+          <img src={leftImageSrc} alt="min icon" width={62} />
           <LabelText>{labels.min}</LabelText>
         </LabelGroup>
 
@@ -78,7 +78,7 @@ export default function FeatureSlider({
         </SliderWrapper>
 
         <LabelGroup>
-          <img src={rightImageSrc} alt="max icon" width={50} />
+          <img src={rightImageSrc} alt="max icon" width={62} />
           <LabelText>{labels.max}</LabelText>
         </LabelGroup>
       </Content>
