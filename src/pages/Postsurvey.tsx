@@ -81,10 +81,25 @@ export default function Postsurvey() {
     setAfterAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
 
+  // ---------- 완료 체크 ----------
+  const showQ1 = confidenceChangedLogs.length > 0;
+  const showQ2 = confidenceUnchangedLogs.length > 0;
+  const showQ3 = true; // Agent 섹션은 항상 표시 중
+
+  const open1Done = !showQ1 || answer1.trim().length > 0;
+  const open2Done = !showQ2 || answer2.trim().length > 0;
+  const open3Done = !showQ3 || answer3.trim().length > 0; // showQ3가 true라면 answer3 필요
+
+  const slidersDone = values.every((v) => v !== null);
+  const afterDone = surveyQuestionsAfter.every(
+    (q) => (afterAnswers[q.id] ?? 0) !== 0
+  );
+  const isAllComplete = open1Done && open2Done && open3Done && slidersDone && afterDone;
+
   return (
     <MainLayout
       currentStep={4}
-      footerButton={<FooterButton label="Next Sesstion" to="/thankyou" disabled={false} />}
+      footerButton={<FooterButton label="Next Sesstion" to="/thankyou" disabled={!isAllComplete} />}
     >
       <Container>
         <PageTitle>Post-survey page</PageTitle>
