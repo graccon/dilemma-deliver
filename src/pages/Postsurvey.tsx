@@ -123,7 +123,7 @@ export default function Postsurvey() {
                   question={item.question}
                   value={values[idx]}
                   onChange={(v) => handleSliderChange(idx, v)}
-                  scale={item.scale ?? 10}
+                  scale={50}
                   labels={{
                     min: item.labels?.min ?? "중요하지 않음",
                     max: item.labels?.max ?? "매우 중요함"

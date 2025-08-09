@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
 import { getPresurveyAnswers, setPresurveyAnswers, type SurveyAnswers } from "../stores/presurveyStore";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../components/ProgressBar";
 import Spacer from "../components/Spacer";
 
 const Divider = styled.hr`

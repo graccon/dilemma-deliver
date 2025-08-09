@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import colors from "../styles/colors";
+import { textStyles } from "../styles/textStyles";
 
 interface StyledSliderProps {
     value: number;
@@ -9,7 +10,7 @@ interface StyledSliderProps {
 
 const StyledSlider = styled.input<StyledSliderProps>`
   width: 100%;
-  height: 8px;
+  height: 10px;
   border-radius: 5px;
   outline: none;
   appearance: none;
@@ -21,8 +22,8 @@ const StyledSlider = styled.input<StyledSliderProps>`
 
   &::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     background: ${colors.gray600};
     border-radius: 50%;
     cursor: pointer;
@@ -54,10 +55,10 @@ export default function FeatureSlider({
 }: FeatureSliderProps) {
   return (
     <Wrapper>
-      <Question>{question}</Question>
+      <QuestionText>{question}</QuestionText>
       <Content>
         <LabelGroup>
-          <img src={leftImageSrc} alt="min icon" width={40} />
+          <img src={leftImageSrc} alt="min icon" width={50} />
           <LabelText>{labels.min}</LabelText>
         </LabelGroup>
 
@@ -69,10 +70,15 @@ export default function FeatureSlider({
             value={value}
             onChange={(e) => onChange(Number(e.target.value))}
           />
+          <TickMarks count={scale}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} />
+            ))}
+          </TickMarks>
         </SliderWrapper>
 
         <LabelGroup>
-          <img src={rightImageSrc} alt="max icon" width={40} />
+          <img src={rightImageSrc} alt="max icon" width={50} />
           <LabelText>{labels.max}</LabelText>
         </LabelGroup>
       </Content>
@@ -84,18 +90,19 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem 0;
+  margin: 5rem 0;
 `;
 
-const Question = styled.h3`
-  font-size: 1.2rem;
-  margin-bottom: 1.2rem;
+const QuestionText = styled.h3`
+  ${textStyles.h4()};
+  padding: 0px 0px 5px 0px;
 `;
 
 const Content = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  height: 100%;
   max-width: 700px;
 `;
 
@@ -103,16 +110,36 @@ const LabelGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80px;
+  width: 200px;
 `;
 
 const LabelText = styled.p`
-  font-weight: bold;
+  ${textStyles.body(colors.gray700)};
   margin-top: 0.3rem;
-  font-size: 0.9rem;
 `;
 
 const SliderWrapper = styled.div`
-  flex: 1;
+  position: relative;
+  width: 500px;
   padding: 0 1rem;
+`;
+
+const TickMarks = styled.div<{ count: number }>`
+  position: absolute;
+  width: 91%;
+  top: 22px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  pointer-events: none;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  
+  div {
+    width: 3px;
+    height: 8px;
+    background: ${colors.gray500};
+    border-radius: 15px;
+  }
 `;

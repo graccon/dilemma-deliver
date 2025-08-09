@@ -156,11 +156,6 @@ export const textStyles = {
   };
 
 
-
-export const Heading = styled.h1<{ color?: string }>`
-    ${({ color }) => textStyles.h1(color)}
-`;
-
 export const CaseTitle = styled.h2<{ color?: string }>`
     ${({ color }) => textStyles.h2(color)}
 `;

@@ -153,8 +153,120 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     },
     question: "Saving More Lives",
     labelImages: {
-      min: "/assets/icons/agent_lumi_icon.png",
-      max: "/assets/icons/agent_lumi_icon.png"
-  }
-  }
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_2",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Does Not Matter",
+      max: "Matters a lot"
+    },
+    question: "Protecting Passengers",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_3",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Does Not Matter",
+      max: "Matters a lot"
+    },
+    question: "Upholding the Law",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_4",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Does Not Matter",
+      max: "Matters a lot"
+    },
+    question: "Avoiding Intervention",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_5",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Males",
+      max: "Females"
+    },
+    question: "Gender Preference",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_5",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Hoomans",
+      max: "Pets"
+    },
+    question: "Species Preference",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_6",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Younger",
+      max: "Older"
+    },
+    question: "Age Preference",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_7",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Fit People",
+      max: "Large People"
+    },
+    question: "Fitness Preference",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
+  {
+    id: "FP_8",
+    type: "slider",
+    scale: 10,
+    labels: {
+      min: "Higher",
+      max: "Lower"
+    },
+    question: "Social Value Preference",
+    labelImages: {
+      min: "/assets/images/feature_man.png",
+      max: "/assets/images/feature_many.png"
+    }
+  },
 ];

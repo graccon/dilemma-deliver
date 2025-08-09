@@ -9,7 +9,7 @@ export default function ProgressSteps({ currentStep }: ProgressStepsProps) {
   return (
     <Wrapper>
       {steps.map((type, index) => {
-        const isActive = index <= currentStep;
+        const isActive = index <= currentStep - 1;
         const iconSrc = `/assets/icons/step_${isActive ? "active" : "inactive"}_${type}_icon.png`;
 
         return (
