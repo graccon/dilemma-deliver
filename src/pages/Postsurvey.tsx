@@ -106,7 +106,7 @@ export default function Postsurvey() {
         <Description>
           Thank you for completing the survey. Your responses are invaluable to our research.
           <br />
-          There are 3 open-ended questions and 11 multiple-choice questions.
+          There are 3 open-ended questions and 10 multiple-choice questions.
         </Description>
 
         {/* Q1: 선택이 바뀐 케이스 */}

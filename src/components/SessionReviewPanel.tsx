@@ -8,6 +8,7 @@ import colors from "../styles/colors";
 import SessionChoicePanel from "./SessionChoicePanel";
 import type { AgentChat } from "../services/loadAgentChats";
 import ChatBubble from "./ChatBubble";
+import Spacer from "./Spacer";
 
 type Props = {
     session1Logs: SessionLog[];
@@ -85,6 +86,13 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
           {/* */}
           {mode === "Agent" ? (
             <AgentChatSection>
+              <InfoRow>
+                <InfoIcon src="/assets/icons/turntaking_icon.png" alt="time" />
+                <InfoLabel>Turn count : {session2Map.get(selectedCaseId!)?.turntakingCount}</InfoLabel>
+              </InfoRow>
+
+              <Spacer height="20px" />
+
               {agentChats.map((chat, index) => (
                 <ChatBubble
                   key={index}
@@ -175,6 +183,25 @@ export const AgentChatSection = styled.div`
   flex: 1;
   background-color: ${colors.gray200};
   display: flex;
-  justify-content: center;
+  padding: 10px 0px;
+  flex-direction: column;
+`;
+
+const InfoIcon = styled.img`
+    height: 24px;
+`;
+
+const InfoRow = styled.div`
+  display: flex;
   align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width:100%;
+  padding: 0px 20px;
+
+`;
+
+const InfoLabel = styled.p`
+  ${textStyles.mentionTag()};
+
 `;

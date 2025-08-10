@@ -109,7 +109,7 @@ export const textStyles = {
     mentionTag: () => `
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
-    font-size: 0.82rem;
+    font-size: 1rem;
     color: ${colors.gray700};
 `,
 
