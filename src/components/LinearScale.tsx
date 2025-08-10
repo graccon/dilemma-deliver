@@ -62,7 +62,7 @@ const ButtonGroup = styled.div`
 `;
 
 const ScaleButton = styled.button<{ $isSelected: boolean }>`
- ${textStyles.h5({ align: "center" })};
+ ${textStyles.h5({ $align: "center" })};
   width: 2.5rem;
   height: 2.5rem;
   border: 2px solid ${({ $isSelected }) => ($isSelected ? colors.gray800 : colors.gray500)};

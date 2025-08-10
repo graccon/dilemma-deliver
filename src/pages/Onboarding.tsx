@@ -56,7 +56,7 @@ export default function Onboarding() {
             {caseData && (
               <OnboardingCaseDisplay 
                 isActive={missionStep > 2}
-                disabled={!canInteractSlider && missionStep < 2} 
+                disabled={!canInteractSlider} 
                 caseData={caseData} 
               />
             )}
@@ -68,7 +68,7 @@ export default function Onboarding() {
               onChange={(value) => {
                 setSliderValue(value);
               }}
-              disabled={!canInteractSlider && missionStep < 2}
+              disabled={!canInteractSlider}
               highlight={missionStep === 2}
             />
           </SliderContainer>

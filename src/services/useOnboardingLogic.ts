@@ -14,7 +14,7 @@ export function useOnboardingLogic() {
     const [likedIndex, setLikedIndex] = useState<number | null>(null);
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
-    const [canInteractSlider, setCanInteractSlider] = useState(false);
+    const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() >= 2);
 
 
     useEffect(() => {
