@@ -6,9 +6,10 @@ import { textStyles } from "../styles/textStyles";
 type Props = {
   caseData: OnboardingCase;
   disabled: boolean;
+  isActive: boolean;
 };
 
-export default function OnboardingCaseDisplay({ caseData, disabled }: Props) {
+export default function OnboardingCaseDisplay({ caseData, disabled, isActive }: Props) {
   return (
     <Container>
       {<Overlay $visible={disabled} />}
@@ -18,16 +19,30 @@ export default function OnboardingCaseDisplay({ caseData, disabled }: Props) {
         <Option>
           <DescriptionContainer>
             <OptionLabel align="right">A</OptionLabel>
-            <Body>{caseData.A.description}</Body>
+            {isActive && <Body>{caseData.A.description}</Body>}
           </DescriptionContainer>
-          <Image src={caseData.A.image} alt="Option A" />
+          <Image
+            src={
+              !isActive
+                ? "/assets/images/onboarding_inactive_A.png"
+                : caseData.A.image
+            }
+            alt="Option A"
+          />
         </Option>
 
         <Option>
-          <Image src={caseData.B.image} alt="Option B" />
+          <Image
+            src={
+              !isActive
+                ? "/assets/images/onboarding_inactive_B.png"
+                : caseData.B.image
+            }
+            alt="Option A"
+          />
           <DescriptionContainer>
             <OptionLabel align="left">B</OptionLabel>
-            <Body>{caseData.B.description}</Body>
+            {isActive && <Body>{caseData.B.description}</Body>}
           </DescriptionContainer>
         </Option>
       </Grid>
@@ -87,6 +102,7 @@ export const Image = styled.img`
 
 export const DescriptionContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   padding: 0 1.2rem;
 `;

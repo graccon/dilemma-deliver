@@ -54,7 +54,11 @@ export default function Onboarding() {
         <ProblemContainer>
           <CaseContainer>
             {caseData && (
-              <OnboardingCaseDisplay disabled={!canInteractSlider} caseData={caseData} />
+              <OnboardingCaseDisplay 
+                isActive={missionStep > 2}
+                disabled={!canInteractSlider} 
+                caseData={caseData} 
+              />
             )}
           </CaseContainer>
           <SliderContainer>
