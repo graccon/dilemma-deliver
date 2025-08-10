@@ -18,7 +18,7 @@ export default function OnboardingCaseDisplay({ caseData, disabled, isActive }: 
       <Grid>
         <Option>
           <DescriptionContainer>
-            <OptionLabel align="right">A</OptionLabel>
+            <OptionLabel $align="right">A</OptionLabel>
             {isActive && <Body>{caseData.A.description}</Body>}
           </DescriptionContainer>
           <Image
@@ -41,7 +41,7 @@ export default function OnboardingCaseDisplay({ caseData, disabled, isActive }: 
             alt="Option A"
           />
           <DescriptionContainer>
-            <OptionLabel align="left">B</OptionLabel>
+            <OptionLabel $align="left">B</OptionLabel>
             {isActive && <Body>{caseData.B.description}</Body>}
           </DescriptionContainer>
         </Option>
@@ -74,8 +74,8 @@ export const Container = styled.div`
   border-radius: 1rem;
 `;
 
-export const OptionLabel = styled.h3<{ align?: "left" | "right" | "center" }>`
-  ${({ align = "left" }) => textStyles.h3({ align })}
+export const OptionLabel = styled.h3<{ $align?: "left" | "right" | "center" }>`
+  ${({ $align = "left" }) => textStyles.h3({ $align })}
   flex: 1;
   padding: 0.5rem 1rem;
 `;

@@ -51,7 +51,7 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                 <IconBox>
                     <StayIcon src="/assets/icons/stay_icon.png" alt="stay icon" />
                 </IconBox>
-                <SecondTitle align="">stay</SecondTitle>
+                <SecondTitle $align="">stay</SecondTitle>
             </LabelContainer>
             
             <SliderBox>
@@ -106,7 +106,7 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                 <IconBox>
                     <StayIcon src="/assets/icons/swerve_icon.png" alt="swerve icon" />
                 </IconBox>
-                <SecondTitle align="center">swerve</SecondTitle>
+                <SecondTitle $align="center">swerve</SecondTitle>
             </LabelContainer>
         </SliderWrapper>
     </Container>

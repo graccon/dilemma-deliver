@@ -25,12 +25,12 @@ export const textStyles = {
       color: ${color};
     `,
 
-    h3: ({color = colors.gray800, align = "left"}={}) => `
+    h3: ({color = colors.gray800, $align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
       font-size: 2rem;
       font-weight: 800;
       color: ${color};
-      text-align: ${align};
+      text-align: ${$align};
     `,
 
     h4: ({color = colors.gray800, align = "left"}={}) => `
@@ -42,13 +42,13 @@ export const textStyles = {
       text-align: ${align};
     `,
 
-    h5: ({color = colors.gray800, align = "left"}={}) => `
+    h5: ({color = colors.gray800, $align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
       font-size: 1rem;  
       font-weight: 700;
       letter-spacing: -0.2px;
       color: ${color};
-      text-align: ${align};
+      text-align: ${$align};
     `,
 
     mainTitle: ({color = colors.gray800, align = "left"}={}) => `
@@ -162,8 +162,8 @@ export const CaseTitle = styled.h2<{ color?: string }>`
 export const SilderTitle = styled.h4<{ color?: string; align?: string }>`
     ${({ color, align }) => textStyles.h4({color, align})}
 `;
-export const SecondTitle = styled.h5<{ color?: string; align?: string }>`
-    ${({ color, align }) => textStyles.h5({color, align})}
+export const SecondTitle = styled.h5<{ color?: string; $align?: string }>`
+    ${({ color, $align }) => textStyles.h5({color, $align})}
 `;
 
 export const Li = styled.li<{ color?: string; align?: string }>`

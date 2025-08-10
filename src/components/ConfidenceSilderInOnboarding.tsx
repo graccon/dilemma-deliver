@@ -1,19 +1,40 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { SilderTitle, SecondTitle, Span } from "../styles/textStyles";
 import colors from "../styles/colors"; 
 import { calculateConfidence, getSliderBackground } from "./ConfidenceSilder";
+
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 0px rgba(255, 215, 0, 0.5), 
+                0 0 5px rgba(255, 215, 0, 0.4), 
+                0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 
+                0 0 25px rgba(255, 215, 0, 0.7), 
+                0 0 35px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 
+                0 0 10px rgba(255, 215, 0, 0.4), 
+                0 0 20px rgba(255, 215, 0, 0.3);
+  }
+`;
 
 interface ConfidenceSliderInOnboardingProps {
     initialValue?: number;
     onChange?: (value: number) => void;
     disabled: boolean;
+    highlight: boolean; 
 }
 const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> = ({
   initialValue = 50,
   onChange,
   disabled,
+  highlight
 }) => {
+
   const [value, setValue] = useState(initialValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +43,10 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
     onChange?.(newValue);
   };
 
+  const shouldHighlight = highlight && !disabled;
+
   return (
-    <Container>
+    <Container $shouldHighlight={shouldHighlight} >
         {disabled && <Overlay />}
         <SliderWrapper>
             <TitleContainer>
@@ -34,7 +57,7 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
                 <IconBox>
                     <StayIcon src="/assets/icons/stay_onboarding_icon.png" alt="stay icon" />
                 </IconBox>
-                <SecondTitle align="">stay</SecondTitle>
+                <SecondTitle $align="">stay</SecondTitle>
             </LabelContainer>
             
             <SliderBox>
@@ -82,7 +105,7 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
                 <IconBox>
                     <StayIcon src="/assets/icons/swerve_onboarding_icon.png" alt="swerve icon" />
                 </IconBox>
-                <SecondTitle align="center">swerve</SecondTitle>
+                <SecondTitle $align="center">swerve</SecondTitle>
             </LabelContainer>
         </SliderWrapper>
     </Container>
@@ -103,15 +126,21 @@ const Overlay = styled.div`
   transition: opacity 0.5s ease;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{$shouldHighlight: boolean}>`
   position: relative; 
   text-align: center;
   height: 100%;
   overflow: hidden;
-
   padding: 1rem;
   border-radius: 1rem;
   height: 100%;
+
+  ${({ $shouldHighlight }) =>
+    $shouldHighlight &&
+    css`
+      border: 1px solid ${colors.yellow};
+      animation: ${glow} 1.5s infinite alternate;
+    `}
 `;
 
 const SliderWrapper = styled.div`

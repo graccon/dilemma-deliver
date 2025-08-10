@@ -27,7 +27,7 @@ export default function MoralCaseDisplay({ caseData, index, total, mode="CaseOnl
             <Option>
                 <ImageWrapper>
                     <DescriptionContainer>
-                        <OptionLabel align="right">A</OptionLabel>
+                        <OptionLabel $align="right">A</OptionLabel>
                         {isCaseOnly && <Body>{caseData.A.description}</Body>}
                         <DeadWrapper $align="flex-end">
                         <Body>Dead :</Body>   
@@ -108,8 +108,8 @@ export const Grid = styled.div`
   margin-top: 1rem;
 `;
 
-export const OptionLabel = styled.h3<{ align?: "left" | "right" | "center" }>`
-  ${({ align = "left" }) => textStyles.h3({ align })}
+export const OptionLabel = styled.h3<{ $align?: "left" | "right" | "center" }>`
+  ${({ $align = "left" }) => textStyles.h3({ $align })}
   width: 100%;
   padding: 0.5rem 0rem;
 `;

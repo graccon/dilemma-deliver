@@ -1,6 +1,6 @@
 {
     "id" : "onboarding",
-    "question" : "What should the attacker car do?",
+    "question" : "What should the attacker do?",
     "A": {
         "image": "/assets/images/onboarding_A.png",
         "description": "In this case,The attacker shoots straight at the goal."
