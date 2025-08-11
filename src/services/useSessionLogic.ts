@@ -150,7 +150,7 @@ export function useSessionLogic() {
         });
   
         i++;
-      }, 100);
+      }, 1200);
       setShouldAnimate(true);
     });
   }

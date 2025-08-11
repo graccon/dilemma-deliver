@@ -59,7 +59,7 @@
         },
         "B": {
             "image": "/assets/images/case3_B.png",
-            "description": "In this case, the self-driving car with sudden brake failure will swerve and drive through a pedestrian crossing in the other lane. This will result in...",
+            "description": "In this case, the self-driving car with sudden brake failure will swerve and crash into a concrete barrier in the other lane. This will result in...",
             "deaths": [
                 "3 large woman",
                 "1 large man",

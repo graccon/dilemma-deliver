@@ -276,12 +276,20 @@ export const surveyQuestionsAfter: SurveyQuestion[] = [
     id: "After_1",
     type: "scale",
     scale: 5,
+    labels: {
+      min: "Strongly disagree",
+      max: "Strongly agree"
+    },
     question: "I was influenced by the AI agent.",
   },
   {
     id: "After_2",
     type: "scale",
     scale: 5,
+    labels: {
+      min: "Not at all unpleasant",
+      max: "Extremely unpleasant"
+    },
     question: "The unpleasantness of the AI's advice.",
   }
 ]

@@ -151,7 +151,7 @@ export const BottomContainer = styled.div`
   margin-top: 40px;
 `;
 
-export const Column = styled.div`
+export const Column = styled.div`ㅛ
   display: flex;
   flex-direction: column;
   flex: 1;

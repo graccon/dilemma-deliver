@@ -49,15 +49,15 @@ export const MessageGroupConfigMap: Record<MessageGroupKey, MessageGroupConfig> 
     [MessageGroup.ToRuleMerged]: {
         name: "4. Rule에게 몰아서 말하기",
         candidates: [
-            ["stat_to_rule", "narr_to_stat", "rule_merged_to_me"],
-            ["narr_to_stat", "stat_to_rule", "rule_merged_to_me"]
+            ["stat_to_rule", "narr_to_rule", "rule_merged_to_me"],
+            ["narr_to_rule", "stat_to_rule", "rule_merged_to_me"]
         ],
     },
     [MessageGroup.ToNarrMerged]: {
         name: "5. Narr에게 몰아서 말하기",
         candidates: [
-            ["stat_to_rule", "rule_to_narr", "narr_merged_to_me"],
-            ["rule_to_narr", "stat_to_rule", "narr_merged_to_me"]
+            ["stat_to_narr", "rule_to_narr", "narr_merged_to_me"],
+            ["rule_to_narr", "stat_to_narr", "narr_merged_to_me"]
         ],
     },
     [MessageGroup.StatSpeakOthersDebate]: {
@@ -81,8 +81,8 @@ export const MessageGroupConfigMap: Record<MessageGroupKey, MessageGroupConfig> 
     [MessageGroup.NarrSpeakOthersDebate]: {
         name: "8. Narr이 먼저 말하고 다른 에이전트가 토론",
         candidates: [
-            ["narr_to_me", "stat_to_rule", "rule_reply_to_stat", "rule_to_stat", "stat_reply_to_narr"],
-            ["stat_to_rule", "rule_reply_to_stat", "rule_to_stat", "stat_reply_to_narr", "narr_to_me"],
+            ["narr_to_me", "stat_to_rule", "rule_reply_to_stat", "rule_to_stat", "stat_reply_to_rule"],
+            ["stat_to_rule", "rule_reply_to_stat", "rule_to_stat", "stat_reply_to_rule", "narr_to_me"],
             ["narr_to_me", "rule_to_stat", "stat_reply_to_rule", "stat_to_rule", "rule_reply_to_stat"],
             ["rule_to_stat", "stat_reply_to_rule", "stat_to_rule", "rule_reply_to_stat", "narr_to_me"]
         ],

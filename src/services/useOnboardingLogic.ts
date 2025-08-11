@@ -62,8 +62,7 @@ export function useOnboardingLogic() {
           } catch (err) {
             console.error("❌ Error loading onboarding chats:", err);
           }
-        };
-    
+        }; 
         fetchChats();
         setIsAnswered(false);
       }, [missionStep, caseData]);

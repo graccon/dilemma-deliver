@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSessionLogStore } from "../stores/sessionLogStore";
 import FooterButton from "../components/FooterButton";
+import type { SessionLog } from "../stores/sessionLogStore";
 import MainLayout from "../layouts/MainLayout";
 import { textStyles } from "../styles/textStyles";
 import styled from "styled-components";
@@ -24,10 +25,44 @@ const Divider = styled.hr`
   border: 1px solid ${colors.gray300};
 `;
 
+type AgentType = "narr" | "stat" | "rule";
+
+function countAgents(logs: any[], agentList: AgentType[]) {
+  const counts: Record<AgentType, number> = {
+    narr: 0,
+    stat: 0,
+    rule: 0,
+  };
+
+  logs.forEach((log) => {
+    log.agentChats.forEach((chat: { from: AgentType }) => {
+      if (agentList.includes(chat.from)) {
+        counts[chat.from] += 1;
+      }
+    });
+  });
+
+  return counts;
+}
+
+function getAverageDuration(logs: SessionLog[]): number {
+  if (!logs || logs.length === 0) return 0;
+  const totalDuration = logs.reduce((sum, log) => sum + log.durationMs, 0);
+  return (totalDuration / logs.length)/1000;
+}
+
 export default function Postsurvey() {
   const logs = useSessionLogStore((state) => state.logs);
   const session1Logs = logs.filter((log) => log.sessionId === "session1");
   const session2Logs = logs.filter((log) => log.sessionId === "session2");
+  // 
+  const avgSession1Duration = getAverageDuration(session1Logs).toFixed(0);
+  const avgSession2Duration = getAverageDuration(session2Logs).toFixed(0);
+
+  const agentList: AgentType[] = ["narr", "stat", "rule"];
+  const session2AgentCounts = countAgents(session2Logs, agentList);
+
+  console.log("liked", session2AgentCounts);
 
   // ---------- 초기값 세팅 (로컬스토리지 복원) ----------
   const saved = getPostsurveyData();
@@ -80,6 +115,7 @@ export default function Postsurvey() {
   const handleAfterChange = (questionId: string, value: number) => {
     setAfterAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
+  console.log(session1Logs);
 
   // ---------- 완료 체크 ----------
   const showQ1 = confidenceChangedLogs.length > 0;
@@ -88,7 +124,7 @@ export default function Postsurvey() {
 
   const open1Done = !showQ1 || answer1.trim().length > 0;
   const open2Done = !showQ2 || answer2.trim().length > 0;
-  const open3Done = !showQ3 || answer3.trim().length > 0; // showQ3가 true라면 answer3 필요
+  const open3Done = !showQ3 || answer3.trim().length > 0;
 
   const slidersDone = values.every((v) => v !== null);
   const afterDone = surveyQuestionsAfter.every(
@@ -115,6 +151,10 @@ export default function Postsurvey() {
             <QuestionTitle>
               Question {questionNumber++}. Below are the cases where your choice changed.
             </QuestionTitle>
+            <Description>
+              You had {confidenceChangedLogs.length} instance(s) where your confidence level in a decision changed between sessions.
+              <br />On average, you spent {avgSession1Duration} ms in Session 1, and {avgSession2Duration} ms in Session 2.
+            </Description>
             <ReviewPanelWrapper>
               <SessionReviewPanel
                 session1Logs={session1Logs}
@@ -139,6 +179,9 @@ export default function Postsurvey() {
             <QuestionTitle>
               Question {questionNumber++}. Below are the cases where your choice unchanged.
             </QuestionTitle>
+            <Description>
+              You had {confidenceUnchangedLogs.length} case(s) where your choice stayed the same between sessions.
+            </Description>
             <ReviewPanelWrapper>
               <SessionReviewPanel
                 session1Logs={session1Logs}
@@ -161,6 +204,11 @@ export default function Postsurvey() {
         <QuestionTitle>
           Question {questionNumber++}. Below are the cases where your choice changed.
         </QuestionTitle>
+        <Description>
+        In Session 2, you selected Veko {session2AgentCounts.stat} time(s), 
+        Lumi {session2AgentCounts.rule} time(s), and 
+        Molu {session2AgentCounts.narr} time(s).
+        </Description>
         <ReviewPanelWrapper>
           <SessionReviewPanel
             session1Logs={session1Logs}
@@ -202,8 +250,8 @@ export default function Postsurvey() {
 
         {/* 사후 리커트 섹션 */}
         <StickyTitle>
-          Instruction: The following statements may apply more or less to you.
-          <MainTitle>To what extent do you think each statement applies to you personally?</MainTitle>
+          Instruction: For each statement, indicate how much it applied to you during the study.
+          <MainTitle>Reflections</MainTitle>
         </StickyTitle>
         <SurveyContainer>
           {surveyQuestionsAfter.map((item, idx) => (
@@ -212,7 +260,7 @@ export default function Postsurvey() {
                 index={idx + 1}
                 scale={item.scale ?? 5}
                 question={item.question}
-                labels={{ min: "does not apply at all", max: "applies completely" }}
+                labels={{ min: item.labels?.min ?? "Strongly Disagree", max: item.labels?.max ?? "Strongly Agree" }}
                 value={afterAnswers[item.id] ?? 0}
                 onChange={(value) => handleAfterChange(item.id, value)}
               />
@@ -221,7 +269,7 @@ export default function Postsurvey() {
           ))}
         </SurveyContainer>
 
-        <Spacer height="240px" />
+        <Spacer height="200px" />
       </Container>
     </MainLayout>
   );
@@ -256,6 +304,7 @@ export const OpenEndedInputWrapper = styled.div`
 
 export const Description = styled.p`
   ${textStyles.homeBody()};
+  color: ${colors.gray700};
   padding-bottom: 1rem;
 `;
 
@@ -266,7 +315,7 @@ export const PageTitle = styled.div`
 
 export const QuestionTitle = styled.div`
   ${textStyles.h2()};
-  padding: 1rem 0rem;
+  padding: 0.4rem 0rem;
   font-weight: 600;
 `;
 
