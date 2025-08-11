@@ -56,8 +56,8 @@ export default function HomeTopPage() {
                 <p key={i}>{para}</p>
               ))}
               {section.image && (
-                  <div style={{ textAlign: "center", marginTop: "4rem"}}>
-                    <StyledImage src={section.image} alt={section.title} />
+                  <div style={{ textAlign: "center", marginTop: "2rem" }}>
+                    <StyledImageRight src={section.image} alt={section.title} />
                   </div>
                 )}
             </Content>
@@ -106,8 +106,12 @@ const Title = styled.h2`
 
 const StyledImage = styled.img`
   flex-shrink: 0;
-  width: 420px;
-  height: auto;
+  width: 400px;
   margin: 0rem auto;
-  background-color: pink;
+`;
+
+const StyledImageRight = styled.img`
+  flex-shrink: 0;
+  width: 320px;
+  margin: 0rem auto;
 `;
