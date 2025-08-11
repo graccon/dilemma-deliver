@@ -65,6 +65,7 @@ export function useOnboardingLogic() {
         };
     
         fetchChats();
+        setIsAnswered(false);
       }, [missionStep, caseData]);
 
       useEffect(() => {

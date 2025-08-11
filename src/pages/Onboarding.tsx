@@ -68,7 +68,7 @@ export default function Onboarding() {
               onChange={(value) => {
                 setSliderValue(value);
               }}
-              disabled={!canInteractSlider}
+              disabled={!canInteractSlider && missionStep < 2}
               highlight={missionStep === 2}
             />
           </SliderContainer>
