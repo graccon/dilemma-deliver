@@ -35,6 +35,25 @@ const Container = styled.div`
   flex-direction: column;
   min-height: 100vh;
   background-color: ${colors.gray100};
+
+  @media (max-width: 1200px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    * {
+      display: none !important;
+    }
+    &::before {
+      content: "For the best experience, this experiment is only available on desktop devices. Please try again on a larger screen.";
+      display: block;
+      text-align: center;
+      padding: 2rem;
+      max-width: 80%;
+      ${textStyles.h1()};
+      
+      color: ${colors.gray800};
+    }
+  }
 `;
 
 const HeaderContainer = styled.div`
