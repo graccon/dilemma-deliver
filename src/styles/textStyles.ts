@@ -80,11 +80,12 @@ export const textStyles = {
 
     homeBody: () => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 400;
       line-height: 1.4;
       letter-spacing: -0.3px;
       text-align: left;
+      color: ${colors.gray800};
     `,
 
     span: ({color = colors.black, size = "0.9rem"}={}) => `

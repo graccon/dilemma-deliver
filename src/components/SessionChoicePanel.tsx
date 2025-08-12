@@ -8,14 +8,6 @@ const Divider = styled.hr`
   border: 1px solid ${colors.gray300};
 `;
 
-function formatDuration(ms: number | undefined | null): string {
-    if (ms == null) return "-";
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}m ${seconds}s`;
-}
-
 type SessionChoicePanelProps = {
     title: string;
     confidence: number | undefined | null;
@@ -24,7 +16,7 @@ type SessionChoicePanelProps = {
     decisionChange: boolean; 
   };
   
-  export default function SessionChoicePanel({ title, confidence, durationMs, confidenceChange, decisionChange }: SessionChoicePanelProps) {
+  export default function SessionChoicePanel({ title, confidence, confidenceChange, decisionChange }: SessionChoicePanelProps) {
     const getChoiceLabel = (confidence: number | undefined | null) => {
         if (confidence == null) return "-";
         return confidence > 50 ? "swerve" : "stay";
@@ -91,10 +83,6 @@ const Row = styled.div`
   padding: 0px 20px;
 `;
 
-const InfoLabel = styled.p`
-  ${textStyles.mentionTag()};
-`;
-
 const MyChoiceLabel = styled.span<{ $isChange?: boolean }>`
   ${textStyles.labelTag()};
   background-color: ${(props) =>
@@ -118,14 +106,4 @@ const ChoiceBlock = styled.div`
 const Icon = styled.img`
   width: 54px;
   height: 54px;
-`;
-
-const InfoIcon = styled.img`
-    height: 18px;
-`;
-
-const InfoRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
 `;

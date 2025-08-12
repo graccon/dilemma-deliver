@@ -73,7 +73,7 @@ const Wrapper = styled.div`
   column-fill: auto;
   padding: 0 20px; 
 
-  max-height: 540px;
+  max-height: 560px;
   overflow-y: auto;
   p {
     margin: 0 0 0.75rem;
@@ -84,6 +84,7 @@ const Wrapper = styled.div`
 
 const Section = styled.section`
   margin: 0 0 1.5rem;
+  ${textStyles.homeBody()}
 `;
 
 const Title = styled.h2`
@@ -106,7 +107,7 @@ export const NameItem = styled.li`
 `;
 
 export const StyledListItem = styled.li`
-  ${textStyles.homeBody()}
+  ${textStyles.li()};
   line-height: 1;
   list-style: none;
   margin: 0 0 0.5rem;

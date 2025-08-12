@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { SilderTitle, SecondTitle, Span } from "../styles/textStyles";
+import { SecondTitle, Span } from "../styles/textStyles";
 import colors from "../styles/colors"; 
 
 interface ConfidenceSliderProps {
