@@ -126,7 +126,11 @@ export const surveyQuestionsAIUsed: SurveyQuestion[] = [
       id: "AIUsed_1",
       type: "scale",
       scale: 5,
-      question: "I have experience using conversational AI tools(e.g., chatGPT, gemini, etc.) for various purposes.",
+      question: "I often use conversational AI tools (e.g., chatGPT, Gemini, etc.) for various tasks, such as information retrieval, writing and others.",
+      labels: {
+        min: "Not at all",
+        max: "Very often"
+      },
     },
     {
         id: "AIUsed_2",
@@ -280,16 +284,16 @@ export const surveyQuestionsAfter: SurveyQuestion[] = [
       min: "Strongly disagree",
       max: "Strongly agree"
     },
-    question: "I was influenced by the AI agent.",
+    question: "My decision was influenced by the AI agent.",
   },
   {
     id: "After_2",
     type: "scale",
     scale: 5,
     labels: {
-      min: "Not at all unpleasant",
-      max: "Extremely unpleasant"
+      min: "Strongly disagree",
+      max: "Strongly agree"
     },
-    question: "The unpleasantness of the AI's advice.",
+    question: "I found the AI’s advice unpleasant.",
   }
 ]

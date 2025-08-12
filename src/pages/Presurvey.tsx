@@ -115,7 +115,7 @@ export default function Presurvey() {
                   index={idx + 1}
                   scale={item.scale ?? 5}
                   question={item.question}
-                  labels={{ min: "Strongly Disagree", max: "Strongly Agree"}}
+                  labels={{ min: item.labels?.min ?? "Strongly Disagree", max: item.labels?.max ?? "Strongly Agree"}}
                   value={answers[item.id] ?? 0}
                   onChange={(value) => handleAnswerChange(item.id, value)}
                 />

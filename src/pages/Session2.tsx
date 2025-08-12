@@ -11,12 +11,10 @@ import type { AgentChat } from "../services/loadAgentChats";
 import MoreButton from "../components/MoreButton";
 import { useNavigate } from "react-router-dom";
 import UserChatBubble from "../components/UserChatBubble";
-import { useUserStore } from "../stores/useUserStore";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
 
 export default function Session2() {
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
-  const { group } = useUserStore();
 
   const {
     isAnswered,
@@ -33,7 +31,6 @@ export default function Session2() {
     likedIndex,
     updateLikedIndex, 
     shouldAnimate,
-    isFetchingRef
   } = useSessionLogic();
   
 
@@ -129,7 +126,6 @@ export default function Session2() {
                         <ChatListItem key={idx} $isUser={chat.from === "me"}>
                           {chat.from === "me" ? (
                               <UserChatBubble message={chat.message} 
-                                mode={ group === "2" ? "system" : "default" }
                                 />
                           ) : (
                             <ChatBubble
@@ -156,7 +152,7 @@ export default function Session2() {
               <MoreButton
                     label={"I can't decide yet"}
                     onClick={handleMoreClick}
-                    disabled={!canTakeTurn || isFetchingRef.current}
+                    disabled={!canTakeTurn }// || isFetchingRef.current
                   />
             </MoreButtonWrapper>
           </ChatContainer>

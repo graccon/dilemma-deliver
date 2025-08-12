@@ -142,8 +142,8 @@ export default function Postsurvey() {
         <Description>
           Thank you for completing the survey. Your responses are invaluable to our research.
           <br />
-          There are 3 open-ended questions and 10 multiple-choice questions.
-        </Description>
+          There are 2 - 3 open-ended questions and 11 more questions (9 slider selection and 2 multiple choice problems)
+        </Description> 
 
         {/* Q1: 선택이 바뀐 케이스 */}
         {confidenceChangedLogs.length > 0 && (
@@ -153,7 +153,7 @@ export default function Postsurvey() {
             </QuestionTitle>
             <Description>
               You had {confidenceChangedLogs.length} instance(s) where your confidence level in a decision changed between sessions.
-              <br />On average, you spent {avgSession1Duration} ms in Session 1, and {avgSession2Duration} ms in Session 2.
+              <br />On average, you spent {avgSession1Duration} ms in Session 1(without AI Agents), and {avgSession2Duration} ms in Session 2(with AI Agents).
             </Description>
             <ReviewPanelWrapper>
               <SessionReviewPanel
@@ -205,7 +205,7 @@ export default function Postsurvey() {
           Question {questionNumber++}. Below are the cases where your choice changed.
         </QuestionTitle>
         <Description>
-        In Session 2, you selected Veko {session2AgentCounts.stat} time(s), 
+        In Session 2(with AI Agents), you selected Veko {session2AgentCounts.stat} time(s), 
         Lumi {session2AgentCounts.rule} time(s), and 
         Molu {session2AgentCounts.narr} time(s).
         </Description>
@@ -269,7 +269,7 @@ export default function Postsurvey() {
           ))}
         </SurveyContainer>
 
-        <Spacer height="200px" />
+        <Spacer height="280px" />
       </Container>
     </MainLayout>
   );

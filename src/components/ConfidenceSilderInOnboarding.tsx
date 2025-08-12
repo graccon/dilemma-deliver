@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes, css } from "styled-components";
-import { SilderTitle, SecondTitle, Span } from "../styles/textStyles";
+import { SecondTitle, Span } from "../styles/textStyles";
 import colors from "../styles/colors"; 
 import { calculateConfidence, getSliderBackground } from "./ConfidenceSilder";
 
@@ -49,21 +49,18 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
     <Container $shouldHighlight={shouldHighlight} >
         {disabled && <Overlay />}
         <SliderWrapper>
-            <TitleContainer>
-                <SilderTitle>Move the slider to show your confidence.</SilderTitle>
-            </TitleContainer>
-
             <LabelContainer>
+              <SecondTitle $align="">A</SecondTitle>
                 <IconBox>
                     <StayIcon src="/assets/icons/stay_onboarding_icon.png" alt="stay icon" />
-                </IconBox>
+                </IconBox>               
                 <SecondTitle $align="">stay</SecondTitle>
             </LabelContainer>
             
             <SliderBox>
                 <RangeWrapper>
                     <ValueWrapper>
-                        <Span size="1rem">your confidence :</Span>
+                        <Span size="1rem">your decision confidence :</Span>
                         <Span size="1.3rem"> {calculateConfidence(value)}%</Span>   
                     </ValueWrapper>    
           
@@ -102,6 +99,7 @@ const ConfidenceSliderInOnboarding: React.FC<ConfidenceSliderInOnboardingProps> 
             </SliderBox>
 
             <LabelContainer>
+              <SecondTitle $align="center">B</SecondTitle>
                 <IconBox>
                     <StayIcon src="/assets/icons/swerve_onboarding_icon.png" alt="swerve icon" />
                 </IconBox>
@@ -131,7 +129,7 @@ export const Container = styled.div<{$shouldHighlight: boolean}>`
   text-align: center;
   height: 100%;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0rem;
   border-radius: 1rem;
   height: 100%;
 
@@ -150,14 +148,10 @@ const SliderWrapper = styled.div`
   width: 100%;
   margin: 0 auto;
   height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
-const TitleContainer = styled.div`
-  width: 24%;
-  @media (max-width: 960px) {
-        display: none;
-    }
-`;
 
 const LabelContainer = styled.div`
   width: 8%;
@@ -165,6 +159,7 @@ const LabelContainer = styled.div`
   flex-direction: column;
   justify-content: center; 
   align-items: center;
+  gap: 2px;
 `;
 
 const IconBox = styled.div`
@@ -182,8 +177,9 @@ const StayIcon = styled.img`
 
 const SliderBox = styled.div`
   display: flex;
-  width: 40%;
+  width: 50%;
   align-items: center;
+  margin: 0px 20px; 
   justify-content: space-between;
   @media (max-width: 960px) {
         width: 100%;

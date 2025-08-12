@@ -12,8 +12,8 @@ export const textStyles = {
 
     secondH1: () => `
     font-family: 'Abhaya Libre', serif;
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: ${colors.black};
 `,
 
@@ -28,6 +28,14 @@ export const textStyles = {
     h3: ({color = colors.gray800, $align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
       font-size: 2rem;
+      font-weight: 800;
+      color: ${color};
+      text-align: ${$align};
+    `,
+
+    OnboardingCaseLabel: ({color = colors.gray800, $align = "left"}={}) => `
+      font-family: 'Abhaya Libre', serif;
+      font-size: 3rem;
       font-weight: 800;
       color: ${color};
       text-align: ${$align};
@@ -75,7 +83,7 @@ export const textStyles = {
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.4;
-      letter-spacing: -0.2px;
+      letter-spacing: -0.3px;
       text-align: left;
     `,
 

@@ -14,8 +14,7 @@ export function useOnboardingLogic() {
     const [likedIndex, setLikedIndex] = useState<number | null>(null);
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
-    const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() >= 2);
-
+    const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() > 2);
 
     useEffect(() => {
         const data = getOnboarding();
@@ -29,7 +28,6 @@ export function useOnboardingLogic() {
 
     const advanceMission = () => {
         if (missionStep === 2 && !hasSentStep2Chat) {
-            // console.log("hey", sliderValue)
           return;
         }
         setMissionStep(missionStep + 1);
@@ -59,6 +57,7 @@ export function useOnboardingLogic() {
             if (missionStep === 2) {
               setCanInteractSlider(true);
             }
+
           } catch (err) {
             console.error("❌ Error loading onboarding chats:", err);
           }
@@ -120,7 +119,7 @@ export function useOnboardingLogic() {
               });
         
               i++;
-            }, 1200);
+            }, 1800);
             setShouldAnimate(true);
           });
         }
@@ -171,6 +170,7 @@ export function useOnboardingLogic() {
         shouldAnimate,
         setSliderValue,
         appendUserChat,
+        hasSentStep2Chat,
     };
 }
 
@@ -180,7 +180,7 @@ const step1Chats: AgentChat[] = [
     from: "stat",
     to: "me",
     type: "talk",
-    message: "@Me Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
+    message: "@ME Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
   },
   {
     from: "stat",
@@ -192,7 +192,7 @@ const step1Chats: AgentChat[] = [
     from: "stat",
     to: "narr",
     type: "talk",
-    message: "Hey team, give me a hand!\n@agent1 @agent2",
+    message: "Hey team, give me a hand!\n@agent2 @agent3",
   },
   {
     from: "rule",

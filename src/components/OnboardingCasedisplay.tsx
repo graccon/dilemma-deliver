@@ -75,7 +75,7 @@ export const Container = styled.div`
 `;
 
 export const OptionLabel = styled.h3<{ $align?: "left" | "right" | "center" }>`
-  ${({ $align = "left" }) => textStyles.h3({ $align })}
+  ${({ $align = "left" }) => textStyles.OnboardingCaseLabel({ $align })}
   flex: 1;
   padding: 0.5rem 1rem;
 `;

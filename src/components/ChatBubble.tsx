@@ -149,18 +149,17 @@ const agentProfiles: Record<ChatMode, Record<AgentKey, AgentProfile>> = {
 
 
 function parseMessage(message: string): React.ReactNode[] {
-  const parts = message.split(/(\*\*.*?\*\*|@\w+)/g); // **강조** 또는 @멘션 분리
+
+  const normalized = message.replace(/\\n/g, '\n');
+  const parts = normalized.split(/(\*\*.*?\*\*|@\w+|\n)/g);
+
   return parts.map((part, i) => {
+    if (part === '\n') return <br key={`br-${i}`} />;
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith("@")) {
-      const mention = part.slice(1); 
-      return (
-        <MentionTag key={i}>
-          @ {mention}
-        </MentionTag>
-      );
+      return <MentionTag key={i}>@ {part.slice(1)}</MentionTag>;
     }
     return <span key={i}>{part}</span>;
   });
@@ -191,7 +190,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
   const shouldShowToTag = !hideToTag && !isToMe;
 
   return (
-    <BubbleWrapper shouldAnimate={shouldAnimate} $isReply={!!replyTo} $isToMe={!!isToMe}>
+    <BubbleWrapper shouldAnimate={shouldAnimate} $isReply={!!replyTo} $isToMe={!!isToMe} $isTypeReply={chat.type === "reply"}>
       <Container>
 
       <AgentTagWrapper>
@@ -201,6 +200,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
         <BubbleContainer>
           <Bubble $liked={liked} $isReply={!!replyTo}>
             {parseMessage(message)}
+      
           </Bubble>
           <LikeButton liked={liked} onClick={onLike} show={shouldShowLikeButton} />
         </BubbleContainer>
@@ -220,15 +220,18 @@ const BubbleWrapperBase = styled.div`
 
 const BubbleWrapper = styled(BubbleWrapperBase).withConfig({
   shouldForwardProp: (prop) =>
-    isPropValid(prop) && prop !== "shouldAnimate" && prop !== "$isReply" && prop !== "$isToMe",
+    isPropValid(prop) && prop !== "shouldAnimate" && prop !== "$isReply" && prop !== "$isToMe" && prop !== "$isTypeReply", 
 })<{
   shouldAnimate?: boolean;
   $isReply?: boolean;
   $isToMe: boolean;
+  $isTypeReply: boolean;
 }>`
   animation: ${({ shouldAnimate }) => shouldAnimate && fadeInUp} 0.3s ease-out;
   margin-bottom: ${({ $isReply, $isToMe }) =>
-    $isReply || $isToMe ? "3px" : "3px"};
+    $isReply || $isToMe ? "5px" : "5px"};
+  margin-top: ${({ $isTypeReply }) =>
+    $isTypeReply ? "0px" : "10px"};
 `;
 
 const Container = styled.div`
@@ -242,7 +245,6 @@ const BubbleBase = styled.div`
   padding: 12px 20px;
   border-width: 2px;
   width: 300px;
-  // min-height: 80px;
   white-space: pre-line;
   ${textStyles.bubbleText()}
 `;

@@ -5,7 +5,7 @@ const ScrollWrapper = styled.div`
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   width: 100%;
-  max-width: 1024px;
+  max-width: 1100px;
   height: calc(100vh - 9rem);
   margin: 0 auto;
   scrollbar-width: none; /* Firefox */
@@ -20,6 +20,7 @@ const ScrollPage = styled.div`
   height: 100%;
   padding: 1rem 4rem;
   box-sizing: border-box;
+  overflow: hidden;
 `;
 
 export const ScrollSection = forwardRef<HTMLDivElement, { children: React.ReactNode }>(

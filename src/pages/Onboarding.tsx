@@ -24,6 +24,7 @@ export default function Onboarding() {
     setSliderValue,
     canInteractSlider,
     appendUserChat,
+    hasSentStep2Chat,
     getLabelByMissionStep,
     updateLikedIndex,
   } = useOnboardingLogic();
@@ -44,6 +45,8 @@ export default function Onboarding() {
           return () => clearTimeout(timer);
     }, []);
 
+
+
   return (
     <MainLayout
       currentStep={2}
@@ -56,7 +59,7 @@ export default function Onboarding() {
             {caseData && (
               <OnboardingCaseDisplay 
                 isActive={missionStep > 2}
-                disabled={!canInteractSlider} 
+                disabled={!canInteractSlider && missionStep < 2} 
                 caseData={caseData} 
               />
             )}
@@ -68,7 +71,7 @@ export default function Onboarding() {
               onChange={(value) => {
                 setSliderValue(value);
               }}
-              disabled={!canInteractSlider && missionStep < 2}
+              disabled={!canInteractSlider}
               highlight={missionStep === 2}
             />
           </SliderContainer>
@@ -88,7 +91,6 @@ export default function Onboarding() {
                         .reverse()
                         .find(prevChat => prevChat.type === "talk") || null;
                     }
-                
                     const hideToTag = chat.type === "talk";
                     const hideFromTag = chat.type === "reply";
 
@@ -123,7 +125,7 @@ export default function Onboarding() {
                   appendUserChat(label);
                   advanceMission();
                 }}
-                disabled = {missionStep > 5}
+                disabled = {missionStep > 5 || (!hasSentStep2Chat && missionStep === 2)}
               />
       </MoreButtonWrapper>
        </ChatContainer>

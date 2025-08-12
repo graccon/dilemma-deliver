@@ -23,8 +23,8 @@ const float = keyframes`
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 6rem;
-  left: 50%;
+  bottom: 5.5rem;
+  left: 45%;
   transform: translateX(-50%);
   text-align: center;
   animation: ${float} 2s infinite;

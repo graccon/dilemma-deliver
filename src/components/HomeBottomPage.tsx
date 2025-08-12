@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import openingData from "../assets/data/opening.json";
 import { textStyles } from "../styles/textStyles"
+import { FaUser, FaEnvelope } from "react-icons/fa";
+import colors from "../styles/colors";
 
 interface SectionType {
   title: string;
@@ -8,92 +10,112 @@ interface SectionType {
   image: string | null;
 }
 
+
+function renderParagraph(content: string, key: number) {
+  const trimmed = content.trim();
+  const prefix = trimmed.charAt(0);
+  const text = trimmed.slice(1).trim();
+
+  let icon = null;
+  switch (prefix) {
+    case "*":
+      return <NameItem key={key}>{text}</NameItem>;
+    case "-":
+      icon = <FaUser color={colors.gray800}/>; // 직급용 (react-icons/fa)
+      break;
+    case "+":
+      icon = <FaEnvelope color={colors.gray800}/>;
+      break;
+    default:
+      break;
+  }
+
+  if (icon) {
+    return (
+      <StyledListItem key={key}>
+        <IconWrapper>{icon}</IconWrapper>
+        {text}
+      </StyledListItem>
+    );
+  }
+
+  return <p key={key}>{content}</p>;
+}
+
 export default function HomeTopPage() {
 
     const targetTitles = [
-        "Potential Risks and Benefits",
-        "Compensation",
-        "Confidentiality",
-        "Voluntary Participation", 
-        "Questions or Concerns",
-        "Consent"
+        "4. Potential Risks and Benefits",
+        "5. Data Protection and Confidentiality",
+        "6. Identification of Investigators",
+        "7. Consent",
     ];
 
     const selectedSections: SectionType[] = openingData.filter(section =>
         targetTitles.includes(section.title)
     );
 
-    const rightSections = selectedSections.filter(section =>
-        ["Potential Risks and Benefits", "Compensation", "Confidentiality",].includes(section.title)
-      );
-    
-    const leftSections = selectedSections.filter(section =>
-        ["Voluntary Participation", "Questions or Concerns", "Consent",].includes(section.title)
-    );
-
   return (
     <Wrapper>
-        <RightSide>
-        {rightSections.map((section, index) => (
-          <Section key={index}>
-            <Content>
-              <Title>{section.title}</Title>
-              {section.paragraphs.map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </Content>
-          </Section>
-        ))}
-        </RightSide>
-        <LeftSide>
-        {leftSections.map((section, index) => (
-          <Section key={index}>
-            <Content>
-              <Title>{section.title}</Title>
-              {section.paragraphs.map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </Content>
-          </Section>
-        ))}
-        </LeftSide>
-    </Wrapper>
+    {selectedSections.map((section, index) => (
+      <Section key={index}>
+        <Title>{section.title}</Title>
+        {section.paragraphs.map((para, i) => renderParagraph(para, i))}
+      </Section>
+    ))}
+  </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 5rem;
-  height: 100%;
-`;
+  column-count: 2;
+  column-gap: 4rem;
+  column-fill: auto;
+  padding: 0 20px; 
 
-const RightSide = styled.div`
-  width:100%;
-  height:100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const LeftSide = styled.div`
-  width:100%;
-  height:100%;
-  display: flex;
-  flex-direction: column;
+  max-height: 540px;
+  overflow-y: auto;
+  p {
+    margin: 0 0 0.75rem;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
 `;
 
 const Section = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 2rem;
-`;
-
-const Content = styled.div`
-  ${textStyles.homeBody()}
-  flex: 1;
-  textAlign: "center"
+  margin: 0 0 1.5rem;
 `;
 
 const Title = styled.h2`
   ${textStyles.secondH1()}
+  margin-left: -20px;
+`;
+
+export const StyledList = styled.ul`
+  list-style-position: inside;
+  padding-left: 0;
+  margin: 0;
+`;
+
+export const NameItem = styled.li`
+  ${textStyles.homeBody()}
+  line-height: 1.4;
+  list-style: none;
+  margin: 0 0 0.5rem;
+  margin-top: 16px;
+`;
+
+export const StyledListItem = styled.li`
+  ${textStyles.homeBody()}
+  line-height: 1;
+  list-style: none;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+`;
+
+const IconWrapper = styled.span`
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
 `;

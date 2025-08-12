@@ -14,7 +14,7 @@ export default function ProgressSteps({ currentStep }: ProgressStepsProps) {
 
         return (
           <StepIcon key={index}>
-            <img src={iconSrc} alt={`${type} step`} width={48} height={48} />
+            <img src={iconSrc} alt={`${type} step`} width={44} height={44} />
           </StepIcon>
         );
       })}

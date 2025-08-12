@@ -1,69 +1,72 @@
 [
     {
-        "title" : "Study Title",
+        "title" : "Informed Consent of Participation",
         "paragraphs" : [
-            "Dilemma Deliver: How Do People Make Moral Decisions with AI Advice?"
+            "You are invited to participate in the online study, Making Moral Decisions with AI Advice. The research is conducted by the WellCom Lab research team, supervised by Prof. Jaejeung Kim at the Chungnam National University. Please note:",
+            "+ Your participation is entirely voluntary.",
+            "+ The online study will last approximately 30 minutes.",
+            "+ We may publish our results from this and other sessions in our reports, but all such reports will be confidential and will neither include your name nor be associated with your identity."
         ],
         "image": null
     }, 
     {
-        "title" : "Procedures",
+        "title" : "1. Purpose of the Study",
         "paragraphs" : [
-            "The study includes a pre-survey, onboarding, two decision tasks, and a post-survey",
-            "If you choose to participate, you will be shown a series of moral dilemmas involving self-driving cars. In some parts, you will decide based only on your own judgment, and in others, you will be shown comments from AI agents with different perspectives.",
-            "The study will take approximately 30 minutes to complete."
+            "We want to understand how people make moral decisions in situations involving autonomous vehicles with multiple AIs’ decision support. The results of this research may be presented at scientific or professional meetings or published in scientific proceedings and journals."
+        ],
+        "image": null
+    },
+    {
+        "title" : "2. Participation and Compensation",
+        "paragraphs" : [
+            "Your participation in this online study is completely voluntary. You will receive compensation via Prolific in accordance with their payment policies. You may withdraw and discontinue participation at any time. Please note that compensation will be granted only if you complete the entire study, including all five steps."
+        ],
+        "image": null
+    },
+    {
+        "title" : "3. Procedures",
+        "paragraphs" : [
+            "After confirming your informed consent, you will be guided through the following steps: ",
+            "+ Pre-survey",
+            "+ Onboarding session",
+            "+ Experiment 1 (Session 1): Moral decision based only on your own",
+            "+ Experiment 2 (Session 2): Moral decision with AIs’ decision support",
+            "+ Post-survey",
+            "You will be shown a series of moral dilemmas involving autonomous vehicles."
         ],
         "image": "/assets/images/procedures_figure.png"
-    }, 
+    },  
     {
-        "title" : "Purpose of the Study",
+        "title" : "4. Potential Risks and Benefits",
         "paragraphs" : [
-            "You are invited to take part in a research study that explores how people make moral decisions in situations involving autonomous vehicles. This study is part of an effort to understand how AI advisors might influence human judgment in ethically complex scenarios. You must be 18 years or older to participate."
+            "There are no foreseeable risks beyond those encountered in daily life. Scenarios may involve sensitive content related to life-and-death decisions. If any discomfort becomes a problem, you may discontinue your participation. You will not directly benefit through participation in this online study. We hope your participation will contribute to research on human-AI interaction and ethical decision-making."
         ],
-        "image": "/assets/images/welcome.png"
-    }, 
+        "image": null
+    },  
     {
-        "title" : "Potential Risks and Benefits",
+        "title" : "5. Data Protection and Confidentiality",
         "paragraphs" : [
-            "There are no foreseeable risks beyond those encountered in daily life. Some scenarios may involve sensitive content related to life-and-death decisions. There are no direct benefits to you, but your participation will contribute to research on human-AI interaction and ethical decision-making."
+            "Personal data (age, gender, etc.) will be recorded during participation. The researcher will not identify you by your real name in any reports using information obtained from this online study, and your confidentiality as a participant in this online study will remain secure and encrypted. All data you provided in this online study will be published anonymously and treated confidentially in compliance with the Personal Information Protection Act (PIPA) of South Korea. In all cases, the use of records and data will be subject to the PIPA. Faculty and administrators from the campus will not have access to raw data or transcripts. This precaution will prevent your individual comments from having any negative repercussions. This site uses cookies and other tracking technologies to conduct the research, to improve the user experience, the ability to interact with the system, and to provide additional content from third parties. Despite careful control of content, the researchers assume no liability for damages that directly or indirectly result from the use of this online application. Records that have not been made public will be deleted after the end of the research. The records will be destroyed if you contact the researcher to destroy or delete them immediately."
         ],
         "image": null
     }, 
     {
-        "title" : "Compensation",
+        "title" : "6. Identification of Investigators",
         "paragraphs" : [
-            "You will receive monetary compensation through Prolific in accordance with their payment policies.",
-            "Please note: Compensation will be granted only if you complete the entire study, including all five steps."
+            "If you have any questions or concerns about this study, please feel free to contact: ",
+            "* Gyeyoung Jung",
+            "- Research Associate",
+            "+ gye0203@o.cnu.ac.kr",
+            "* Prof. Jaejeung Kim",
+            "- Principle Investigator",
+            "+ jjkim@cnu.ac.kr"
         ],
         "image": null
     }, 
     {
-        "title" : "Confidentiality",
+        "title" : "7. Consent",
         "paragraphs" : [
-            "All responses are anonymous. No personally identifiable information will be collected. The data may be published in academic journals or presented at conferences, but individual responses cannot be traced back to you."
-        ],
-        "image": null
-    }, 
-    {
-        "title" : "Voluntary Participation",
-        "paragraphs" : [
-            "Your participation is entirely voluntary. You may withdraw from the study at any time without penalty."
-        ],
-        "image": null
-    }, 
-    {
-        "title" : "Questions or Concerns",
-        "paragraphs" : [
-            "If you have questions about the study, please contact the principal investigator :",
-            "[Your Name], [Your Institution], [your.email@university.edu]"
-        ],
-        "image": null
-    }, 
-    {
-        "title" : "Consent",
-        "paragraphs" : [
-            "I have read and understand the above consent form.",
-            "I certify that I am 18 years old or older. By clicking the “Start Survey” button to enter the survey, I indicate my willingness to voluntarily take part in this study."
+            "I have read and understand the above consent form. By clicking the “Start Survey” button, I indicate my willingness to voluntarily take part in this study."
         ],
         "image": null
     }

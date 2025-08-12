@@ -78,11 +78,7 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
             </CaseButton>
           ))}
         </CaseListSection>
-    
-        <CaseSummarySection>
-          <CaseSummary caseId={selectedCaseId!} />
-        </CaseSummarySection>
-          
+  
           {/* */}
           {mode === "Agent" ? (
             <AgentChatSection>
@@ -109,7 +105,7 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
           ) : (
             <MyChoiceSection>
               <SessionChoicePanel
-                title="Session 1"
+                title="Session 1 (without AI Agents)"
                 confidence={c1}
                 durationMs={session1Map.get(selectedCaseId!)?.durationMs}
                 confidenceChange={false}
@@ -117,7 +113,7 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
               />
               <Arrow src="/assets/icons/down_icon.png" alt="Scroll down icon" />
               <SessionChoicePanel
-                title="Session 2"
+                title="Session 2 (with AI Agents)"
                 confidence={c2}
                 durationMs={session2Map.get(selectedCaseId!)?.durationMs}
                 confidenceChange={isConfidenceChanged}
@@ -125,6 +121,10 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
               />
             </MyChoiceSection>
         )}
+
+        <CaseSummarySection>
+          <CaseSummary caseId={selectedCaseId!} />
+        </CaseSummarySection>
       </OuterLayout>
     );
   }

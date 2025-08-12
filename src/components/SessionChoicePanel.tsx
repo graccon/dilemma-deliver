@@ -44,10 +44,6 @@ type SessionChoicePanelProps = {
       <ChoiceBlock>
         <Row>
             <MyChoiceTitle>{title}</MyChoiceTitle>
-            <InfoRow>
-                <InfoIcon src="/assets/icons/time_icon.png" alt="time" />
-                <InfoLabel>{formatDuration(durationMs)}</InfoLabel>
-            </InfoRow>
         </Row>
         <Divider />
         <ChoiceBlockWrapper>
