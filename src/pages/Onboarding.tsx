@@ -51,7 +51,7 @@ export default function Onboarding() {
     <MainLayout
       currentStep={2}
       footerButton={
-        <FooterButton label="Next Session" to="/session1" disabled={!isAnswered || likedIndex === null} />}
+        <FooterButton label="Next Session" to="/session-loading" disabled={!isAnswered || likedIndex === null} />}
     >
       <Layout>
         <ProblemContainer>

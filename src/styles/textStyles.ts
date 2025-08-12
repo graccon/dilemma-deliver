@@ -85,7 +85,7 @@ export const textStyles = {
       line-height: 1.4;
       letter-spacing: -0.3px;
       text-align: left;
-      color: ${colors.gray800};
+      color: ${colors.gray700};
     `,
 
     span: ({color = colors.black, size = "0.9rem"}={}) => `
@@ -129,7 +129,7 @@ export const textStyles = {
         color: ${colors.gray700};
     `,
 
-    li: ({color = colors.black, align = "left"}={}) => `
+    li: ({color = colors.gray700, align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
       font-size: 0.95rem;
       font-weight: 400;

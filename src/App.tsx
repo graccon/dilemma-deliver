@@ -6,7 +6,7 @@ import Postsurvey from './pages/Postsurvey'
 import Session1 from './pages/Session1'
 import Session2 from './pages/Session2'
 import ThankYou from './pages/ThankYou'
-import Loading from './pages/Loading'
+import SessionLoading from './pages/SessionLoading'
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
           <Route path="/session1" element={<Session1 />} />
           <Route path="/session2" element={<Session2 />} />
           <Route path="/thankyou" element={<ThankYou />} />
-          <Route path="/loading" element={<Loading />} />
+          <Route path="/session-loading" element={<SessionLoading />} />
         </Routes>
     </Router>
   )

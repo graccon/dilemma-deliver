@@ -21,10 +21,10 @@ function renderParagraph(content: string, key: number) {
     case "*":
       return <NameItem key={key}>{text}</NameItem>;
     case "-":
-      icon = <FaUser color={colors.gray800}/>; // 직급용 (react-icons/fa)
+      icon = <FaUser color={colors.gray700} size={14}/>; // 직급용 (react-icons/fa)
       break;
     case "+":
-      icon = <FaEnvelope color={colors.gray800}/>;
+      icon = <FaEnvelope color={colors.gray700} size={14}/>;
       break;
     default:
       break;
