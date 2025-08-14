@@ -27,6 +27,27 @@ const Divider = styled.hr`
 
 type AgentType = "narr" | "stat" | "rule";
 
+type AgentStat = {
+  name: string;
+  icon: string;
+  count: number;
+  color: string; 
+};
+
+function AgentCount({ name, icon, count, color }: AgentStat) {
+  return (
+    <>
+      <img
+        src={icon}
+        alt={name}
+        style={{ width: '1.6rem', verticalAlign: 'middle', margin: '0rem 0.2rem' }}
+      />
+      <NameTag $color={color}>{name}</NameTag>
+       {count} time(s)
+    </>
+  );
+}
+
 function countAgents(logs: any[], agentList: AgentType[]) {
   const counts: Record<AgentType, number> = {
     narr: 0,
@@ -202,9 +223,25 @@ export default function Postsurvey() {
           Question {questionNumber++}. Below are the cases where your choice changed.
         </QuestionTitle>
         <Description>
-        In Session 2(with AI Agents), you selected Veko {session2AgentCounts.stat} time(s), 
-        Lumi {session2AgentCounts.rule} time(s), and 
-        Molu {session2AgentCounts.narr} time(s).
+        In Session 2(with AI Agents), you selected 
+          <AgentCount
+            name="Veko"
+            icon="/assets/icons/agent_veko_icon.png"
+            count={session2AgentCounts.stat}
+            color={colors.highlightBlue}
+          />,{' '}
+          <AgentCount
+            name="Lumi"
+            icon="/assets/icons/agent_lumi_icon.png"
+            count={session2AgentCounts.rule}
+            color={colors.highlightRed}
+          />, and{' '}
+          <AgentCount
+            name="Molu"
+            icon="/assets/icons/agent_molu_icon.png"
+            count={session2AgentCounts.narr}
+            color={colors.highlightGreen}
+          />.
         </Description>
         <ReviewPanelWrapper>
           <SessionReviewPanel
@@ -282,6 +319,13 @@ export const Container = styled.div`
   max-width: 1024px;
   overflow-y: auto;
   height: 78vh;
+`;
+
+export const NameTag = styled.span<{ $color: string }>`
+  background-color: ${({ $color }) => $color};
+  padding: 2px 7px;
+  margin-right: 3px;
+  border-radius: 1rem;
 `;
 
 export const ReviewPanelWrapper = styled.div`
