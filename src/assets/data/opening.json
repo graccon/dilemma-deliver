@@ -5,6 +5,7 @@
             "You are invited to participate in the online study, Making Moral Decisions with AI Advice. The research is conducted by the WellCom Lab research team, supervised by Prof. Jaejeung Kim at the Chungnam National University. Please note:",
             "+ Your participation is entirely voluntary.",
             "+ The online study will last approximately 30 minutes.",
+            "+ In each experiment session, you will be given 15 minutes to make a decision in each case.",
             "+ We may publish our results from this and other sessions in our reports, but all such reports will be confidential and will neither include your name nor be associated with your identity."
         ],
         "image": null
@@ -27,12 +28,11 @@
         "title" : "3. Procedures",
         "paragraphs" : [
             "After confirming your informed consent, you will be guided through the following steps: ",
-            "+ Pre-survey",
-            "+ Onboarding session",
+            "+ Pre-survey & Onboarding",
             "+ Experiment 1 (Session 1): Moral decision based only on your own",
             "+ Experiment 2 (Session 2): Moral decision with AIs’ decision support",
             "+ Post-survey",
-            "You will be shown a series of moral dilemmas involving autonomous vehicles."
+            "You will have 15 minutes to decide in each case. Exceeding the time has no penalty, but you will receive a warning on the experiment page."
         ],
         "image": "/assets/images/procedures_figure.png"
     },  

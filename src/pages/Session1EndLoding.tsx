@@ -81,13 +81,18 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
 }
 
 export async function resetProblemsForSession2(signal: AbortSignal) {
+    const { prolificId } = useUserStore.getState();
+        if (!prolificId) {
+          console.warn("[flushMetaLogs] prolificId empty — skip");
+          return;
+        }
+
     if (signal.aborted) return;
   
     clearShuffledProblems();
     console.log("[resetProblemsForSession2] cleared shuffledProblems");
   
     try {
-      const { prolificId } = useUserStore.getState();
       if (prolificId) {
         await addDoc(collection(db, "participants", prolificId, "events"), {
           type: "problems/cleared-for-session2",

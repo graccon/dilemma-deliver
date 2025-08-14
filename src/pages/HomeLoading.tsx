@@ -8,6 +8,12 @@ import type { LoadingStep } from "../models/loading";
 
 async function checkParticipantCompletion(): Promise<boolean> {
   const { prolificId } = useUserStore.getState();
+
+  if (!prolificId) {
+    console.warn("No prolificId set. Skipping Firebase check.");
+    return false;
+  }
+  
   const docRef = doc(db, "participants", prolificId);
   const docSnap = await getDoc(docRef);
 

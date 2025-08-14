@@ -12,6 +12,11 @@ import { getPresurveyAnswers } from "../stores/presurveyStore";
 
 async function flushPreSurveyLogs(signal: AbortSignal) {
   const { prolificId } = useUserStore.getState();
+  if (!prolificId) {
+    console.warn("[flushMetaLogs] prolificId empty — skip");
+    return;
+  }
+  
   if (signal.aborted) return;
 
   const answers = getPresurveyAnswers();

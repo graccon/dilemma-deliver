@@ -4,7 +4,6 @@ import type { LoadingStep } from "../models/loading";
 import { useUserStore } from "../stores/useUserStore";
 import { safeRun } from "../models/loading";
 import Loading from "./Loading";
-
 import { doc, setDoc, serverTimestamp, addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebaseClient";
 import { getPostsurveyData } from "../stores/postsurveyStore";
@@ -17,6 +16,10 @@ async function flushPostSurveyLogs(signal: AbortSignal) {
   if (signal.aborted) return;
 
   const { prolificId } = useUserStore.getState();
+  if (!prolificId) {
+    console.warn("[flushMetaLogs] prolificId empty — skip");
+    return;
+  }
 
   const answers = getPostsurveyData();
   const timers = getTimerLogs();
