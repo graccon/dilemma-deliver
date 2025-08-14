@@ -11,6 +11,7 @@ import OnboardingLoading from './pages/OnboardingLoading'
 import Session1EndLoading from './pages/Session1EndLoding'
 import Session2EndLoading from './pages/Session2EndLoading'
 import PostSurveyLoading from './pages/PostSurveyLoading'
+import HomeLoading from './pages/HomeLoading'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/thankyou" element={<ThankYou />} />
           <Route path="/session-loading" element={<SessionLoading />} />
           <Route path="/onboarding-loading" element={<OnboardingLoading />} />
+          <Route path="/home-loading" element={<HomeLoading />} />
           <Route path="/session1-loading" element={<Session1EndLoading />} />
           <Route path="/session2-loading" element={<Session2EndLoading />} />
           <Route path="/postsurvey-loading" element={<PostSurveyLoading />} />
