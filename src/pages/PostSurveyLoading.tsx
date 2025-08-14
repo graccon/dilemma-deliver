@@ -10,6 +10,7 @@ import { db } from "../services/firebaseClient";
 import { getPostsurveyData } from "../stores/postsurveyStore";
 import { getTimerLogs } from "../stores/useTimerLogStore";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
+import { getBlurCountByPage, useFocusLogStore } from "../stores/useFocusLogStore";
 
 
 async function flushPostSurveyLogs(signal: AbortSignal) {
@@ -84,10 +85,39 @@ async function flushMetaLogs(signal: AbortSignal) {
     });
 }
 
+async function flushFocusLogs(signal: AbortSignal) {
+  if (signal.aborted) return;
+
+  const { prolificId } = useUserStore.getState();
+  const focusLogs = useFocusLogStore.getState().logs;
+  const blurCounts = getBlurCountByPage(focusLogs);
+  
+  if (!prolificId || focusLogs.length === 0) {
+    console.info("[flushFocusLogs] empty — skip");
+    return;
+  }
+
+  try {
+    await setDoc(
+      doc(db, "participants", prolificId, "focus", "logs"),
+      {
+        focusLogs,
+        blurCount: blurCounts,
+        uploadedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+    console.info("[flushFocusLogs] upload success");
+  } catch (e) {
+    console.error("[flushFocusLogs] Firestore write failed:", e);
+  }
+}
+
 export default function PostSurveyLoading() {
   const steps: LoadingStep[] = [
-    { label: "flush-logs:chat", run: (signal) => safeRun(flushPostSurveyLogs, signal) },
+    { label: "flush-logs:post-survey", run: (signal) => safeRun(flushPostSurveyLogs, signal) },
     { label: "flush-logs:meta", run: (signal) => safeRun(flushMetaLogs, signal) },
+    { label: "flush-logs:focus", run: (signal) => safeRun(flushFocusLogs, signal) },
   ];
 
   return (

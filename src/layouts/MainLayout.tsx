@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import colors from "../styles/colors"; 
 import ProgressSteps from '../components/ProgressSteps';
 import { textStyles } from "../styles/textStyles";
+import { useFocusTracker } from '../services/useFocusTracker';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   children: ReactNode;
@@ -11,6 +13,8 @@ interface Props {
 }
 
 export default function MainLayout({ children, footerButton, currentStep }: Props) {
+  const location = useLocation();
+  useFocusTracker(location.pathname);
   return (
     <Container>
         <HeaderContainer>
