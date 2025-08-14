@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type ConfidenceLog = {
+export type ConfidenceLog = {
     sessionId: string;
     caseIndex: number; 
     confidence: number;
@@ -15,6 +15,11 @@ interface ConfidenceState {
   confidenceLogs: ConfidenceLog[];
   addConfidence: (log: ConfidenceLog) => void;
   clearConfidence: () => void;
+}
+
+export function getConfidenceLogs(sessionId: string) {
+  const state = useConfidenceStore.getState();
+  return state.confidenceLogs.filter((log) => log.sessionId === sessionId);
 }
 
 export const useConfidenceStore = create<ConfidenceState>()(

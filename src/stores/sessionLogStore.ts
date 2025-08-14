@@ -17,6 +17,11 @@ export interface SessionLogState {
   clearLogs: () => void;
 }
 
+export function getSessionLogs(sessionId: string) {
+  const { logs } = useSessionLogStore.getState();
+  return logs.filter(l => l.sessionId === sessionId);
+}
+
 export const useSessionLogStore = create<SessionLogState>()(
   persist<SessionLogState>(
     (set, get) => ({

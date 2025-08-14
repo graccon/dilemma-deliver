@@ -4,7 +4,7 @@ import MainLayout from "../layouts/MainLayout";
 import FooterButton from "../components/FooterButton";
 import MoralCase from "../models/MoralCase";
 import problems from "../assets/data/problems.json";
-import { clearShuffledProblems, initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
+import { initShuffledProblems, getProblemByIndex } from "../services/problemSetting";
 import MoralCaseDisplay from "../components/MoralCaseDisplay";
 import ConfidenceSlider from "../components/ConfidenceSilder";
 import colors from "../styles/colors";
@@ -86,8 +86,7 @@ export default function Session1() {
   
     if (currentIndex < total - 1) {
     } else {
-      window.location.href = "/session2";
-      clearShuffledProblems();
+      window.location.href = "/session1-loading";
     }
   };
 

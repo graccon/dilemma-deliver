@@ -216,7 +216,7 @@ export function useSessionLogic() {
     localStorage.setItem(INDEX_KEY, nextIndex.toString());
 
     if (nextIndex >= problems.length) {
-      window.location.href = "/postsurvey";
+      window.location.href = "/session2-loading";
     }
   }
 

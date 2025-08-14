@@ -25,6 +25,11 @@ export function getProblemByIndex(index: number) {
   return parsed[index] || null;
 }
 
+export function getShuffledProblems<T = any>(): T[] {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  return raw ? (JSON.parse(raw) as T[]) : [];
+}
+
 export function clearShuffledProblems() {
   localStorage.removeItem(STORAGE_KEY);
 }

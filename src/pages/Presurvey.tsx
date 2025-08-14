@@ -47,7 +47,7 @@ export default function Presurvey() {
       <MainLayout
         currentStep={1}
         footerButton={
-          <FooterButton label="Next Sesstion" to="/onboarding" disabled={!isAllAnswered} />
+          <FooterButton label="Next Sesstion" to="/onboarding-loading" disabled={!isAllAnswered} />
         }
       >
         <Container>

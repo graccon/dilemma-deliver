@@ -7,9 +7,9 @@ export type OpenEndedAnswers = {
   q3: string;
 };
 
-export type FeaturePreferenceAnswers = number[]; // surveyFeaturePreference 길이와 동일
+export type FeaturePreferenceAnswers = number[];
 
-export type AfterAnswers = Record<string, number>; // { [questionId]: value }
+export type AfterAnswers = Record<string, number>;
 
 export type PostsurveyData = {
   openEnded: OpenEndedAnswers;

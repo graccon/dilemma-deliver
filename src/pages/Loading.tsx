@@ -1,10 +1,10 @@
 // components/Loading.tsx
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import MainLayout from "../layouts/MainLayout";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
-import type { LoadingProps, LoadingStep } from "../models/loading";
+import type { LoadingProps } from "../models/loading";
 import { useNavigate } from "react-router-dom";
 
 export default function Loading({

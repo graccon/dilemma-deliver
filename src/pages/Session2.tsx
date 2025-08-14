@@ -152,7 +152,7 @@ export default function Session2() {
               <MoreButton
                     label={"I can't decide yet"}
                     onClick={handleMoreClick}
-                    disabled={!canTakeTurn }// || isFetchingRef.current
+                    disabled={!canTakeTurn}// || isFetchingRef.current
                   />
             </MoreButtonWrapper>
           </ChatContainer>

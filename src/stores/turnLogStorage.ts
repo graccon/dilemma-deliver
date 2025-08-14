@@ -25,9 +25,6 @@ export function getTurnCount(caseId: string): number {
   return logs[caseId] || 0;
 }
 
-/**
- * 전체 턴 로그를 초기화합니다.
- */
 export function clearTurnLogs(): void {
   localStorage.removeItem(STORAGE_KEY);
   console.log("[TurnLog] All session2 turn logs cleared");

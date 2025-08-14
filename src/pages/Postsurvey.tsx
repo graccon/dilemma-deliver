@@ -135,7 +135,7 @@ export default function Postsurvey() {
   return (
     <MainLayout
       currentStep={4}
-      footerButton={<FooterButton label="Next Sesstion" to="/thankyou" disabled={!isAllComplete} />}
+      footerButton={<FooterButton label="Next Sesstion" to="/postsurvey-loading" disabled={!isAllComplete} />}
     >
       <Container>
         <PageTitle>Post-survey page</PageTitle>

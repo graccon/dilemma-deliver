@@ -13,6 +13,10 @@ interface TimerLogState {
   clearLogs: () => void;
 }
 
+export function getTimerLogs(): Log[] {
+  return useTimerLogStore.getState().logs;
+}
+
 export const useTimerLogStore = create<TimerLogState>()(
   persist(
     (set) => ({
