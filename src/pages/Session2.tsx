@@ -37,7 +37,7 @@ export default function Session2() {
   } = useSessionLogic();
 
   const SESSION_ID = "session2";
-  const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
+  const PER_CASE_LIMIT_MS = 1 * 60 * 1000;
   const { remainingMs, resetFlags } = usePerCaseTimer(
       SESSION_ID,
       currentCase?.id,
@@ -86,7 +86,7 @@ export default function Session2() {
         <FooterButton
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
           onClick={handleNext}
-          disabled={!isAnswered || likedIndex === null}
+          disabled={!isAnswered || likedIndex === null || !timerReady}
           isTimer={timerReady}         
           elapsedMs={remainingMs} 
         />

@@ -11,6 +11,7 @@ import { getConfidenceLogs } from "../stores/useConfidenceStore";
 import type { ConfidenceLog } from "../stores/useConfidenceStore";
 import { getTurnLogs } from "../stores/turnLogStorage";
 import { getChatLog } from "../stores/chatLogStorage";
+import { getAllTurnTimers } from "../stores/caseTurnTimerStorage";
 
 export function getAllChatLogs(caseIds: string[]): Record<string, any[]> {
     const chatsByCase: Record<string, any[]> = {};
@@ -99,9 +100,37 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
   }
 }
 
+async function flushCaseTimerLogs(signal: AbortSignal) {
+  if (signal.aborted) return;
+  const SESSION_ID = "session2";
+  const { prolificId } = useUserStore.getState();
+
+  if (!prolificId) {
+    console.warn("[flushCaseTimerLogs] prolificId empty — skip");
+    return;
+  }
+
+  try {
+    const timers = getAllTurnTimers(SESSION_ID);
+
+    const timerDocRef = doc(db, "participants", prolificId, "timers", SESSION_ID);
+
+    await setDoc(timerDocRef, {
+      timers,
+      uploadedAt: serverTimestamp(),
+    });
+
+    console.log(`[flushCaseTimerLogs] Uploaded ${Object.keys(timers).length} case timers for ${SESSION_ID}`);
+  } catch (err) {
+    console.error("[flushCaseTimerLogs] Firestore write failed:", err);
+  }
+}
+
+
 export default function Session2EndLoading() {
   const steps: LoadingStep[] = [
     { label: "flush-logs:chat", run: (signal) => safeRun(flushPreSurveyLogs, signal) },
+    { label: "flush-logs:case-timer", run: (signal) => safeRun(flushCaseTimerLogs, signal) },
   ];
 
   return (

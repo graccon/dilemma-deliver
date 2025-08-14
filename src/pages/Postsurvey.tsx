@@ -118,6 +118,7 @@ export default function Postsurvey() {
   // ---------- 완료 체크 ----------
   const showQ1 = confidenceChangedLogs.length > 0;
   const showQ2 = confidenceUnchangedLogs.length > 0;
+  console.log(showQ1, showQ2);
   const showQ3 = true; // Agent 섹션은 항상 표시 중
 
   const open1Done = !showQ1 || answer1.trim().length > 0;

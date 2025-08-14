@@ -35,7 +35,6 @@ export type TurnLogEntry = {
     saveAll(sessionId, map);
   }
   
-  /** More(턴) 버튼 등 임의 이벤트 */
   export function recordTurn(sessionId: string, caseId: string) {
     const map = loadAll(sessionId);
     const entry = ensureEntry(map, caseId);
