@@ -12,6 +12,8 @@ import MoreButton from "../components/MoreButton";
 import { useNavigate } from "react-router-dom";
 import UserChatBubble from "../components/UserChatBubble";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
+import { restartCaseTimer } from "../stores/caseTurnTimerStorage";
+import { usePerCaseTimer } from "../services/usePerCaseTimer";
 
 export default function Session2() {
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
@@ -31,7 +33,24 @@ export default function Session2() {
     likedIndex,
     updateLikedIndex, 
     shouldAnimate,
+    timerReady,
   } = useSessionLogic();
+
+  const SESSION_ID = "session2";
+  const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
+  const { remainingMs, resetFlags } = usePerCaseTimer(
+      SESSION_ID,
+      currentCase?.id,
+      PER_CASE_LIMIT_MS,
+      timerReady,
+      () => {
+        const ok = window.confirm("You’ve reached the 15-minute limit for this case. Restart the timer?");
+        if (ok) {
+          resetFlags();
+          restartCaseTimer(SESSION_ID, currentCase!.id);
+        }
+      },
+  );
   
 
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -68,6 +87,8 @@ export default function Session2() {
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
           onClick={handleNext}
           disabled={!isAnswered || likedIndex === null}
+          isTimer={timerReady}         
+          elapsedMs={remainingMs} 
         />
       }
     > 

@@ -96,7 +96,7 @@ export default function OnboardingLoading() {
       steps={steps}
       minDurationMs={2000}
       nextTo="/onboarding" 
-      onProgress={(pct, label) => {
+      onProgress={() => {
         // 파이어베이스에 진행률 로그 남기고 싶으면 여기서
         // logLoadingProgress({ pct, label, at: Date.now() })
       }}

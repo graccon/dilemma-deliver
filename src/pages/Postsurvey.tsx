@@ -62,8 +62,6 @@ export default function Postsurvey() {
   const agentList: AgentType[] = ["narr", "stat", "rule"];
   const session2AgentCounts = countAgents(session2Logs, agentList);
 
-  console.log("liked", session2AgentCounts);
-
   // ---------- 초기값 세팅 (로컬스토리지 복원) ----------
   const saved = getPostsurveyData();
 

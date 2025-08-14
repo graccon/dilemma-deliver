@@ -13,6 +13,8 @@ import { useTimerLogStore } from "../stores/useTimerLogStore";
 import { useConfidenceStore } from "../stores/useConfidenceStore";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
 import { useSessionLogStore } from "../stores/sessionLogStore";
+import { restartCaseTimer } from "../stores/caseTurnTimerStorage";
+import { usePerCaseTimer } from "../services/usePerCaseTimer";
 
 function getLastDurationBeforeCurrent(): number {
   const { logs } = useTimerLogStore.getState();
@@ -33,6 +35,22 @@ export default function Session1() {
   const addConfidence = useConfidenceStore((state) => state.addConfidence); 
   const INDEX_KEY = import.meta.env.VITE_S1_I_KEY; 
 
+  const timerReady = true;
+  const SESSION_ID = "session1";
+  const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
+  const { remainingMs, resetFlags } = usePerCaseTimer(
+    SESSION_ID,
+    currentCase?.id,
+    PER_CASE_LIMIT_MS,
+    timerReady,
+    () => {
+      const ok = window.confirm("You’ve reached the 15-minute limit for this case. Restart the timer?");
+      if (ok) {
+        resetFlags();
+        restartCaseTimer(SESSION_ID, currentCase!.id);
+      }
+    }
+  );
 
   useEffect(() => {
     initShuffledProblems();
@@ -98,6 +116,8 @@ export default function Session1() {
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
           onClick={handleNext}
           disabled={!isAnswered}
+          isTimer={true}         
+          elapsedMs={remainingMs} 
         />
       }
     >

@@ -95,9 +95,7 @@ export default function PostSurveyLoading() {
       steps={steps}
       minDurationMs={3000}
       nextTo="/thankyou" 
-      onProgress={(pct, label) => {
-        // 파이어베이스에 진행률 로그 남기고 싶으면 여기서
-        // logLoadingProgress({ pct, label, at: Date.now() })
+      onProgress={() => {
       }}
       onComplete={() => {
         // 필요하면 완료 후 추가 동작

@@ -39,6 +39,8 @@ export function useSessionLogic() {
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
   const fetchedRef = useRef<Set<string>>(new Set());
 
+  const [timerReady, setTimerReady] = useState(false);
+
   // 초기 인덱스 설정
   useEffect(() => {
     initShuffledProblems();
@@ -55,6 +57,7 @@ export function useSessionLogic() {
     setCurrentCase(instance);
     setIsAnswered(false);
     setCurrentConfidence(50);
+    setTimerReady(false);  
     
     const turnCount = getTurnCount(instance.id);
     setCanTakeTurn(turnCount < SHUFFLED_TURNS.length);
@@ -77,6 +80,7 @@ export function useSessionLogic() {
     if (saved && saved.length > 0) {
       setAgentChats(saved);
       setShouldAnimate(false);
+      setTimerReady(true);  
       return;
     }
 
@@ -95,6 +99,7 @@ export function useSessionLogic() {
       const chats = await loadAgentChats(caseId, turnId, group ?? "1");
       await appendChatsSequentially(chats, caseId);
       fetchedRef.current.add(caseId);
+      setTimerReady(true); 
     } catch (err) {
       console.error("❌ Fetch error:", err);
     }
@@ -240,5 +245,6 @@ export function useSessionLogic() {
     handleMoreClick,
     canTakeTurn,
     shouldAnimate,
+    timerReady,
   };
 }
