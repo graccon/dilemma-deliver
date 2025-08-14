@@ -20,6 +20,7 @@ const Divider = styled.hr`
 `;
 
 const totalQuestionCount = 
+  surveyDemographic.length +
   surveyQuestionsBFI.length +
   surveyQuestionsLOC.length +
   surveyQuestionsAIUsed.length;
