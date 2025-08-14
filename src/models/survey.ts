@@ -1,5 +1,5 @@
 
-export type SurveyQuestionType = "scale" | "text" | "slider";
+export type SurveyQuestionType = "scale" | "text" | "slider" | "radio" | "number" | "dropdown";
 
 export type SurveyScale = 5 | 7 | 10;
 
@@ -18,4 +18,5 @@ export interface SurveyQuestion {
         min: string;
         max: string;
     };
+    options?: string[];
 }

@@ -2,7 +2,7 @@
 const PRESURVEY_KEY = "presurvey-answers";
 
 export type SurveyAnswers = {
-  [questionId: string]: number;
+  [questionId: string]: string | number;
 };
 
 export function getPresurveyAnswers(): SurveyAnswers | null {

@@ -1,5 +1,37 @@
 import type { SurveyQuestion } from "../../models/survey";
 
+export const surveyDemographic: SurveyQuestion[] = [ 
+  {
+    id: "demographic_1",
+    type: "radio",
+    options: ["Male", "Female", "Non-binary"],
+    question: "What is your gender?",
+  },
+  {
+    id: "demographic_2",
+    type: "number",
+    options: ["Male", "Female", "Non-binary"],
+    question: "What is your age?",
+  },
+  {
+    id: "demographic_3",
+    type: "radio",
+    options: [
+      "Elementary school or less",
+      "Middle school",
+      "High school",
+      "Undergraduate degree (Bachelor's) or attending",
+      "Graduate degree (Master's or Ph.D.) or attending"
+    ],
+    question: "What is the highest level of education you have completed?",
+  },
+  {
+    id: "demographic_4",
+    type: "dropdown",
+    question: "what country are you currently residing in?",
+  }
+];
+
 export const surveyQuestionsBFI: SurveyQuestion[] = [
   {
     id: "BFI-S_1",
@@ -218,7 +250,7 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     }
   },
   {
-    id: "FP_5",
+    id: "FP_6",
     type: "slider",
     scale: 10,
     labels: {
@@ -232,7 +264,7 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     }
   },
   {
-    id: "FP_6",
+    id: "FP_7",
     type: "slider",
     scale: 10,
     labels: {
@@ -246,7 +278,7 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     }
   },
   {
-    id: "FP_7",
+    id: "FP_8",
     type: "slider",
     scale: 10,
     labels: {
@@ -260,7 +292,7 @@ export const surveyFeaturePreference: SurveyQuestion[] = [
     }
   },
   {
-    id: "FP_8",
+    id: "FP_9",
     type: "slider",
     scale: 10,
     labels: {

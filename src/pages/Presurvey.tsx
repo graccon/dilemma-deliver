@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import FooterButton from "../components/FooterButton"
 import MainLayout from "../layouts/MainLayout";
-import { surveyQuestionsBFI, surveyQuestionsLOC, surveyQuestionsAIUsed } from "../assets/data/surveyItems"
+import { surveyDemographic, surveyQuestionsBFI, surveyQuestionsLOC, surveyQuestionsAIUsed } from "../assets/data/surveyItems"
 import LinearScale from "../components/LinearScale";
 import styled from "styled-components";
 import { textStyles } from "../styles/textStyles";
@@ -9,6 +9,9 @@ import colors from "../styles/colors";
 import { getPresurveyAnswers, setPresurveyAnswers, type SurveyAnswers } from "../stores/presurveyStore";
 import ProgressBar from "../components/ProgressBar";
 import Spacer from "../components/Spacer";
+import RadioQuestion from "../components/RadioQuestion";
+import NumberQuestion from "../components/NumberQuestion";
+import DropdownCountryQuestion from "../components/DropdownCountryQuestion";
 
 const Divider = styled.hr`
   margin: 2rem auto; 
@@ -20,8 +23,6 @@ const totalQuestionCount =
   surveyQuestionsBFI.length +
   surveyQuestionsLOC.length +
   surveyQuestionsAIUsed.length;
-
-
 
 export default function Presurvey() {
     const [answers, setAnswers] = useState<SurveyAnswers>({});
@@ -36,13 +37,12 @@ export default function Presurvey() {
       }
     }, []);
 
-  
-    const handleAnswerChange = (questionId: string, value: number) => {
+    const handleAnswerChange = (questionId: string, value: string | number) => {
       const updated = { ...answers, [questionId]: value };
       setAnswers(updated);
       setPresurveyAnswers(updated);
     };
-  
+
     return (
       <MainLayout
         currentStep={1}
@@ -53,7 +53,7 @@ export default function Presurvey() {
         <Container>
           <Spacer height="60px"/>
           <PageTitle>Pre-survey page</PageTitle>
-          <Description>Thank you for taking the time to participate.<br /> This survey consists of 22 questions, and your thoughtful responses are very valuable to our research.<br />Please answer each question to the best of your ability.</Description>
+          <Description>Thank you for taking the time to participate.<br /> This survey consists of 26 questions, and your thoughtful responses are very valuable to our research.<br />Please answer each question to the best of your ability.</Description>
           
           <Spacer height="40px"/>
           <ProgressBarContainer>
@@ -62,6 +62,54 @@ export default function Presurvey() {
             </ProgressBarWrapper>
             <ProgressBarLabel> {answeredCount} / {totalQuestionCount}</ProgressBarLabel>
           </ProgressBarContainer>
+
+          <StickyTitle>
+          Please answer the following demographic questions to help us better understand participant characteristics.
+          <MainTitle>Demographic </MainTitle>
+          </StickyTitle>
+          <Spacer height="2rem" />
+          {surveyDemographic.map((item, idx) => {
+              switch (item.type) {
+                case "radio":
+                  return (
+                    <QuestionWrapper key={item.id}>
+                      <RadioQuestion
+                        index={idx + 1}
+                        question={item.question}
+                        options={item.options ?? []}
+                        value={String(answers[item.id] ?? "")}
+                        onChange={(selectedValue) => handleAnswerChange(item.id, selectedValue)}
+                      />
+                    <Divider />
+                    </QuestionWrapper>
+                  );
+                case "number":
+                  return (
+                    <QuestionWrapper key={item.id}>
+                      <NumberQuestion
+                        index={idx + 1}
+                        question={item.question}
+                        value={Number(answers[item.id])}
+                        onChange={(val) => handleAnswerChange(item.id, val)}
+                      />
+                      <Divider />
+                    </QuestionWrapper>
+                  );
+                case "dropdown":
+                  return (
+                    <QuestionWrapper key={item.id}>
+                      <DropdownCountryQuestion
+                        index={4}
+                        question="What country are you currently residing in?"
+                        value={String(answers[item.id] ?? "")}
+                        onChange={(value) => handleAnswerChange(item.id, value)}
+                      />
+                    </QuestionWrapper>
+                  );
+                default:
+                  return null;
+              }
+            })}            
 
           <StickyTitle>
             Instruction: The following statements may apply more or less to you.
@@ -75,14 +123,13 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "Does not apply to me at all", max: "Applies to me perfectly" }}
-                  value={answers[item.id] ?? 0}
+                  value={Number(answers[item.id] ?? 0)}
                   onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
               </LinearScaleWrapper>
             ))}
           </SurveyContainer>
-
 
           <StickyTitle>
             Instruction: The following statements may apply more or less to you.
@@ -96,7 +143,7 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: "does not apply at all", max: "applies completely" }}
-                  value={answers[item.id] ?? 0}
+                  value={Number(answers[item.id] ?? 0)}
                   onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
@@ -116,7 +163,7 @@ export default function Presurvey() {
                   scale={item.scale ?? 5}
                   question={item.question}
                   labels={{ min: item.labels?.min ?? "Strongly Disagree", max: item.labels?.max ?? "Strongly Agree"}}
-                  value={answers[item.id] ?? 0}
+                  value={Number(answers[item.id] ?? 0)}
                   onChange={(value) => handleAnswerChange(item.id, value)}
                 />
                 <Divider />
@@ -157,6 +204,12 @@ export const SurveyContainer = styled.div`
 export const LinearScaleWrapper = styled.div`
   width: 100%; 
   margin: 2rem auto;
+  max-width: 700px;
+`;
+
+export const QuestionWrapper = styled.div`
+  width: 100%; 
+  margin: 0 auto;
   max-width: 700px;
 `;
 
