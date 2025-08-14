@@ -21,6 +21,7 @@ export default function Onboarding() {
     missionStep,
     advanceMission,
     shouldAnimate,
+    chatsLoaded,
     setSliderValue,
     canInteractSlider,
     appendUserChat,
@@ -44,8 +45,6 @@ export default function Onboarding() {
           }, 300); 
           return () => clearTimeout(timer);
     }, []);
-
-
 
   return (
     <MainLayout
@@ -125,7 +124,11 @@ export default function Onboarding() {
                   appendUserChat(label);
                   advanceMission();
                 }}
-                disabled = {missionStep > 5 || (!hasSentStep2Chat && missionStep === 2)}
+                disabled = {
+                  missionStep > 5 || (
+                  !hasSentStep2Chat && missionStep === 2) ||
+                  !chatsLoaded
+                }
               />
       </MoreButtonWrapper>
        </ChatContainer>

@@ -104,7 +104,6 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
   if (signal.aborted) return;
   const SESSION_ID = "session2";
   const { prolificId } = useUserStore.getState();
-
   if (!prolificId) {
     console.warn("[flushCaseTimerLogs] prolificId empty — skip");
     return;
@@ -114,7 +113,6 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
     const timers = getAllTurnTimers(SESSION_ID);
 
     const timerDocRef = doc(db, "participants", prolificId, "timers", SESSION_ID);
-
     await setDoc(timerDocRef, {
       timers,
       uploadedAt: serverTimestamp(),
@@ -125,7 +123,6 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
     console.error("[flushCaseTimerLogs] Firestore write failed:", err);
   }
 }
-
 
 export default function Session2EndLoading() {
   const steps: LoadingStep[] = [

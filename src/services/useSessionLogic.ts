@@ -34,6 +34,7 @@ export function useSessionLogic() {
   const [isAnswered, setIsAnswered] = useState(false);
   const [canTakeTurn, setCanTakeTurn] = useState(true);
   const isFetchingRef = useRef(false);
+  const [chatsLoaded, setChatsLoaded] = useState(false);
   
   const { group } = useUserStore();
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
@@ -120,7 +121,6 @@ export function useSessionLogic() {
       const newChats = await loadAgentChats(caseId, turnId, group ?? "1");
       await appendChatsSequentially(newChats, caseId);
       recordTurnTaking(caseId);
-      console.log("setCanTakeTurn", canTakeTurn);
       setCanTakeTurn(turnCount + 1 < SHUFFLED_TURNS.length);
     } catch (err) {
       console.error("❌ Turn fetch error:", err);
@@ -131,12 +131,13 @@ export function useSessionLogic() {
 
   // 채팅 순차 렌더링
   function appendChatsSequentially(chatsToAdd: AgentChat[], caseId: string): Promise<void> {
-
     return new Promise((resolve) => {
       let i = 0;
+      setChatsLoaded(false); 
       const interval = setInterval(() => {
         if (i >= chatsToAdd.length) {
           clearInterval(interval);
+          setChatsLoaded(true);
           resolve();
           return;
         }
@@ -230,6 +231,7 @@ export function useSessionLogic() {
     isFetchingRef,
     currentIndex,
     currentCase,
+    chatsLoaded,
     total: problems.length,
     currentConfidence,
 

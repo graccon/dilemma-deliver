@@ -15,6 +15,7 @@ export function useOnboardingLogic() {
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
     const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() > 2);
+    const [chatsLoaded, setChatsLoaded] = useState(false);
 
     useEffect(() => {
         const data = getOnboarding();
@@ -98,11 +99,13 @@ export function useOnboardingLogic() {
       }
       // 채팅 순차 렌더링
         function appendChatsSequentially(chatsToAdd: AgentChat[], _caseId: string): Promise<void> {
-                      return new Promise((resolve) => {
+          return new Promise((resolve) => {
             let i = 0;
+            setChatsLoaded(false); 
             const interval = setInterval(() => {
               if (i >= chatsToAdd.length) {
                 clearInterval(interval);
+                setChatsLoaded(true);
                 resolve();
                 return;
               }
@@ -117,7 +120,6 @@ export function useOnboardingLogic() {
                 const updated = [...prev, chat];
                 return updated;
               });
-        
               i++;
             }, 1800);
             setShouldAnimate(true);
@@ -162,6 +164,7 @@ export function useOnboardingLogic() {
         likedIndex,
         missionStep,
         isAnswered,
+        chatsLoaded,
         canInteractSlider,
         setMissionStep,
         advanceMission,

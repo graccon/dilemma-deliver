@@ -81,17 +81,16 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
 }
 
 export async function resetProblemsForSession2(signal: AbortSignal) {
-    const { prolificId } = useUserStore.getState();
-        if (!prolificId) {
-          console.warn("[flushMetaLogs] prolificId empty — skip");
-          return;
-        }
-
     if (signal.aborted) return;
   
     clearShuffledProblems();
     console.log("[resetProblemsForSession2] cleared shuffledProblems");
-  
+
+    const { prolificId } = useUserStore.getState();
+    if (!prolificId) {
+      console.warn("[flushMetaLogs] prolificId empty — skip");
+      return;
+    }
     try {
       if (prolificId) {
         await addDoc(collection(db, "participants", prolificId, "events"), {
@@ -128,7 +127,6 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
     console.error("[flushCaseTimerLogs] Firestore write failed:", err);
   }
 }
-
 
 export default function Session1EndLoading() {
   const steps: LoadingStep[] = [

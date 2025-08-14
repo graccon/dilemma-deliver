@@ -20,6 +20,7 @@ export default function Session2() {
 
   const {
     isAnswered,
+    chatsLoaded,
     setIsAnswered,
     currentIndex,
     currentCase,
@@ -173,7 +174,7 @@ export default function Session2() {
               <MoreButton
                     label={"I can't decide yet"}
                     onClick={handleMoreClick}
-                    disabled={!canTakeTurn}// || isFetchingRef.current
+                    disabled={!canTakeTurn || !chatsLoaded}// || isFetchingRef.current
                   />
             </MoreButtonWrapper>
           </ChatContainer>
