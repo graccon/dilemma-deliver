@@ -38,7 +38,7 @@ export default function Session2() {
   } = useSessionLogic();
 
   const SESSION_ID = "session2";
-  const PER_CASE_LIMIT_MS = 1 * 60 * 1000;
+  const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
   const { remainingMs, resetFlags } = usePerCaseTimer(
       SESSION_ID,
       currentCase?.id,
