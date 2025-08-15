@@ -22,10 +22,11 @@ export default function Home() {
 
   useEffect(() => {
     const group = searchParams.get("group") || "";
-    const prolificId = searchParams.get("prolific_id") || "";
-    const sessionId = searchParams.get("session_id") || "";
+    const prolificId = searchParams.get("PROLIFIC_PID") || "";
+    const sessionId = searchParams.get("SESSION_ID") || "";
+    const studyId = searchParams.get("STUDY_ID") || "";
 
-    setUser(group, prolificId, sessionId);
+    setUser(group, prolificId, sessionId, studyId);
   }, [searchParams, setUser]);
 
   useEffect(() => {

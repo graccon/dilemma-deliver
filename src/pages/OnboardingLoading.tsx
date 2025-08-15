@@ -54,7 +54,7 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
 async function flushMetaLogs(signal: AbortSignal) {
   if (signal.aborted) return;
 
-  const { prolificId, group, sessionId } = useUserStore.getState();
+  const { prolificId, group, sessionId, studyId } = useUserStore.getState();
   
   if (!prolificId) {
     console.warn("[flushMetaLogs] prolificId empty — skip");
@@ -65,6 +65,7 @@ async function flushMetaLogs(signal: AbortSignal) {
       prolificId: prolificId,
       group: group,
       sessionId : sessionId,
+      studyId : studyId, 
       signupTs: serverTimestamp(), 
       lastSeenTs: serverTimestamp(), 
       totalExperimentMs: null,
