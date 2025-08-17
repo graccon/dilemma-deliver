@@ -47,6 +47,7 @@ export function useSessionLogic() {
     initShuffledProblems();
     const saved = localStorage.getItem(INDEX_KEY);
     if (saved) setCurrentIndex(Number(saved));
+    
   }, []);
 
   // 케이스 변경 시 처리
@@ -91,7 +92,7 @@ export function useSessionLogic() {
       return;
     }
 
-    const turnId = SHUFFLED_TURNS[turnCount - 1];
+    const turnId = SHUFFLED_TURNS[turnCount];
 
     try {
       recordTurnTaking(caseId);
@@ -114,7 +115,8 @@ export function useSessionLogic() {
     const isAvailable = turnCount < SHUFFLED_TURNS.length;
     if (!isAvailable) return;
 
-    const turnId = SHUFFLED_TURNS[turnCount - 1]; 
+    const turnId = SHUFFLED_TURNS[turnCount]; 
+
     try {
       appendUserChat("I can’t decide yet");
       isFetchingRef.current = true;
