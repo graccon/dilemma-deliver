@@ -33,7 +33,7 @@ async function flushOnboardingMissionLogs(signal: AbortSignal) {
       );
 
       await updateDoc(doc(db, "participants", prolificId), {
-        "meta.onboardingFlags": step >= 4,
+        "meta.onboardingFlags": step === 8,
       });
 
       await addDoc(

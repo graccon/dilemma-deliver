@@ -13,21 +13,26 @@ type Props = {
 
 export default function OnboardingCaseDisplay({ caseData, missionStep, isActive }: Props) {
   const disabled =  missionStep < 2;
+  const isStepInRange = [5, 6, 7].includes(missionStep);
   const imagePathMap: Record<"A" | "B", Record<number, string>> = {
     A: {
       1: "/assets/images/default_A.png",
       2: "/assets/images/mode_A.png",
       3: "/assets/images/onboarding_inactive_A.png",
+      4: "/assets/images/onboarding_inactive_A.png",
+      8: "/assets/images/case_A.png",
     },
     B: {
       1: "/assets/images/default_B.png",
       2: "/assets/images/mode_B.png",
       3: "/assets/images/onboarding_inactive_B.png",
+      4: "/assets/images/onboarding_inactive_B.png",
+      8: "/assets/images/case_B.png",
     },
   };
   
   function getImageSrc(option: "A" | "B", missionStep: number, caseData: OnboardingCase): string {
-    if (missionStep >= 4) {
+    if (isStepInRange) {
       return option === "A" ? caseData.A.image : caseData.B.image;
     }
     return imagePathMap[option][missionStep] ?? "";
@@ -36,30 +41,33 @@ export default function OnboardingCaseDisplay({ caseData, missionStep, isActive 
   function getCaseTitle(missionStep: number, caseData: OnboardingCase): string {
     switch (missionStep) {
       case 1:
-        return " ";
+        return "Title";
       case 2:
         return "Who’s Talking to Whom?";
       case 3:
         return "Mission 1: Adjust the slider";
+      case 4:
+        return "Mission 2";
+      case 8:
+        return "What should the self-driving car do?";
       default:
         return "Mission 2: " + caseData.question;
     }
   }
-  
 
   return (
     <Container>
       {<Overlay $visible={disabled} />}
       <TittleWrapper>
         <CaseTitle>{getCaseTitle(missionStep, caseData)}</CaseTitle>
-        {(missionStep > 4) && <SubTitle>Choose A or B, then like the speech bubble you find most convincing.</SubTitle>}
+        {isStepInRange && <SubTitle>Choose A or B, then like the speech bubble you find most convincing.</SubTitle>}
       </TittleWrapper>
 
       <Grid>
         <Option>
           <DescriptionContainer>
             {isActive && <OptionLabel $align="right">A</OptionLabel>}
-            {isActive && <Body>{caseData.A.description}</Body>}
+            {isStepInRange && <Body>{caseData.A.description}</Body>}
           </DescriptionContainer>
           <Image
             src={getImageSrc("A", missionStep, caseData)}
@@ -74,7 +82,7 @@ export default function OnboardingCaseDisplay({ caseData, missionStep, isActive 
           />
           <DescriptionContainer>
             {isActive &&<OptionLabel $align="left">B</OptionLabel>}
-            {isActive && <Body>{caseData.B.description}</Body>}
+            {isStepInRange && <Body>{caseData.B.description}</Body>}
           </DescriptionContainer>
         </Option>
       </Grid>
@@ -90,7 +98,7 @@ const Overlay = styled.div.withConfig({
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(32, 32, 32, 0.7);
+  background-color:  rgba(77, 77, 77, 0.80);
   z-index: 10;
   pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};

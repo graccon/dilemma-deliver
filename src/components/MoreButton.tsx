@@ -33,7 +33,7 @@ export default function MoreButton({label, to, onClick, disabled = false}: MoreB
 const Button = styled.button<{ disabled: boolean }>`
   ${({ }) => textStyles.buttonLabel()}
   width: 92%;
-  height: 94%;
+  height: 48px;
   color: ${({ disabled }) => (disabled ? colors.white : colors.gray800)};
   border: 2.2px solid  ${({ disabled }) => (disabled ? colors.white : colors.gray800)};
   border-radius: 50rem;

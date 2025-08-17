@@ -10,6 +10,7 @@ import ConfidenceSliderInOnboarding from "../components/ConfidenceSilderInOnboar
 import ChatBubble from "../components/ChatBubble";
 import type { AgentChat } from "../services/loadAgentChats";
 import UserChatBubble from "../components/UserChatBubble";
+import MoreButtonDisable from "../components/MoreButtonDisable";
 
 
 export default function Onboarding() {
@@ -46,11 +47,13 @@ export default function Onboarding() {
           return () => clearTimeout(timer);
     }, []);
 
+    const isStepInRange = [5, 6, 7].includes(missionStep);
+
   return (
     <MainLayout
       currentStep={2}
       footerButton={
-        <FooterButton label="Next Session" to="/session-loading" disabled={!isAnswered || likedIndex === null} />}
+        <FooterButton label="Next Session" to="/session-loading" disabled={missionStep < 8 || !chatsLoaded} />}
     >
       <Layout>
         <ProblemContainer>
@@ -100,7 +103,7 @@ export default function Onboarding() {
                         ) : (
                           <ChatBubble 
                             chat={chat}
-                            mode={missionStep < 5 ? "explain" : "onboarding"}
+                            mode={!isStepInRange ? "explain" : "onboarding"}
                             replyTo={replyTarget}
                             liked={likedIndex === idx}
                             shouldAnimate={shouldAnimate ?? true}
@@ -116,7 +119,7 @@ export default function Onboarding() {
                 </ChatList>
               )}
           </ChatListWrapper>
-          <MoreButtonWrapper>
+          {(missionStep < 7 && chatsLoaded) && <MoreButtonWrapper>
           <MoreButton
                 label={getLabelByMissionStep(missionStep)}
                 onClick={() => {
@@ -125,12 +128,20 @@ export default function Onboarding() {
                   advanceMission();
                 }}
                 disabled = {
-                  missionStep > 6 || (
-                  !hasSentStep2Chat && missionStep === 3) ||
-                  !chatsLoaded
+                  !hasSentStep2Chat && missionStep === 3
                 }
               />
-      </MoreButtonWrapper>
+          </MoreButtonWrapper>}
+          {isStepInRange && <MoreButtonWrapper>
+            <MoreButtonDisable
+                label={"I’ve decided !"}
+                onClick={() => {
+                  advanceMission(8);
+                }
+              }
+              isabled = {isAnswered && likedIndex !== null}
+              />
+          </MoreButtonWrapper>}
        </ChatContainer>
       </Layout>
     </MainLayout>
@@ -197,6 +208,7 @@ export const ChatListWrapper = styled.div<{ $isAnimating: boolean }>`
   scrollbar-gutter: stable;
   scroll-padding-bottom: 40px; 
   padding-top: 10px; 
+  padding-bottom: 80px;
    &::-webkit-scrollbar-thumb {
     background-color: ${colors.gray300};
     border-radius: 20px;

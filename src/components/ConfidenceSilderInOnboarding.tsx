@@ -118,7 +118,7 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(32, 32, 32, 0.7);
+  background-color:  rgba(77, 77, 77, 0.80);
   z-index: 10;
   pointer-events: auto;
   transition: opacity 0.5s ease;

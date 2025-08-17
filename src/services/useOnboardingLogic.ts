@@ -27,12 +27,17 @@ export function useOnboardingLogic() {
         saveMissionStep(step);
     };
 
-    const advanceMission = () => {
-        if (missionStep === 3 && !hasSentStep2Chat) {
-          return;
-        }
+    const advanceMission = (nextStep?: number) => {
+      if (missionStep === 3 && !hasSentStep2Chat) {
+        return;
+      }
+    
+      if (typeof nextStep === "number") {
+        setMissionStep(nextStep);
+      } else {
         setMissionStep(missionStep + 1);
-      };
+      }
+    };
 
     useEffect(() => {
       if (sliderValue !== 50) {
@@ -46,7 +51,7 @@ export function useOnboardingLogic() {
         if (!caseData) return;
         const fetchChats = async () => {
           try {
-            if (missionStep === 5) setAgentChats([]);
+            if (missionStep === 5 || missionStep === 8) setAgentChats([]);
             console.log("missionStep : ", missionStep)
             if (missionStep === 1) {
               await appendChatsSequentially(step1Chats, "0");
@@ -54,6 +59,12 @@ export function useOnboardingLogic() {
             }
             if (missionStep === 2) {
               await appendChatsSequentially(step2Chats, "0");
+              return;
+            }
+            if (missionStep === 8) {
+              setCanInteractSlider(false);
+              setLikedIndex(null);
+              await appendChatsSequentially(step8Chats, "0");
               return;
             }
 
@@ -240,4 +251,31 @@ const step2Chats: AgentChat[] = [
     type: "reply",
     message: "Totally. We’re having a very important agent talk.",
   }
+];
+
+const step8Chats: AgentChat[] = [
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "Now it’s time to dive into the actual experiment.\nSometimes, a self-driving car has to make a difficult choice —for example, whether to save the passengers or the pedestrians.",
+  },
+  {
+    from: "narr",
+    to: "me",
+    type: "talk",
+    message: "You’ll act as **an observer** and decide which option seems more ethical based on the information given.",
+  },
+  {
+    from: "rule",
+    to: "me",
+    type: "talk",
+    message: "**Note**:\nIn this experiment, we assume the car already knows key details about each person involved — like their age, job, or criminal history.",
+  },
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "Ready to try this experiment?\nWhen you’re ready, **tap ‘Next Session’ to begin.**",
+  },
 ];
