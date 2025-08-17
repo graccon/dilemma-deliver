@@ -86,8 +86,10 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
                 <InfoIcon src="/assets/icons/turntaking_icon.png" alt="time" />
                 <InfoLabel>Turn count : {session2Map.get(selectedCaseId!)?.turntakingCount}</InfoLabel>
               </InfoRow>
+              
 
               <Spacer height="20px" />
+
 
               {agentChats.map((chat, index) => (
                 <ChatBubble

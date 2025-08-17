@@ -156,7 +156,7 @@ export function useSessionLogic() {
         });
   
         i++;
-      }, 1200);
+      }, 3000);
       setShouldAnimate(true);
     });
   }
