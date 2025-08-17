@@ -2,46 +2,78 @@ import styled from "styled-components";
 import { CaseTitle, Body } from "../styles/textStyles";
 import type OnboardingCase from "../models/OnboardingCase";
 import { textStyles } from "../styles/textStyles";
+import colors from "../styles/colors";
 
 type Props = {
   caseData: OnboardingCase;
-  disabled: boolean;
   isActive: boolean;
+  missionStep: number;
 };
 
-export default function OnboardingCaseDisplay({ caseData, disabled, isActive }: Props) {
+
+export default function OnboardingCaseDisplay({ caseData, missionStep, isActive }: Props) {
+  const disabled =  missionStep < 2;
+  const imagePathMap: Record<"A" | "B", Record<number, string>> = {
+    A: {
+      1: "/assets/images/default_A.png",
+      2: "/assets/images/mode_A.png",
+      3: "/assets/images/onboarding_inactive_A.png",
+    },
+    B: {
+      1: "/assets/images/default_B.png",
+      2: "/assets/images/mode_B.png",
+      3: "/assets/images/onboarding_inactive_B.png",
+    },
+  };
+  
+  function getImageSrc(option: "A" | "B", missionStep: number, caseData: OnboardingCase): string {
+    if (missionStep >= 4) {
+      return option === "A" ? caseData.A.image : caseData.B.image;
+    }
+    return imagePathMap[option][missionStep] ?? "";
+  }
+
+  function getCaseTitle(missionStep: number, caseData: OnboardingCase): string {
+    switch (missionStep) {
+      case 1:
+        return " ";
+      case 2:
+        return "Who’s Talking to Whom?";
+      case 3:
+        return "Mission 1: Adjust the slider";
+      default:
+        return "Mission 2: " + caseData.question;
+    }
+  }
+  
+
   return (
     <Container>
       {<Overlay $visible={disabled} />}
-      <CaseTitle>{caseData.question}</CaseTitle>
+      <TittleWrapper>
+        <CaseTitle>{getCaseTitle(missionStep, caseData)}</CaseTitle>
+        {(missionStep > 4) && <SubTitle>Choose A or B, then like the speech bubble you find most convincing.</SubTitle>}
+      </TittleWrapper>
 
       <Grid>
         <Option>
           <DescriptionContainer>
-            <OptionLabel $align="right">A</OptionLabel>
+            {isActive && <OptionLabel $align="right">A</OptionLabel>}
             {isActive && <Body>{caseData.A.description}</Body>}
           </DescriptionContainer>
           <Image
-            src={
-              !isActive
-                ? "/assets/images/onboarding_inactive_A.png"
-                : caseData.A.image
-            }
+            src={getImageSrc("A", missionStep, caseData)}
             alt="Option A"
           />
         </Option>
 
         <Option>
-          <Image
-            src={
-              !isActive
-                ? "/assets/images/onboarding_inactive_B.png"
-                : caseData.B.image
-            }
-            alt="Option A"
+        <Image
+            src={getImageSrc("B", missionStep, caseData)}
+            alt="Option B"
           />
           <DescriptionContainer>
-            <OptionLabel $align="left">B</OptionLabel>
+            {isActive &&<OptionLabel $align="left">B</OptionLabel>}
             {isActive && <Body>{caseData.B.description}</Body>}
           </DescriptionContainer>
         </Option>
@@ -62,7 +94,7 @@ const Overlay = styled.div.withConfig({
   z-index: 10;
   pointer-events: ${({ $visible }) => ($visible ? "auto" : "none")};
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  transition: opacity 0.5s ease;
+  transition: opacity 1s ease;
 `;
 
 export const Container = styled.div`
@@ -72,6 +104,16 @@ export const Container = styled.div`
   height: 100%;
   overflow: hidden;
   border-radius: 1rem;
+`;
+
+export const TittleWrapper = styled.div`
+  width: 100%;
+  padding: 16px 0px 0px 0px;
+`;
+
+export const SubTitle = styled.p`
+  ${textStyles.li({ color: colors.gray600, align: "center" })};
+  margin: 6px 0px;
 `;
 
 export const OptionLabel = styled.h3<{ $align?: "left" | "right" | "center" }>`

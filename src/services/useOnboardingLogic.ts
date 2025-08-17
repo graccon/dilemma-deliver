@@ -14,7 +14,7 @@ export function useOnboardingLogic() {
     const [likedIndex, setLikedIndex] = useState<number | null>(null);
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
-    const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() > 2);
+    const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() > 3);
     const [chatsLoaded, setChatsLoaded] = useState(false);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export function useOnboardingLogic() {
     };
 
     const advanceMission = () => {
-        if (missionStep === 2 && !hasSentStep2Chat) {
+        if (missionStep === 3 && !hasSentStep2Chat) {
           return;
         }
         setMissionStep(missionStep + 1);
@@ -46,16 +46,20 @@ export function useOnboardingLogic() {
         if (!caseData) return;
         const fetchChats = async () => {
           try {
-            if (missionStep === 4) setAgentChats([]);
+            if (missionStep === 5) setAgentChats([]);
             console.log("missionStep : ", missionStep)
             if (missionStep === 1) {
               await appendChatsSequentially(step1Chats, "0");
               return;
             }
+            if (missionStep === 2) {
+              await appendChatsSequentially(step2Chats, "0");
+              return;
+            }
+
             const chats = await loadAgentChats("case_0", missionStep.toString(), "0"); 
             await appendChatsSequentially(chats, "0");
-
-            if (missionStep === 2) {
+            if (missionStep === 3) {
               setCanInteractSlider(true);
             }
 
@@ -69,7 +73,7 @@ export function useOnboardingLogic() {
 
       useEffect(() => {
         if (hasSentStep2Chat) {return;}
-        if (missionStep === 2 && sliderValue === 25) {
+        if (missionStep === 3 && sliderValue === 25) {
           const newChats: AgentChat[] = [
             {
               from: "stat",
@@ -87,11 +91,11 @@ export function useOnboardingLogic() {
         switch (step) {
           case 1:
             return "Let’s get started";
-          case 4:
-            return "I can’t decide yet";
           case 5:
             return "I can’t decide yet";
           case 6:
+            return "I can’t decide yet";
+          case 7:
             return "I can’t decide yet";
           default:
             return "Got it !";
@@ -209,4 +213,31 @@ const step1Chats: AgentChat[] = [
     type: "reply",
     message: "Of course! I'm good at this kind of stuff. We will help you.",
   },
+];
+
+const step2Chats: AgentChat[] = [
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "Alright, before we begin,\n Look at the image on the left. This is how we show who’s talking to whom.",
+  },
+  {
+    from: "stat",
+    to: "me",
+    type: "talk",
+    message: "If I’m looking at you, I’m only talking to you.",
+  },
+  {
+    from: "rule",
+    to: "narr",
+    type: "talk",
+    message: "Wait, if we’re looking at each other like this… does that mean we’re just talking to each other?",
+  },
+  {
+    from: "rule",
+    to: "narr",
+    type: "reply",
+    message: "Totally. We’re having a very important agent talk.",
+  }
 ];

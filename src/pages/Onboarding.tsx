@@ -57,8 +57,8 @@ export default function Onboarding() {
           <CaseContainer>
             {caseData && (
               <OnboardingCaseDisplay 
-                isActive={missionStep > 2}
-                disabled={!canInteractSlider && missionStep < 2} 
+                isActive={canInteractSlider}
+                missionStep={missionStep} 
                 caseData={caseData} 
               />
             )}
@@ -71,7 +71,7 @@ export default function Onboarding() {
                 setSliderValue(value);
               }}
               disabled={!canInteractSlider}
-              highlight={missionStep === 2}
+              highlight={missionStep === 3}
             />
           </SliderContainer>
         </ProblemContainer>
@@ -100,7 +100,7 @@ export default function Onboarding() {
                         ) : (
                           <ChatBubble 
                             chat={chat}
-                            mode={missionStep < 4 ? "explain" : "onboarding"}
+                            mode={missionStep < 5 ? "explain" : "onboarding"}
                             replyTo={replyTarget}
                             liked={likedIndex === idx}
                             shouldAnimate={shouldAnimate ?? true}
@@ -125,8 +125,8 @@ export default function Onboarding() {
                   advanceMission();
                 }}
                 disabled = {
-                  missionStep > 5 || (
-                  !hasSentStep2Chat && missionStep === 2) ||
+                  missionStep > 6 || (
+                  !hasSentStep2Chat && missionStep === 3) ||
                   !chatsLoaded
                 }
               />
