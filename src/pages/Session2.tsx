@@ -55,13 +55,15 @@ export default function Session2() {
         // }
       },
   );
-  
 
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const prevChatsLength = useRef(agentChats.length);
   useEffect(() => {
-    if (chatEndRef.current) {
+    const hasNewMessage = agentChats.length > prevChatsLength.current;
+    if (hasNewMessage && chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
+    prevChatsLength.current = agentChats.length;
   }, [agentChats]);
 
   const [isAnimating, setIsAnimating] = useState(true);
@@ -186,7 +188,7 @@ export default function Session2() {
               <MoreButton
                     label={"I can't decide yet"}
                     onClick={handleMoreClick}
-                    disabled={!canTakeTurn || !chatsLoaded}// || isFetchingRef.current
+                    disabled={!canTakeTurn || !chatsLoaded}
                   />
             </MoreButtonWrapper>
           </ChatContainer>
