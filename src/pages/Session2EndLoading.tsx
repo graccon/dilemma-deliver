@@ -3,15 +3,15 @@ import { useUserStore } from "../stores/useUserStore";
 import { safeRun } from "../models/loading";
 import Loading from "./Loading";
 
-import { doc, setDoc, serverTimestamp, addDoc, collection } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebaseClient";
 import { getSessionLogs } from "../stores/sessionLogStore";
 import { getShuffledProblems } from "../services/problemSetting";
 import { getConfidenceLogs } from "../stores/useConfidenceStore";
-import type { ConfidenceLog } from "../stores/useConfidenceStore";
 import { getTurnLogs } from "../stores/turnLogStorage";
 import { getChatLog } from "../stores/chatLogStorage";
 import { getAllTurnTimers } from "../stores/caseTurnTimerStorage";
+import { getCurrentSessionIndex } from "../services/sessionUtils";
 
 export function getAllChatLogs(caseIds: string[]): Record<string, any[]> {
     const chatsByCase: Record<string, any[]> = {};
@@ -27,21 +27,6 @@ export function getAllChatLogs(caseIds: string[]): Record<string, any[]> {
     return chatsByCase;
 }
 
-function countChangesByCase(confidences: ConfidenceLog[]) {
-    const prevByCase = new Map<number, number>();
-    const changesByCase = new Map<number, number>();
-  
-    for (const log of confidences) {
-      if (log.type !== "onTouchEnd") continue;
-      const prev = prevByCase.get(log.caseIndex);
-      if (prev !== undefined && prev !== log.confidence) {
-        changesByCase.set(log.caseIndex, (changesByCase.get(log.caseIndex) || 0) + 1);
-      }
-      prevByCase.set(log.caseIndex, log.confidence);
-    }
-    return changesByCase;
-}
-  
 async function flushPreSurveyLogs(signal: AbortSignal) {
   if (signal.aborted) return;
 
@@ -61,12 +46,6 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
             .map(String)
         : null;
 
-    const changesMap = countChangesByCase(confideces);
-    const changesByProblemId = shuffledIds!.reduce((acc, problemId, caseIndex) => {
-        acc[problemId] = changesMap.get(caseIndex) || 0;
-        return acc;
-    }, {} as Record<string, number>);
-
     const caseCount = logs.length;
     const totalMs = logs.reduce((s, l) => s + (l?.durationMs ?? 0), 0);
     const avgMsPerCase = caseCount ? Math.round(totalMs / caseCount) : 0;
@@ -82,7 +61,6 @@ async function flushPreSurveyLogs(signal: AbortSignal) {
           totalMs: totalMs,
           turnCount: turns,
           avgMsPerCase: avgMsPerCase,
-          confideces: changesByProblemId,
           shuffledProblems: shuffledIds ?? JSON.stringify(order ?? []),
           chatlogs: allChatLogs,
           confidecesLogs: confideces,
@@ -124,10 +102,27 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
   }
 }
 
+async function flushMetaLogs(signal: AbortSignal) {
+    if (signal.aborted) return;
+
+    const { prolificId } = useUserStore.getState();
+    const S2_INDEX_KEY = "session2_currentIndex";
+    const session2Done = getCurrentSessionIndex(S2_INDEX_KEY) === 5; 
+
+    if (!prolificId) {
+    console.warn("[flushMetaLogs] prolificId empty — skip");
+    return;
+    }
+    await updateDoc(doc(db, "participants", prolificId), {
+      "meta.sessionFlags.session2Done": session2Done,
+    });
+}
+
 export default function Session2EndLoading() {
   const steps: LoadingStep[] = [
     { label: "flush-logs:chat", run: (signal) => safeRun(flushPreSurveyLogs, signal) },
     { label: "flush-logs:case-timer", run: (signal) => safeRun(flushCaseTimerLogs, signal) },
+    { label: "flush-logs:meta", run: (signal) => safeRun(flushMetaLogs, signal) },
   ];
 
   return (

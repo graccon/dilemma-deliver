@@ -8,7 +8,6 @@ import { doc, setDoc, serverTimestamp, addDoc, collection, updateDoc } from "fir
 import { db } from "../services/firebaseClient";
 import { getPostsurveyData } from "../stores/postsurveyStore";
 import { getTimerLogs } from "../stores/useTimerLogStore";
-import { getCurrentSessionIndex } from "../services/sessionUtils";
 import { getBlurCountByPage, useFocusLogStore } from "../stores/useFocusLogStore";
 
 
@@ -66,25 +65,17 @@ async function flushMetaLogs(signal: AbortSignal) {
         console.warn("[flushMetaLogs] prolificId empty — skip");
         return;
     }
-    const S1_INDEX_KEY = import.meta.env.VITE_S1_I_KEY; 
-    const S2_INDEX_KEY = "session2_currentIndex";
-
+  
     const signupTs = timers[0].timestamp;
     const lastSeenTs = timers[timers.length - 1].timestamp;
     const totalMs = Math.max(0, lastSeenTs - signupTs);
 
-    const session1Done = getCurrentSessionIndex(S1_INDEX_KEY) === 5;
-    const session2Done = getCurrentSessionIndex(S2_INDEX_KEY) === 5;
-
-    console.log("session1Done : ", session1Done, session2Done);
     console.log("time : ", signupTs, lastSeenTs, totalMs)
     
     await updateDoc(doc(db, "participants", prolificId), {
         "meta.signupTs": signupTs,
         "meta.lastSeenTs": lastSeenTs,
         "meta.totalExperimentMs": totalMs,
-        "meta.sessionFlags.session1Done": session1Done,
-        "meta.sessionFlags.session2Done": session2Done,
     });
 }
 

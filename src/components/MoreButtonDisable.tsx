@@ -34,6 +34,6 @@ const Button = styled.button<{ $isabled: boolean }>`
   border-radius: 50rem;
   background-color: ${colors.white};
   background-color: ${({ $isabled }) => ($isabled ? colors.gray800 : colors.gray200)};
-  cursor: ${({ $isabled }) => ($isabled ? "not-allowed" : "pointer")};
+  cursor: ${({ $isabled }) => ($isabled ? "pointer":"not-allowed")};
   transition: background-color 0.3s ease;
 `;

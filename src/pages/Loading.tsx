@@ -84,6 +84,19 @@ export default function Loading({
     return () => cancelAnimationFrame(raf);
   }, [targetPct]);
 
+  let message;
+  switch (nextTo) {
+    case "/session1":
+      message = "Session 1 is about to begin...";
+      break;
+    case "/session2":
+      message = "Session 2 is about to begin...";
+      break;
+    default:
+      message = "Loading…";
+      break;
+  }
+
   return (
     <MainLayout currentStep={0}>
       <Container>
@@ -99,7 +112,8 @@ export default function Loading({
           />
           <Percent>{Math.round(uiPct)}%</Percent>
         </SliderWrap>
-        <PageSecondTitle>Loading…</PageSecondTitle>
+        <PageSecondTitle>{message}</PageSecondTitle>
+     
       </Container>
     </MainLayout>
   );
@@ -130,6 +144,7 @@ const tilt = keyframes`
   75% { transform: rotate(-2deg); }
   100% { transform: rotate(0deg); }
 `;
+
 const StyledImage = styled.img`
   flex-shrink: 0;
   width: 580px;

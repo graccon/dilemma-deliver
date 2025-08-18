@@ -258,7 +258,7 @@ const step8Chats: AgentChat[] = [
     from: "stat",
     to: "me",
     type: "talk",
-    message: "Now it’s time to dive into the actual experiment.\nSometimes, a self-driving car has to make a difficult choice —for example, whether to save the passengers or the pedestrians.",
+    message: "Now it’s time to dive into the actual experiment.\nSometimes, a self-driving car has to make a difficult choice—for example, whether to save the passengers or the pedestrians.",
   },
   {
     from: "narr",

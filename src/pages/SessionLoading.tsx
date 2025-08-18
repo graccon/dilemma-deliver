@@ -59,7 +59,7 @@ export default function SessionLoading() {
   return (
     <Loading
       steps={steps}
-      minDurationMs={1500}
+      minDurationMs={4000}
       nextTo="/session1" 
       onProgress={() => {
       }}

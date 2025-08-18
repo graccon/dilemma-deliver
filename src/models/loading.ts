@@ -60,7 +60,13 @@ export const PRELOAD_ONBOARDING = [
     "/assets/images/onboarding_A.png",
     "/assets/images/onboarding_B.png",
     "/assets/images/onboarding_inactive_A.png",
-    "/assets/images/onboarding_inactive_B.png"
+    "/assets/images/onboarding_inactive_B.png",
+    "/assets/images/default_A.png",
+    "/assets/images/default_B.png",
+    "/assets/images/mode_A.png",
+    "/assets/images/mode_B.png",
+    "/assets/images/case_A.png",
+    "/assets/images/case_B.png",
 ];
 
 

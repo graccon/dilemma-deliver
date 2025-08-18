@@ -41,7 +41,7 @@ export default function OnboardingCaseDisplay({ caseData, missionStep, isActive 
   function getCaseTitle(missionStep: number, caseData: OnboardingCase): string {
     switch (missionStep) {
       case 1:
-        return "Title";
+        return "Onboarding";
       case 2:
         return "Who’s Talking to Whom?";
       case 3:
