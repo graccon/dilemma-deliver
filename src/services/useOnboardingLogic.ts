@@ -15,7 +15,7 @@ export function useOnboardingLogic() {
     const [sliderValue, setSliderValue] = useState<number>(50);
     const [hasSentStep2Chat, setHasSentStep2Chat] = useState(false);
     const [canInteractSlider, setCanInteractSlider] = useState<boolean>(() => loadMissionStep() > 3);
-    const [chatsLoaded, setChatsLoaded] = useState(false);
+    const [chatsLoaded, setChatsLoaded] = useState(true);
 
     useEffect(() => {
         const data = getOnboarding();
@@ -90,7 +90,7 @@ export function useOnboardingLogic() {
               from: "stat",
               to: "me",
               type: "talk",
-              message: "@ME Nice work ! 🥳 \nOne last step to go. \n**Tap ‘Got it’ again.**",
+              message: "@Me Nice work ! 🥳 \nOne last step to go. \n**Tap ‘Got it’ again.**",
             },
         ]
         setAgentChats((prev) => [...prev, ...newChats]);
@@ -198,7 +198,7 @@ const step1Chats: AgentChat[] = [
     from: "stat",
     to: "me",
     type: "talk",
-    message: "@ME Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
+    message: "@Me Hi there! Glad you’re here. You’ll be making some important decisions in this experiment.",
   },
   {
     from: "stat",

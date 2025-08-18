@@ -119,7 +119,7 @@ export const textStyles = {
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
     font-size: 1rem;
-    color: ${colors.gray700};
+    color: ${colors.gray800};
 `,
 
     replyLabel: () => `

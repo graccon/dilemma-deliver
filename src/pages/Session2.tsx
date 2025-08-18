@@ -14,6 +14,7 @@ import UserChatBubble from "../components/UserChatBubble";
 import { getCurrentSessionIndex } from "../services/sessionUtils";
 import { restartCaseTimer } from "../stores/caseTurnTimerStorage";
 import { usePerCaseTimer } from "../services/usePerCaseTimer";
+import LimitReachedModal from "../components/LimitReachedModal";
 
 export default function Session2() {
   const INDEX_KEY = import.meta.env.VITE_S2_I_KEY;
@@ -39,17 +40,19 @@ export default function Session2() {
 
   const SESSION_ID = "session2";
   const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const { remainingMs, resetFlags } = usePerCaseTimer(
       SESSION_ID,
       currentCase?.id,
       PER_CASE_LIMIT_MS,
       timerReady,
       () => {
-        const ok = window.confirm("You’ve reached the 15-minute limit for this case. Restart the timer?");
-        if (ok) {
-          resetFlags();
-          restartCaseTimer(SESSION_ID, currentCase!.id);
-        }
+        setShowLimitModal(true);
+        // const ok = window.confirm("You’ve reached the 15-minute limit for this case. Restart the timer?");
+        // if (ok) {
+        //   resetFlags();
+        //   restartCaseTimer(SESSION_ID, currentCase!.id);
+        // }
       },
   );
   
@@ -94,6 +97,15 @@ export default function Session2() {
       }
     > 
     <Layout>
+    {showLimitModal && (
+        <LimitReachedModal 
+          onRestart={() => {
+            resetFlags();
+            restartCaseTimer(SESSION_ID, currentCase!.id);
+            setShowLimitModal(false);
+          }}
+        />
+      )}
       <ProblemContainer>
           <CaseContainer>
             {currentCase && (

@@ -34,12 +34,11 @@ export function useSessionLogic() {
   const [isAnswered, setIsAnswered] = useState(false);
   const [canTakeTurn, setCanTakeTurn] = useState(true);
   const isFetchingRef = useRef(false);
-  const [chatsLoaded, setChatsLoaded] = useState(false);
+  const [chatsLoaded, setChatsLoaded] = useState(true);
   
   const { group } = useUserStore();
   const addConfidence = useConfidenceStore((state) => state.addConfidence);
   const fetchedRef = useRef<Set<string>>(new Set());
-
   const [timerReady, setTimerReady] = useState(false);
 
   // 초기 인덱스 설정

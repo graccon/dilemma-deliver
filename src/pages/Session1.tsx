@@ -15,6 +15,7 @@ import { getCurrentSessionIndex } from "../services/sessionUtils";
 import { useSessionLogStore } from "../stores/sessionLogStore";
 import { restartCaseTimer } from "../stores/caseTurnTimerStorage";
 import { usePerCaseTimer } from "../services/usePerCaseTimer";
+import LimitReachedModal from "../components/LimitReachedModal";
 
 function getLastDurationBeforeCurrent(): number {
   const { logs } = useTimerLogStore.getState();
@@ -38,17 +39,14 @@ export default function Session1() {
   const timerReady = true;
   const SESSION_ID = "session1";
   const PER_CASE_LIMIT_MS = 15 * 60 * 1000;
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const { remainingMs, resetFlags } = usePerCaseTimer(
     SESSION_ID,
     currentCase?.id,
     PER_CASE_LIMIT_MS,
     timerReady,
     () => {
-      const ok = window.confirm("You’ve reached the 15-minute limit for this case. Restart the timer?");
-      if (ok) {
-        resetFlags();
-        restartCaseTimer(SESSION_ID, currentCase!.id);
-      }
+      setShowLimitModal(true);
     }
   );
 
@@ -122,6 +120,15 @@ export default function Session1() {
       }
     >
       <Container>
+            {showLimitModal && (
+                <LimitReachedModal 
+                  onRestart={() => {
+                    resetFlags();
+                    restartCaseTimer(SESSION_ID, currentCase!.id);
+                    setShowLimitModal(false);
+                  }}
+                />
+              )}
         <CaseContainer>
           {currentCase && (
             <MoralCaseDisplay

@@ -5,6 +5,7 @@ import { textStyles } from "../styles/textStyles";
 import isPropValid from "@emotion/is-prop-valid";
 import LikeButton from "./LikeButton";
 import AgentTag from "./AgentTag";
+import { useUserStore } from "../stores/useUserStore";
 
 interface ChatBubbleProps {
   chat: AgentChat;
@@ -147,7 +148,6 @@ const agentProfiles: Record<ChatMode, Record<AgentKey, AgentProfile>> = {
   },
 };
 
-
 function parseMessage(message: string): React.ReactNode[] {
 
   const normalized = message.replace(/\\n/g, '\n');
@@ -167,6 +167,8 @@ function parseMessage(message: string): React.ReactNode[] {
 
 export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, shouldAnimate = false, hideFromTag, hideToTag }: ChatBubbleProps) {
   const { message, from, to } = chat;
+  const { group } = useUserStore.getState();
+
   const currentMode = mode ?? "default"; 
   const fromKey = (chat.type === "reply" ? to : from).toLowerCase() as AgentKey;
   const toKey = (chat.type === "reply" ? from : to).toLowerCase() as AgentKey;
@@ -189,6 +191,12 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
   const shouldShowLikeButton = !replyTo && currentMode !== "explain";
   const shouldShowToTag = !hideToTag && !isToMe;
 
+  const groupNumber = Number(group);
+  let formattedMessage = message;
+  if (!isNaN(groupNumber) && groupNumber > 2 && isToMe && currentMode=="default") {
+    formattedMessage = "@Me " + message;
+  }
+
   return (
     <BubbleWrapper shouldAnimate={shouldAnimate} $isReply={!!replyTo} $isToMe={!!isToMe} $isTypeReply={chat.type === "reply"}>
       <Container>
@@ -199,7 +207,7 @@ export default function ChatBubble({ chat, replyTo, mode, liked=false, onLike, s
 
         <BubbleContainer>
           <Bubble $liked={liked} $isReply={!!replyTo}>
-            {parseMessage(message)}
+            {parseMessage(formattedMessage)}
       
           </Bubble>
           <LikeButton liked={liked} onClick={onLike} show={shouldShowLikeButton} />
