@@ -6,11 +6,13 @@ import styled from "styled-components";
 import { FaRegCopy } from "react-icons/fa"; 
 import colors from "../styles/colors";
 
-const CODE = import.meta.env.VITE_COMPLETE_CODE; 
 
 export default function ThankYou() {
 
   const [copied, setCopied] = useState(false);
+
+  const INDEX_KEY = import.meta.env.VITE_REDIRECT_URL;
+  const CODE = import.meta.env.VITE_COMPLETE_CODE; 
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(CODE).then(() => {
@@ -23,7 +25,7 @@ export default function ThankYou() {
       <MainLayout
               currentStep={5}
               footerButton={
-                <FooterButton label="Return to Prolific" to="/" disabled={false} />
+                <FooterButton label="Return to Prolific" to={INDEX_KEY} disabled={false} />
               }
             >
         <Container>
