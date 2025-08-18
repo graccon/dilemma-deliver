@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CaseTitle } from "../styles/textStyles";
 import Spacer from "./Spacer";
 import { textStyles } from "../styles/textStyles";
+import colors from "../styles/colors";
 
 type Props = {
   caseData: MoralCase;
@@ -19,10 +20,13 @@ export default function MoralCaseDisplay({ caseData, index, total, mode="CaseOnl
     return (
       <Container>
         <ContentContainer>
-            <CaseTitle>
-                What should the self-driving car do?{" "}
-            {index !== undefined && total && `(${index + 1} / ${total})`}
-            </CaseTitle>
+            <TittleWrapper>
+                <CaseTitle>
+                    What should the self-driving car do?{" "}
+                    {index !== undefined && total && `(${index + 1} / ${total})`}
+                </CaseTitle>
+                {mode === "ChatWith" && <SubTitle>Choose A or B, then like the speech bubble you find most convincing.</SubTitle>}
+            </TittleWrapper>
             <Grid>
             <Option>
                 <ImageWrapper>
@@ -91,6 +95,16 @@ export const Container = styled.div`
 export const ContentContainer = styled.div`
     width: 100%;
     margin: 0 auto;
+`;
+
+export const TittleWrapper = styled.div`
+  width: 100%;
+  padding: 16px 0px 0px 0px;
+`;
+
+export const SubTitle = styled.p`
+  ${textStyles.li({ color: colors.gray600, align: "center" })};
+  margin: 6px 0px;
 `;
 
 export const Option = styled.div`

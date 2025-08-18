@@ -18,6 +18,12 @@ type Props = {
 
 type Mode = "confidenceChange" | "confidenceUnchange" | "Agent";
 
+const agentIconMap: Record<string, string> = {
+  stat: "/assets/icons/agent_veko_icon.png",
+  rule: "/assets/icons/agent_lumi_icon.png",
+  narr: "/assets/icons/agent_molu_icon.png",
+};
+
 
 export default function SessionReviewPanel({ session1Logs, session2Logs, mode }: Props) {
   const session1Map = useMemo(() => new Map(session1Logs.map((log) => [log.caseId, log])), [session1Logs]);
@@ -58,6 +64,11 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
 
   const isConfidenceChanged = c1 !== c2;
 
+  function getDecisionLetter(confidence?: number): "A" | "B" | "-" {
+    if (confidence === undefined) return "-";
+    return confidence < 50 ? "A" : "B";
+  } 
+
   useEffect(() => {
     if (!selectedCaseId) return;
   
@@ -71,26 +82,37 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
       </OuterLayout>
     ) : (
       <OuterLayout>
-        <CaseListSection>
-          {commonCaseIds.map((caseId) => (
+
+        <CaseListSection $mode={mode}>
+        {commonCaseIds.map((caseId) => {
+          const log = session2Map.get(caseId);
+          const from = log?.agentChats?.[0]?.from;
+          const iconKey = from === "stat" || from === "rule" || from === "narr" ? from : "stat";
+          const iconSrc = agentIconMap[iconKey];
+
+          return (
             <CaseButton key={caseId} onClick={() => setSelectedCaseId(caseId)}>
               CASE {caseId.replace("case_", "")}
+              {mode === "Agent" && (
+                <AgentImage src={iconSrc} alt={"agent"} />
+              )}
             </CaseButton>
-          ))}
+          );
+        })}
         </CaseListSection>
   
           {/* */}
           {mode === "Agent" ? (
             <AgentChatSection>
               <InfoRow>
+                <InfoLabel>My decision : {session2Map.get(selectedCaseId!)?.confidence} 
+                  ({getDecisionLetter(session2Map.get(selectedCaseId!)?.confidence)})</InfoLabel>
+                <Spacer width="4px" />
                 <InfoIcon src="/assets/icons/turntaking_icon.png" alt="time" />
                 <InfoLabel>Turn count : {session2Map.get(selectedCaseId!)?.turntakingCount}</InfoLabel>
               </InfoRow>
               
-
               <Spacer height="20px" />
-
-
               {agentChats.map((chat, index) => (
                 <ChatBubble
                   key={index}
@@ -136,14 +158,17 @@ const OuterLayout = styled.div`
     height: 100%;
 `;
 
-const CaseListSection = styled.div`
-  width: 80px;
+const CaseListSection = styled.div<{ $mode: string }>`
+  width: ${({ $mode }) => ($mode === "Agent" ? "92px" : "80px")};
   display: flex;
   flex-direction: column;
 `;
 
 const CaseButton = styled.button`
     ${textStyles.bubbleText()};
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     padding: 0.6rem;
     border: none;
     background-color: ${colors.gray300};
@@ -171,6 +196,10 @@ const MyChoiceSection = styled.div`
 
 const Arrow = styled.img`
   height: 28px;
+`;
+
+const AgentImage = styled.img`
+  height: 24px;
 `;
 
 const NoCaseMessage = styled.div`

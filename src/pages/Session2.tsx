@@ -92,7 +92,7 @@ export default function Session2() {
         <FooterButton
           label={currentIndex < total - 1 ? "Next Question" : "Next Session"}
           onClick={handleNext}
-          disabled={!isAnswered || likedIndex === null || !timerReady}
+          disabled={!isAnswered || likedIndex === null || !timerReady || !chatsLoaded}
           isTimer={timerReady}         
           elapsedMs={remainingMs} 
         />
