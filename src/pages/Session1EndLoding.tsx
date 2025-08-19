@@ -107,27 +107,34 @@ async function flushCaseTimerLogs(signal: AbortSignal) {
 }
 
 async function flushMetaLogs(signal: AbortSignal) {
-    if (signal.aborted) return;
+  console.log("[flushMetaLogs] called");
 
-    const { prolificId } = useUserStore.getState();
-    const S1_INDEX_KEY = import.meta.env.VITE_S1_I_KEY;
-    const session1Done = getCurrentSessionIndex(S1_INDEX_KEY) === 5; 
+  if (signal.aborted) {
+    console.warn("[flushMetaLogs] aborted");
+    return;
+  }
 
-    if (!prolificId) {
+  const { prolificId } = useUserStore.getState();
+  const S1_INDEX_KEY = import.meta.env.VITE_S1_I_KEY;
+  const session1Done = getCurrentSessionIndex(S1_INDEX_KEY) === 5;
+
+  if (!prolificId) {
     console.warn("[flushMetaLogs] prolificId empty — skip");
     return;
-    }
-    await updateDoc(doc(db, "participants", prolificId), {
-      "meta.sessionFlags.session1Done": session1Done,
-    });
+  }
+
+  await updateDoc(doc(db, "participants", prolificId), {
+    "meta.sessionFlags.session1Done": session1Done,
+  });
+  console.log("[flushMetaLogs] Firestore update complete");
 }
 
 export default function Session1EndLoading() {
   const steps: LoadingStep[] = [
+    { label: "flush-logs:meta", run: (signal) => safeRun(flushMetaLogs, signal) },
     { label: "flush-logs:chat", run: (signal) => safeRun(flushPreSurveyLogs, signal) },
     { label: "resetProblemsForSession2", run: (signal) => safeRun(resetProblemsForSession2, signal) },
     { label: "flush-logs:case-timer", run: (signal) => safeRun(flushCaseTimerLogs, signal) },
-    { label: "flush-logs:meta", run: (signal) => safeRun(flushMetaLogs, signal) },
   ];
 
   return (

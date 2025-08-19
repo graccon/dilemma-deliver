@@ -64,7 +64,7 @@ export default function SessionLoading() {
       onProgress={() => {
       }}
       onComplete={() => {
-        // 필요하면 완료 후 추가 동작
+        localStorage.removeItem("session_logs");
       }}
     />
   );

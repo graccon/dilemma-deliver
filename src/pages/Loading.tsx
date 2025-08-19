@@ -135,6 +135,7 @@ const Container = styled.div`
 const PageSecondTitle = styled.div`
   ${textStyles.secondH1()};
   padding: 1.8rem 0 1rem;
+  color: ${colors.gray800};
 `;
 
 const tilt = keyframes`

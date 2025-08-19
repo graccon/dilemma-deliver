@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSessionLogStore } from "../stores/sessionLogStore";
+import { getSessionLogs } from "../stores/sessionLogStore";
 import FooterButton from "../components/FooterButton";
 import type { SessionLog } from "../stores/sessionLogStore";
 import MainLayout from "../layouts/MainLayout";
@@ -73,10 +73,9 @@ function getAverageDuration(logs: SessionLog[]): number {
 }
 
 export default function Postsurvey() {
-  const logs = useSessionLogStore((state) => state.logs);
-  const session1Logs = logs.filter((log) => log.sessionId === "session1");
-  const session2Logs = logs.filter((log) => log.sessionId === "session2");
-  // 
+  const session1Logs = getSessionLogs("session1")
+  const session2Logs = getSessionLogs("session2")
+
   const avgSession1Duration = getAverageDuration(session1Logs).toFixed(0);
   const avgSession2Duration = getAverageDuration(session2Logs).toFixed(0);
 

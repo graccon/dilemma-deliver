@@ -116,6 +116,7 @@ async function flushMetaLogs(signal: AbortSignal) {
     await updateDoc(doc(db, "participants", prolificId), {
       "meta.sessionFlags.session2Done": session2Done,
     });
+    console.log("[flushMetaLogs] Firestore update complete");
 }
 
 export default function Session2EndLoading() {

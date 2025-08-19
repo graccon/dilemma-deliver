@@ -7,6 +7,7 @@ export type SessionLog = {
   caseId: string;
   confidence: number;
   durationMs: number;
+  startAt: number;
   agentChats: AgentChat[] | null;
   turntakingCount: number | null;
 };
@@ -17,9 +18,13 @@ export interface SessionLogState {
   clearLogs: () => void;
 }
 
-export function getSessionLogs(sessionId: string) {
+export function getSessionLogs(sessionId: string): SessionLog[] {
   const { logs } = useSessionLogStore.getState();
-  return logs.filter(l => l.sessionId === sessionId);
+
+  return logs
+    .filter((l) => l.sessionId === sessionId)
+    .sort((a, b) => a.startAt - b.startAt)
+    .slice(-5);
 }
 
 export const useSessionLogStore = create<SessionLogState>()(

@@ -215,6 +215,7 @@ export function useSessionLogic() {
       confidence: currentConfidence,
       durationMs: timeSpent,
       agentChats: likedChat ? [likedChat] : [],
+      startAt: Date.now(),
       turntakingCount: getTurnCount(currentCase.id)
     })
 

@@ -93,6 +93,7 @@ export default function Session1() {
       confidence: currentConfidence,
       durationMs: timeSpent,
       agentChats: null,
+      startAt: Date.now(),
       turntakingCount: null
     })
 

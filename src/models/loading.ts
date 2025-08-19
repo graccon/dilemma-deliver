@@ -67,6 +67,11 @@ export const PRELOAD_ONBOARDING = [
     "/assets/images/mode_B.png",
     "/assets/images/case_A.png",
     "/assets/images/case_B.png",
+    "/assets/images/loading_image_1.png",
+    "/assets/images/loading_image_2.png",
+    "/assets/images/loading_image_3.png",
+    "/assets/icons/good_active_icon.png",
+    "/assets/icons/good_inactive_icon.png",
 ];
 
 
