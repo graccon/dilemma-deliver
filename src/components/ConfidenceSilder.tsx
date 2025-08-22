@@ -160,7 +160,7 @@ const LabelContainer = styled.div`
 
 const SliderBox = styled.div`
   display: flex;
-  width: 40%;
+  width: 45%;
   align-items: center;
   margin: 0px 10px; 
   justify-content: space-between;

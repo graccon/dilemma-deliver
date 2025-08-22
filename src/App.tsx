@@ -12,6 +12,8 @@ import Session1EndLoading from './pages/Session1EndLoding'
 import Session2EndLoading from './pages/Session2EndLoading'
 import PostSurveyLoading from './pages/PostSurveyLoading'
 import HomeLoading from './pages/HomeLoading'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminLogin from './pages/AdminLogin'
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
           <Route path="/session1-loading" element={<Session1EndLoading />} />
           <Route path="/session2-loading" element={<Session2EndLoading />} />
           <Route path="/postsurvey-loading" element={<PostSurveyLoading />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
     </Router>
   )
