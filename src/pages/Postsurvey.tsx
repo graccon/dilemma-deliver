@@ -183,7 +183,7 @@ export default function Postsurvey() {
               <OpenEndedInput
                 value={answer1}
                 onChange={setAnswer1}
-                question="Please explain why your confidence changed between sessions."
+                question="Please review all the changed case(s) and explain why your confidence changed between sessions."
               />
             </OpenEndedInputWrapper>
             <Spacer height="50px" />
@@ -210,7 +210,7 @@ export default function Postsurvey() {
               <OpenEndedInput
                 value={answer2}
                 onChange={setAnswer2}
-                question="Please explain why your confidence unchanged between sessions."
+                question="Please review all the changed case(s) and explain why your confidence unchanged between sessions."
               />
             </OpenEndedInputWrapper>
             <Spacer height="50px" />
@@ -253,7 +253,7 @@ export default function Postsurvey() {
           <OpenEndedInput
             value={answer3}
             onChange={setAnswer3}
-            question="Please explain why you chose this agent dialogue."
+            question="Please review all the changed case(s) and explain why you chose this agent dialogue."
           />
         </OpenEndedInputWrapper>
         <Spacer height="50px" />

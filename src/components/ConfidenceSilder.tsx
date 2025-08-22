@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { SecondTitle, Span } from "../styles/textStyles";
 import colors from "../styles/colors"; 
+import type MoralCase from "../models/MoralCase";
 
 interface ConfidenceSliderProps {
+  caseData: MoralCase | null;
   initialValue?: number;
   onChange?: (value: number) => void;
   onTouchEnd?: (value: number) => void;
@@ -28,6 +30,7 @@ export function getSliderBackground(value: number): string {
 }
 
 const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
+  caseData,
   initialValue = 50,
   onChange,
   onTouchEnd,
@@ -40,9 +43,16 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
     onChange?.(newValue);
   };
 
+  console.log("case : ", caseData?.id);
+
   return (
     <Container>
         <SliderWrapper>
+            {caseData && 
+            <TargetWrapper>
+              <TargetIcon src={`/assets/images/${caseData.id}_target_A.png`} alt="stay icon" />
+            </TargetWrapper>
+            }
             <LabelContainer>
                 <IconBox>
                     <StayIcon src="/assets/icons/stay_icon.png" alt="stay icon" />
@@ -104,6 +114,12 @@ const ConfidenceSlider: React.FC<ConfidenceSliderProps> = ({
                 </IconBox>
                 <SecondTitle $align="center">swerve</SecondTitle>
             </LabelContainer>
+
+            {caseData && 
+            <TargetWrapper>
+              <TargetIcon src={`/assets/images/${caseData.id}_target_B.png`} alt="stay icon" />
+            </TargetWrapper>
+            }
         </SliderWrapper>
     </Container>
   );
@@ -144,7 +160,7 @@ const LabelContainer = styled.div`
 
 const SliderBox = styled.div`
   display: flex;
-  width: 50%;
+  width: 40%;
   align-items: center;
   margin: 0px 10px; 
   justify-content: space-between;
@@ -225,4 +241,16 @@ const StayIcon = styled.img`
   width: 52px;
   height: 52px;
   object-fit: contain;
+`;
+
+const TargetIcon = styled.img`
+  height: 60px;
+  object-fit: contain;
+`;
+
+const TargetWrapper = styled.div`
+  display: flex;
+  width: 120px;
+  justify-content: center;
+  align-items: center;
 `;

@@ -10,8 +10,6 @@ import colors from "../styles/colors";
 export default function ThankYou() {
 
   const [copied, setCopied] = useState(false);
-
-  const INDEX_KEY = import.meta.env.VITE_REDIRECT_URL;
   const CODE = import.meta.env.VITE_COMPLETE_CODE; 
 
   const copyToClipboard = () => {
@@ -20,12 +18,18 @@ export default function ThankYou() {
       setTimeout(() => setCopied(false), 1500);
     });
   };
+
+  const handleRedirect = () => {
+    const redirect_url = import.meta.env.VITE_REDIRECT_URL;
+    window.location.href = redirect_url;
+  };
+
   
     return (
       <MainLayout
               currentStep={5}
               footerButton={
-                <FooterButton label="Return to Prolific" to={INDEX_KEY} disabled={false} />
+                <FooterButton label="Return to Prolific" disabled={false}  onClick={handleRedirect} />
               }
             >
         <Container>
@@ -153,7 +157,7 @@ export const BottomContainer = styled.div`
   margin-top: 40px;
 `;
 
-export const Column = styled.div`ㅛ
+export const Column = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;

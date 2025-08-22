@@ -142,6 +142,7 @@ export default function Session1() {
         <SliderContainer>
           <ConfidenceSlider
             key={currentIndex}
+            caseData={currentCase}
             initialValue={50}
             onChange={(value) => {
               setCurrentConfidence(value);
