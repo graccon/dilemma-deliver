@@ -3,6 +3,7 @@ import type { Participant } from '../models/Participant';
 import styled from 'styled-components';
 import { textStyles } from "../styles/textStyles";
 import colors from '../styles/colors';
+import ParticipantExperimentTable from './ParticipantExperimentTable';
 
 function countParticipants(participants: any[]) {
     let total = 0;
@@ -36,7 +37,7 @@ function getAverageSessionDurations(participants: Participant[]) {
   };
 
   for (const p of participants) {
-
+    console.log(p);
     const logs = p.sessionLogs as Record<SessionKey, { totalMs: number }>;
     if (!logs) continue;
 
@@ -73,13 +74,22 @@ const StageDashboard: React.FC<StageDashboardProps> = ({ participants }) => {
     
     return (
         <Container>
-              <SummaryBox>
-                    <Cell>Total Users<Value>{summary.total} people</Value></Cell>
-                    <Cell>Completed Users<Value>{summary.completed} people</Value></Cell>
-                    <Cell>Avg. Time: Session 1<Value>{sessionDurations.session1Avg}</Value></Cell>
-                    <Cell>Avg. Time: Session 2<Value>{sessionDurations.session2Avg}</Value></Cell>
-              </SummaryBox>
+
+          <SummaryBox>
+            <Cell>Total Users<Value>{summary.total} people</Value></Cell>
+            <Cell>Completed Users<Value>{summary.completed} people</Value></Cell>
+            <Cell>Avg. Session 1<Value>{sessionDurations.session1Avg}</Value></Cell>
+            <Cell>Avg. Session 2<Value>{sessionDurations.session2Avg}</Value></Cell>
+          </SummaryBox>
+  
+          <ProgressWrapper>
             <AdminProgressMatrix participants={participants} />
+          </ProgressWrapper>    
+
+          <ExperimentWrapper>
+            <ParticipantExperimentTable participants={participants} />
+          </ExperimentWrapper>
+            
         </Container>
     );
 }
@@ -87,13 +97,28 @@ const StageDashboard: React.FC<StageDashboardProps> = ({ participants }) => {
 export default StageDashboard;
 
 const Container = styled.div`
-  width: 100;
-  height: 100;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
 `;
 
-const SummaryBox = styled.div`
+const ProgressWrapper = styled.div`
+  flex: 2;
+  width: 100%;
+`;
+
+const ExperimentWrapper = styled.div`
+  flex: 2;
+  width: 100%;
+`;
+
+const SummaryBox = styled.div`:
+  flex: 1;
+  width: 100%;
   display: flex;
-  gap: 1rem;
+  flex-direction: row;
+  gap: 1rem;  
   padding: 0rem 1rem;
   width: 100%;
   border-radius: 8px;
@@ -116,5 +141,4 @@ const Cell = styled.div`
 
 const Value = styled.div`
     ${textStyles.dashboardTitle({$align: "right"})}
-    padding: 5px 0px; 
 `;

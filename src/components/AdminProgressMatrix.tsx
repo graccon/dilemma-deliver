@@ -100,27 +100,25 @@ const AdminProgressMatrix: React.FC<Props> = ({ participants }) => {
 
 export default AdminProgressMatrix;
 
-
 const TableContainer = styled.div`
   width: 100%;
   padding: 0px 20px;
-  margin-top: 16px;
 `;
 
 const TableTitle = styled.h3`
   ${textStyles.dashboardTitle()}
   color: ${colors.gray700};
   font-weight: 500;
-  padding: 10px 20px;
+  padding:  15px 5px 5px 15px ;
   letter-spacing: -0.5px;
 `;
 
 const TableWrapper = styled.div`
-  max-height: 200px;
-  width: 100%;;
+  max-height: 30vh;
+  width: 100%;
   overflow: auto;
   border: 1px solid ${colors.gray300};
-  border-radius: 2rem;
+  border-radius: 1rem;
 `;
 
 const StyledTable = styled.table`
@@ -133,8 +131,8 @@ const StyledTh = styled.th`
   ${textStyles.mentionTag()}
   position: sticky;
   top: 0;
-  background-color: ${colors.gray300};
-  border: 1px solid ${colors.gray400};
+  background-color: ${colors.gray400};
+  border: 1px solid ${colors.gray500};
   padding: 6px;
   text-align: center;
   z-index: 1;

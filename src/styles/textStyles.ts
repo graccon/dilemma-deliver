@@ -15,7 +15,14 @@ export const textStyles = {
     font-size: 1.6rem;
     font-weight: 800;
     color: ${colors.black};
-`,
+    `,
+
+    thirdH1: () => `
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: ${colors.black};
+    `,
 
     h2: (color = colors.gray800) => `
       font-family: 'Roboto', sans-serif;
@@ -100,7 +107,7 @@ export const textStyles = {
 
     dashboardTitle: ({$align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 400;
       line-height: 1.4;
       letter-spacing: -0.3px;

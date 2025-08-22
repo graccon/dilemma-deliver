@@ -65,7 +65,7 @@ const AdminDashboard = () => {
             <MainTitle>Admin Dashboard</MainTitle>
             <ReloadButton loading={loading} onClick={fetchParticipants} />
         </MainTitleWrapper>
-        <StyledHr style={{ margin: "1rem 0" }} />
+        <StyledHr />
         {renderContent()}
       </MainContent>
     </Container>
@@ -102,7 +102,7 @@ const SidebarTitleIcon = styled.img`
 `;
 
 export const StyledHr = styled.hr`
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   border: none;
   border-top: 1px solid ${colors.gray400};
 `;
@@ -115,10 +115,10 @@ const SidebarTitle = styled.h3`
 `;
 
 const MainTitle = styled.h1`
-    ${textStyles.h1()}
+    ${textStyles.thirdH1()}
     color: ${colors.black};
     letter-spacing: -0.2px;
-    padding: 0rem 2rem;
+    padding: 0rem 1rem;
 `;
 
 const SidebarItem = styled.div<{ $active?: boolean }>`

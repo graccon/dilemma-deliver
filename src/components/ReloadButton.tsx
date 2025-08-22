@@ -32,15 +32,15 @@ const spin = keyframes`
 `;
 
 const StyledButton = styled.button`
-  ${textStyles.buttonLabel()}
+  ${textStyles.mentionTag()}
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   color: ${colors.gray700};
   border: 2.5px solid ${colors.gray700};
   border-radius: 3rem;
-  width: 160px;
+  width: 100px;
   cursor: pointer;
   transition: 0.2s all ease;
 
