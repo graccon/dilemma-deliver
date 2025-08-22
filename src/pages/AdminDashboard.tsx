@@ -138,4 +138,6 @@ const SidebarItem = styled.div<{ $active?: boolean }>`
 const MainContent = styled.div`
   flex-grow: 1;
   padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
