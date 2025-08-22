@@ -1,5 +1,5 @@
 // src/components/ParticipantExperimentTable.tsx
-
+import * as XLSX from "xlsx";
 import React from "react";
 import styled from "styled-components";
 import type { Participant } from "../models/Participant";
@@ -12,7 +12,13 @@ interface Props {
 
 const CASE_IDS = ["case_1", "case_2", "case_3", "case_4", "case_5"];
 
-// CSV 유틸 함수
+function getTodayDateString() {
+    const today = new Date();
+    const mm = String(today.getMonth() + 1).padStart(2, "0");
+    const dd = String(today.getDate()).padStart(2, "0");
+    return `${mm}${dd}`;
+  }
+
 function convertToCSV(headers: string[], rows: Record<string, any>[]) {
   const headerLine = headers.join(",");
   const dataLines = rows.map((row) =>
@@ -20,6 +26,14 @@ function convertToCSV(headers: string[], rows: Record<string, any>[]) {
   );
   return [headerLine, ...dataLines].join("\n");
 }
+
+function downloadExcelFile(filename: string, headers: string[], rows: Record<string, any>[]) {
+    const worksheetData = [headers, ...rows.map(row => headers.map(h => row[h] ?? ""))];
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    XLSX.writeFile(workbook, filename);
+  }
 
 // 다운로드 트리거
 function downloadCSVFile(filename: string, csvContent: string) {
@@ -75,14 +89,23 @@ const ParticipantExperimentTable: React.FC<Props> = ({ participants }) => {
 
   const handleCSVDownload = () => {
     const csv = convertToCSV(headers, rows);
-    downloadCSVFile("participant_summary.csv", csv);
+    const date = getTodayDateString();
+    downloadCSVFile(`participant_summary_${date}.csv`, csv);
+  };
+
+  const handleExcelDownload = () => {
+    const date = getTodayDateString();
+    downloadExcelFile(`participant_summary_${date}.xlsx`, headers, rows);
   };
 
   return (
     <TableContainer>
       <TopBar>
         <TableTitle>Participant Experiment Summary</TableTitle>
-        <DownloadButton onClick={handleCSVDownload}>Export CSV</DownloadButton>
+        <ButtonWrapper>
+            <DownloadButton onClick={handleCSVDownload}>Export CSV</DownloadButton>
+            <DownloadButton onClick={handleExcelDownload}>Export Excel</DownloadButton>
+        </ButtonWrapper>
       </TopBar>
       <ScrollWrapper>
         <StyledTable>
@@ -124,6 +147,12 @@ const TopBar = styled.div`
   width: 100%;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+`;
+
 const TableTitle = styled.h3`
   ${textStyles.dashboardTitle()}
   color: ${colors.gray700};
@@ -152,6 +181,7 @@ const ScrollWrapper = styled.div`
   max-width: 75vw;
   max-height: 30vh;
 `;
+
 
 const StyledTable = styled.table`
   width: max-content;

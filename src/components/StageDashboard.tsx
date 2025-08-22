@@ -130,7 +130,7 @@ const Cell = styled.div`
     flex-direction: column;
     padding: 1rem 2rem;
     flex: 1;
-    height: 110px;
+    height: 100px;
     justify-content: center;
     border-radius: 0.6rem;
     justify-content: space-around;
