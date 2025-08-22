@@ -2,22 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { textStyles } from "../styles/textStyles";
 import colors from "../styles/colors";
-
-// Participant 타입 정의
-interface Participant {
-  meta?: {
-    prolificId?: string;
-    onboardingFlags?: boolean;
-    sessionFlags?: {
-      session1Done?: boolean;
-      session2Done?: boolean;
-    };
-    surveyFlags?: {
-      presurvey?: boolean;
-      postsurvey?: boolean;
-    };
-  };
-}
+import type { Participant } from "../models/Participant";
 
 interface CategorizedResult {
   [key: string]: string[];
@@ -40,13 +25,13 @@ function categorizeParticipants(participants: Participant[]): CategorizedResult 
 
   participants.forEach((p) => {
     const meta = p.meta || {};
-    const id = meta.prolificId || "Unknown";
+    const id = p.prolificId || "Unknown";
 
-    const presurvey = meta?.surveyFlags?.presurvey === true;
-    const onboarding = meta?.onboardingFlags === true;
-    const session1 = meta?.sessionFlags?.session1Done === true;
-    const session2 = meta?.sessionFlags?.session2Done === true;
-    const postsurvey = meta?.surveyFlags?.postsurvey === true;
+    const presurvey = p.surveyFlags?.presurvey === true;
+    const onboarding = meta.onboardingFlags === true;
+    const session1 = p.sessionFlags.session1Done === true;
+    const session2 = p.sessionFlags.session2Done === true;
+    const postsurvey = p.surveyFlags?.postsurvey === true;
 
     if (presurvey && onboarding && session1 && session2 && postsurvey) {
       result.Completed.push(id);
@@ -62,52 +47,80 @@ function categorizeParticipants(participants: Participant[]): CategorizedResult 
   return result;
 }
 
-// 렌더링 컴포넌트
 const AdminProgressMatrix: React.FC<Props> = ({ participants }) => {
   const categorized = categorizeParticipants(participants);
   const columns = ["Presurvey", "Onboarding", "Session 1", "Session 2", "Postsurvey", "Completed"];
   const maxRows = Math.max(...columns.map((col) => categorized[col].length));
 
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).catch((err) => {
+      console.error("복사 실패:", err);
+    });
+  };
+
   return (
-    <TableWrapper>
-      <StyledTable>
-        <colgroup>
-          {columns.map((_, idx) => (
-            <col key={idx} style={{ width: `${100 / columns.length}%` }} />
-          ))}
-        </colgroup>
-        <thead>
-          <tr>
-            {columns.map((col) => (
-              <StyledTh key={col}>
-                {col} ({categorized[col].length})
-              </StyledTh>
+    <TableContainer>
+      <TableTitle> Participation Progress </TableTitle>
+      <TableWrapper>
+        <StyledTable>
+          <colgroup>
+            {columns.map((_, idx) => (
+              <col key={idx} style={{ width: `${100 / columns.length}%` }} />
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from({ length: maxRows }).map((_, rowIdx) => (
-            <tr key={rowIdx}>
+          </colgroup>
+          <thead>
+            <tr>
               {columns.map((col) => (
-                <StyledTd key={col}>
-                  {categorized[col][rowIdx]?.slice(-5) || ""}
-                </StyledTd>
+                <StyledTh key={col}>
+                  {col} ({categorized[col].length})
+                </StyledTh>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </StyledTable>
-    </TableWrapper>
+          </thead>
+          <tbody>
+            {Array.from({ length: maxRows }).map((_, rowIdx) => (
+              <tr key={rowIdx}>
+                {columns.map((col) => {
+                  const fullId = categorized[col][rowIdx];
+                  const displayId = fullId?.slice(-5) || "";
+                  return (
+                    <StyledTd key={col} onClick={() => fullId && handleCopy(fullId)}>
+                      {displayId}
+                    </StyledTd>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
+      </TableWrapper>
+    </TableContainer>
   );
 };
 
 export default AdminProgressMatrix;
 
+
+const TableContainer = styled.div`
+  width: 100%;
+  padding: 0px 20px;
+  margin-top: 16px;
+`;
+
+const TableTitle = styled.h3`
+  ${textStyles.dashboardTitle()}
+  color: ${colors.gray700};
+  font-weight: 500;
+  padding: 10px 20px;
+  letter-spacing: -0.5px;
+`;
+
 const TableWrapper = styled.div`
-  max-height: 210px;
-  width: 900px;
+  max-height: 200px;
+  width: 100%;;
   overflow: auto;
   border: 1px solid ${colors.gray300};
+  border-radius: 2rem;
 `;
 
 const StyledTable = styled.table`
@@ -117,21 +130,25 @@ const StyledTable = styled.table`
 `;
 
 const StyledTh = styled.th`
-  ${textStyles.h5()}
+  ${textStyles.mentionTag()}
   position: sticky;
   top: 0;
-  background-color: ${colors.gray100};
+  background-color: ${colors.gray300};
   border: 1px solid ${colors.gray400};
-  padding: 12px;
+  padding: 6px;
   text-align: center;
   z-index: 1;
 `;
 
 const StyledTd = styled.td`
   ${textStyles.homeBody()}
-  background-color: ${colors.gray100};
+  background-color: ${colors.white};
   border: 1px solid ${colors.gray300};
   padding: 10px;
   text-align: center;
   word-break: break-word;
+  cursor: pointer;
+  &:hover {
+    background-color: ${colors.gray100};
+  }
 `;

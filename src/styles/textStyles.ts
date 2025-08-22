@@ -78,14 +78,34 @@ export const textStyles = {
       text-align: left;
     `,
 
-    homeBody: () => `
+    homeBody: ({$align = "left"}={}) => `
       font-family: 'Roboto', sans-serif;
       font-size: 0.95rem;
       font-weight: 400;
       line-height: 1.4;
       letter-spacing: -0.3px;
+      text-align: ${$align};
+      color: ${colors.gray800};
+    `,
+
+    dashboardBody: () => `
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.3px;
       text-align: left;
       color: ${colors.gray700};
+    `,
+
+    dashboardTitle: ({$align = "left"}={}) => `
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: -0.3px;
+      text-align: ${$align};
+      color: ${colors.gray800};
     `,
 
     span: ({color = colors.black, size = "0.9rem"}={}) => `

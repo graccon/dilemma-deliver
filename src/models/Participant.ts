@@ -4,6 +4,13 @@ import type { PostsurveyData } from "../stores/postsurveyStore";
 import type { SurveyAnswers } from "../stores/presurveyStore";
 import type { SessionLog } from "../stores/sessionLogStore";
 
+type SessionKey = "session1" | "session2";
+
+export interface SessionLogData {
+  logs: SessionLog[];
+  totalMs: number;
+}
+
 export interface Participant {
   prolificId: string;
 
@@ -27,7 +34,7 @@ export interface Participant {
     postsurvey: boolean;
   };
 
-  sessionLogs?: SessionLog[];
+  sessionLogs?: Record<SessionKey, SessionLogData>;  // <- 여기!
   presurveyAnswers?: SurveyAnswers;
   postsurveyAnswers?: PostsurveyData;
 }

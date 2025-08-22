@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AdminProgressMatrix from '../components/AdminProgressMatrix';
 import styled from 'styled-components';
 import { textStyles } from "../styles/textStyles";
 import colors from '../styles/colors';
@@ -8,7 +7,6 @@ import { fetchParticipantData } from '../services/participantStore';
 import ReloadButton from '../components/ReloadButton';
 import StageDashboard from '../components/StageDashboard';
 import type { Participant } from '../models/Participant';
-
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -40,7 +38,7 @@ const AdminDashboard = () => {
   const renderContent = () => {
     switch (view) {
       case "stage":
-        return <AdminProgressMatrix participants={participants} />;
+        return <StageDashboard participants={participants}/>;
       case "group":
         return <StageDashboard participants={participants}/>;
       case "user":
@@ -79,6 +77,7 @@ export default AdminDashboard;
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
+  background-color: ${colors.gray200};
 `;
 
 const Sidebar = styled.div`
@@ -105,7 +104,7 @@ const SidebarTitleIcon = styled.img`
 export const StyledHr = styled.hr`
   margin: 1rem 0;
   border: none;
-  border-top: 1px solid ${colors.gray300};
+  border-top: 1px solid ${colors.gray400};
 `;
 
 const SidebarTitle = styled.h3`
@@ -118,8 +117,8 @@ const SidebarTitle = styled.h3`
 const MainTitle = styled.h1`
     ${textStyles.h1()}
     color: ${colors.black};
-    background-color: redl
     letter-spacing: -0.2px;
+    padding: 0rem 2rem;
 `;
 
 const SidebarItem = styled.div<{ $active?: boolean }>`
@@ -138,5 +137,5 @@ const SidebarItem = styled.div<{ $active?: boolean }>`
 
 const MainContent = styled.div`
   flex-grow: 1;
-  padding: 2rem;
+  padding: 1rem 2rem;
 `;

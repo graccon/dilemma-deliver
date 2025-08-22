@@ -13,36 +13,40 @@ export const useParticipantStore = create<ParticipantState>((set) => ({
   setParticipants: (data) => set({ participants: data }),
 }));
 
-async function fetchSessionLogs(participantId: string, sessionFlags: any): Promise<any[]> {
-    const logs: any[] = [];
-  
-    const sessionConditions = [
-      { key: "session1", done: sessionFlags.session1Done },
-      { key: "session2", done: sessionFlags.session2Done },
-    ];
-  
-    for (const { key, done } of sessionConditions) {
-      if (!done) {
-        continue; 
+type SessionKey = "session1" | "session2";
+
+async function fetchSessionLogs(
+  participantId: string,
+  sessionFlags: any
+): Promise<Record<SessionKey, { logs: any[]; totalMs: number }>> {
+  const result: Record<SessionKey, { logs: any[]; totalMs: number }> = {
+    session1: { logs: [], totalMs: 0 },
+    session2: { logs: [], totalMs: 0 },
+  };
+
+  const sessionConditions: { key: SessionKey; done: boolean }[] = [
+    { key: "session1", done: sessionFlags.session1Done },
+    { key: "session2", done: sessionFlags.session2Done },
+  ];
+
+  for (const { key, done } of sessionConditions) {
+    if (!done) continue;
+
+    try {
+      const sessionRef = doc(db, `participants/${participantId}/sessions/${key}`);
+      const sessionDoc = await getDoc(sessionRef);
+
+      if (sessionDoc.exists()) {
+        const data = sessionDoc.data();
+        result[key].logs = data.logs || [];
+        result[key].totalMs = data.totalMs || 0;
       }
-  
-      try {
-        const sessionRef = doc(db, `participants/${participantId}/sessions/${key}`);
-        const sessionDoc = await getDoc(sessionRef);
-  
-        if (sessionDoc.exists()) {
-          const data = sessionDoc.data();
-          const sessionLogs = data.logs || [];
-          logs.push(...sessionLogs);
-        } else {
-          console.warn(`⚠️ ${participantId}- ${key} not founded!`);
-        }
-      } catch (error) {
-        console.error(`❗ ${participantId}- ${key} fetch faild:`, error);
-      }
+    } catch (error) {
+      console.error(`❗ ${participantId} - ${key} fetch failed:`, error);
     }
-  
-    return logs;
+  }
+
+  return result;
 }
 
 async function fetchSurveyAnswers(participantId: string, surveyFlags: any): Promise<{
@@ -91,7 +95,12 @@ async function fetchSurveyAnswers(participantId: string, surveyFlags: any): Prom
   export async function fetchParticipantData(): Promise<Participant[]> {
     const snapshot = await getDocs(collection(db, "participants"));
   
-    const promises = snapshot.docs.map(async (docSnap) => {
+    const validDocs = snapshot.docs.filter((docSnap) => {
+      const data = docSnap.data();
+      return data?.meta?.studyId && data.meta.studyId !== "";
+    });
+  
+    const promises = validDocs.map(async (docSnap) => {
       const id = docSnap.id;
       const baseData = docSnap.data();
   

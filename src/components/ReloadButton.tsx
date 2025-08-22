@@ -25,7 +25,6 @@ const ReloadButton: React.FC<ReloadButtonProps> = ({ loading, onClick }) => {
 
 export default ReloadButton;
 
-// --- styled components ---
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -34,15 +33,13 @@ const spin = keyframes`
 
 const StyledButton = styled.button`
   ${textStyles.buttonLabel()}
-  display: flex;  
+  display: flex;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  margin-bottom: 1.5rem;
-  background-color: ${colors.gray800};
-  color: ${colors.white};
-  border: none;
-  border-radius: 6px;
+  color: ${colors.gray700};
+  border: 2.5px solid ${colors.gray700};
+  border-radius: 3rem;
   width: 160px;
   cursor: pointer;
   transition: 0.2s all ease;
