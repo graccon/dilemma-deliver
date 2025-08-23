@@ -99,7 +99,7 @@ const GroupDashboard: React.FC<Props> = ({ participants }) => {
     <ModeButtonContainer>
         <Title>Confidence Line Chart With Band</Title>
         {(['all', 'changed', 'unchanged'] as const).map((m) => (
-            <ModeButton key={m} active={mode === m} onClick={() => setMode(m)}>
+            <ModeButton key={m} $active={mode === m} onClick={() => setMode(m)}>
             {m}
             </ModeButton>
         ))}
@@ -164,19 +164,19 @@ const ModeButtonContainer = styled.div`
   align-items: center;
 `;
 
-const ModeButton = styled.button<{ active: boolean }>`
+const ModeButton = styled.button<{ $active: boolean }>`
   ${textStyles.mentionTag()}
   padding: 0.4rem;
   border: none;
   border-radius: 6px;
   width: 120px;
   height: 30px;
-  background-color: ${({ active }) => (active ? colors.gray700 : colors.gray400)};
-  color: ${({ active }) => (active ? 'white' : colors.gray800)};
+  background-color: ${({ $active }) => ($active ? colors.gray700 : colors.gray400)};
+  color: ${({ $active }) => ($active ? 'white' : colors.gray800)};
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ active }) => (active ? colors.gray600 : colors.gray400)};
+    background-color: ${({ $active }) => ($active ? colors.gray600 : colors.gray400)};
   }
 `;
 

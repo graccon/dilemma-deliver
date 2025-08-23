@@ -97,7 +97,6 @@ const GetConfidenceDeltaTable: React.FC<Props> = ({ participants }) => {
     };
   }).sort((a, b) => a.group.localeCompare(b.group));
 
-  console.log('그룹별 신뢰도 변화량 요약 (전체 평균 포함):', summary);
 
   return (
     <Container>

@@ -25,6 +25,26 @@ export function downloadCSVFile(filename: string, csvContent: string) {
   document.body.removeChild(link);
 }
 
+export function downloadCSVFile2(
+  filename: string,
+  headers: string[],
+  rows: string[][] // string 배열의 배열
+) {
+  const csvContent =
+    [headers, ...rows]
+      .map(row =>
+        row.map(cell => `"${cell.replace(/"/g, '""')}"`).join(",") // 쉼표, 따옴표 처리
+      )
+      .join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.setAttribute("download", filename);
+  link.click();
+}
+
 export function downloadExcelFile(
   filename: string,
   headers: string[],
@@ -32,6 +52,22 @@ export function downloadExcelFile(
 ) {
   const worksheetData = [headers, ...rows.map(row => headers.map(h => row[h] ?? ""))];
   const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, filename);
+}
+
+export function downloadExcelFile2(
+  filename: string,
+  headers: string[],
+  rows: string[][] 
+) {
+  const worksheetData = [headers, ...rows]; 
+  const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+
+  worksheet["!cols"] = headers.map(() => ({ wpx: 200 }));
+
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, filename);

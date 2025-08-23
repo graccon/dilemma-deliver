@@ -105,7 +105,6 @@ const Container = styled.div`
 const ProgressWrapper = styled.div`
   flex: 1;
   width: 100%;
-
 `;
 
 const ExperimentWrapper = styled.div`

@@ -8,6 +8,7 @@ import ReloadButton from '../components/ReloadButton';
 import StageDashboard from '../components/StageDashboard';
 import type { Participant } from '../models/Participant';
 import GroupDashboard from '../components/GroupDashboard';
+import UserDashboard from '../components/UserDashboard';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
       case "group":
         return <GroupDashboard participants={participants}/>;
       case "user":
-        return <div>유저별 상세 데이터 표시 (TODO)</div>;
+        return <UserDashboard participants={participants}/>;
       default:
         return null;
     }

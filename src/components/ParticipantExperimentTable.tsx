@@ -78,12 +78,12 @@ const ParticipantExperimentTable: React.FC<Props> = ({ participants }) => {
   const handleCSVDownload = () => {
     const csv = convertToCSV(headers, rows);
     const date = getTodayDateString();
-    downloadCSVFile(`participant_summary_${date}.csv`, csv);
+    downloadCSVFile(`all_participants_summary_${date}.csv`, csv);
   };
 
   const handleExcelDownload = () => {
     const date = getTodayDateString();
-    downloadExcelFile(`participant_summary_${date}.xlsx`, headers, rows);
+    downloadExcelFile(`all_participants_summary_${date}.xlsx`, headers, rows);
   };
 
   return (
