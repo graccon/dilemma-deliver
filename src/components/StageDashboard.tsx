@@ -37,7 +37,6 @@ function getAverageSessionDurations(participants: Participant[]) {
   };
 
   for (const p of participants) {
-    console.log(p);
     const logs = p.sessionLogs as Record<SessionKey, { totalMs: number }>;
     if (!logs) continue;
 
@@ -112,7 +111,6 @@ const ProgressWrapper = styled.div`
 const ExperimentWrapper = styled.div`
   flex: 1;
   width: 100%;
-
 `;
 
 const SummaryBox = styled.div`:
@@ -133,7 +131,6 @@ const Cell = styled.div`
     padding: 1rem 2rem;
     flex: 1;
     height: 100px;
-    justify-content: center;
     border-radius: 0.6rem;
     justify-content: space-around;
     border: 1px solid ${colors.gray300};

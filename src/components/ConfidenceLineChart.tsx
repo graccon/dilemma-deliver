@@ -115,7 +115,6 @@ const ConfidenceLineChart: React.FC<Props> = ({ participants, caseIds }) => {
 export default ConfidenceLineChart;
 
 const ChartContainer = styled.div`
-  margin-top: 2rem;
   width: 100%;
   padding: 1rem 0.5rem;
   border: 1px solid #ddd;

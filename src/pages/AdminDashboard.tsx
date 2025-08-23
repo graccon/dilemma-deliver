@@ -82,9 +82,15 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div`
+  position: sticky;
+  top: 0;
+  height: 100vh;
   width: 180px;
   background-color: ${colors.gray800};
   padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const MainTitleWrapper = styled.div`
