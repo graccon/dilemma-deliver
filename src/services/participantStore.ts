@@ -8,6 +8,20 @@ interface ParticipantState {
   setParticipants: (data: Participant[]) => void;
 }
 
+
+export function loadCachedParticipants(): Record<string, Participant> {
+  try {
+    const raw = localStorage.getItem("cachedParticipants");
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+export function saveCachedParticipants(data: Record<string, Participant>) {
+  localStorage.setItem("cachedParticipants", JSON.stringify(data));
+}
+
 export const useParticipantStore = create<ParticipantState>((set) => ({
   participants: [],
   setParticipants: (data) => set({ participants: data }),
@@ -91,39 +105,58 @@ async function fetchSurveyAnswers(participantId: string, surveyFlags: any): Prom
     return { presurveyAnswers, postsurveyAnswers };
   }
 
-
   export async function fetchParticipantData(): Promise<Participant[]> {
     const snapshot = await getDocs(collection(db, "participants"));
+    const allDocs = snapshot.docs;
   
-    const validDocs = snapshot.docs.filter((docSnap) => {
+    const cached = loadCachedParticipants();
+    const participantsMap: Record<string, Participant> = { ...cached };
+  
+    const missingDocs = allDocs.filter((docSnap) => {
       const data = docSnap.data();
-      return data?.meta?.studyId && data.meta.studyId !== "";
+      const prolificId = data?.meta?.prolificId || docSnap.id;
+      return !cached[prolificId] && data?.meta?.studyId;
     });
   
-    const promises = validDocs.map(async (docSnap) => {
-      const id = docSnap.id;
-      const baseData = docSnap.data();
+    const fetched = await Promise.all(
+      missingDocs.map(async (docSnap) => {
+        const id = docSnap.id;
+        const baseData = docSnap.data();
   
-      const prolificId = baseData.meta?.prolificId || id;
-      const meta = baseData.meta || {};
-      const sessionFlags = baseData.meta.sessionFlags || {};
-      const surveyFlags = baseData.meta.surveyFlags || {};
+        const prolificId = baseData.meta?.prolificId || id;
+        const meta = baseData.meta || {};
+        const sessionFlags = baseData.meta.sessionFlags || {};
+        const surveyFlags = baseData.meta.surveyFlags || {};
   
-      const sessionLogs = await fetchSessionLogs(id, sessionFlags);
+        const sessionLogs = await fetchSessionLogs(id, sessionFlags);
+        const { presurveyAnswers, postsurveyAnswers } = await fetchSurveyAnswers(id, surveyFlags);
+
+        const participant: Participant = {
+          prolificId,
+          meta,
+          sessionFlags,
+          surveyFlags,
+          sessionLogs,
+          presurveyAnswers,
+          postsurveyAnswers,
+        };
+        
+        console.log("✅ Loaded participant:", {
+          prolificId: participant.prolificId,
+          group: participant.meta.group,
+          sessions: participant.sessionLogs,
+        });
+    
+        return participant;
+      })
+    );
   
-      const { presurveyAnswers, postsurveyAnswers } = await fetchSurveyAnswers(id, surveyFlags);
+    for (const p of fetched) {
+      participantsMap[p.prolificId] = p;
+    }
   
-      return {
-        prolificId,
-        meta,
-        sessionFlags,
-        surveyFlags,
-        sessionLogs,
-        presurveyAnswers,
-        postsurveyAnswers,
-      };
-    });
-  
-    const participants = await Promise.all(promises);
+    const participants = Object.values(participantsMap);
+    saveCachedParticipants(participantsMap);
+    useParticipantStore.getState().setParticipants(participants);
     return participants;
   }

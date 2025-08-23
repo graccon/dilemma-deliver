@@ -73,8 +73,10 @@ const GroupDashboard: React.FC<Props> = ({ participants }) => {
           />
         ))}
       </GroupButtonContainer>
+      
       <Title>Group-wise Confidence Change Summary</Title>
       <GetConfidenceDeltaTable  participants={filteredParticipants}  />
+
     <Title>Agent Donut</Title>
     <LineChartContainer>
       <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_1']}/>
