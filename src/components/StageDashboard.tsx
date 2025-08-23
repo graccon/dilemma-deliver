@@ -104,13 +104,15 @@ const Container = styled.div`
 `;
 
 const ProgressWrapper = styled.div`
-  flex: 2;
+  flex: 1;
   width: 100%;
+
 `;
 
 const ExperimentWrapper = styled.div`
-  flex: 2;
+  flex: 1;
   width: 100%;
+
 `;
 
 const SummaryBox = styled.div`:

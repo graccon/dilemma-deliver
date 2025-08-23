@@ -7,6 +7,7 @@ import { fetchParticipantData } from '../services/participantStore';
 import ReloadButton from '../components/ReloadButton';
 import StageDashboard from '../components/StageDashboard';
 import type { Participant } from '../models/Participant';
+import GroupDashboard from '../components/GroupDashboard';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const AdminDashboard = () => {
       case "stage":
         return <StageDashboard participants={participants}/>;
       case "group":
-        return <StageDashboard participants={participants}/>;
+        return <GroupDashboard participants={participants}/>;
       case "user":
         return <div>유저별 상세 데이터 표시 (TODO)</div>;
       default:
@@ -81,9 +82,9 @@ const Container = styled.div`
 `;
 
 const Sidebar = styled.div`
-  width: 200px;
+  width: 180px;
   background-color: ${colors.gray800};
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const MainTitleWrapper = styled.div`
@@ -136,7 +137,6 @@ const SidebarItem = styled.div<{ $active?: boolean }>`
 `;
 
 const MainContent = styled.div`
-  flex-grow: 1;
   padding: 1rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
