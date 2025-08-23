@@ -7,6 +7,8 @@ import ParticipantExperimentTable from './ParticipantExperimentTable';
 import ConfidenceLineChart from './ConfidenceLineChart';
 import ConfidenceLineChartWithBand from './ConfidenceLineChartWithBand';
 import { textStyles } from '../styles/textStyles';
+import GroupAgentDonut from './GroupAgentDonut';
+import GetConfidenceDeltaTable from './GetConfidenceDeltaTable';
 
 interface Props {
   participants: Participant[];
@@ -71,6 +73,16 @@ const GroupDashboard: React.FC<Props> = ({ participants }) => {
           />
         ))}
       </GroupButtonContainer>
+      <Title>Group-wise Confidence Change Summary</Title>
+      <GetConfidenceDeltaTable  participants={filteredParticipants}  />
+    <Title>Agent Donut</Title>
+    <LineChartContainer>
+      <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_1']}/>
+      <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_2']}/>
+      <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_3']}/>
+      <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_4']}/>
+      <GroupAgentDonut  participants={filteredParticipants} caseIds={['case_5']}/>
+      </LineChartContainer>
 
       <Title>Confidence Line Chart With Band</Title>
       <LineChartContainer>

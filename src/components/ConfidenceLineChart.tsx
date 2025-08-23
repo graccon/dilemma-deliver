@@ -53,6 +53,7 @@ const ConfidenceLineChart: React.FC<Props> = ({ participants, caseIds }) => {
 
     const changed = (avgBefore < 50 && avgAfter >= 50) || (avgBefore >= 50 && avgAfter < 50);
 
+  
     return {
         name: p.prolificId.slice(-5),
         Before: avgBefore,
