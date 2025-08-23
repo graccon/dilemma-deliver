@@ -24,11 +24,32 @@ const ParticipantExperimentTable: React.FC<Props> = ({ participants }) => {
       const keyNum = `case${idx + 1}`;
       const s1 = p.sessionLogs?.session1.logs.find((log) => log.caseId === caseId);
       const s2 = p.sessionLogs?.session2.logs.find((log) => log.caseId === caseId);
-      row[`${keyNum}_conf_s1`] = s1?.confidence ?? "-";
-      row[`${keyNum}_conf_s2`] = s2?.confidence ?? "-";
-      row[`${keyNum}_agent`] = s2?.agentChats?.[0]?.from ?? "-";
-    });
+      const s1Confidence =
+        typeof s1?.confidence === "number"
+          ? s1.confidence < 50
+            ? 100 - s1.confidence
+            : s1.confidence
+          : "-";
 
+      const s2Confidence =
+        typeof s2?.confidence === "number"
+          ? s2.confidence < 50
+            ? 100 - s2.confidence
+            : s2.confidence
+          : "-";
+
+      row[`${keyNum}_conf_s1`] = s1Confidence;
+      row[`${keyNum}_conf_s2`] = s2Confidence;
+      row[`${keyNum}_agent`] = s2?.agentChats?.[0]?.from ?? "-";
+      row[`${keyNum}_decision_s1`] =
+        typeof s1?.confidence === "number"
+          ? s1.confidence >= 50 ? 1 : 0
+          : "-";
+      row[`${keyNum}_decision_s2`] =
+        typeof s2?.confidence === "number"
+          ? s2.confidence >= 50 ? 1 : 0
+          : "-";
+        });
     return row;
   };
 
@@ -48,7 +69,7 @@ const ParticipantExperimentTable: React.FC<Props> = ({ participants }) => {
     "Group",
     ...CASE_IDS.flatMap((_, idx) => {
       const keyNum = `case${idx + 1}`;
-      return [`${keyNum}_conf_s1`, `${keyNum}_conf_s2`, `${keyNum}_agent`];
+      return [`${keyNum}_conf_s1`, `${keyNum}_conf_s2`, `${keyNum}_agent`, `${keyNum}_decision_s1`, `${keyNum}_decision_s2`,];
     }),
   ];
 
