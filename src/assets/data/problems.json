@@ -41,7 +41,7 @@
                 "1 dog",
                 "1 cat"
             ], 
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+            "note": "Note that the affected pedestrians are flouting by the law by crossing on the red signal."
         }
     }, 
     {
@@ -55,7 +55,7 @@
                 "1 man",
                 "1 woman"
             ],
-            "note": ""
+            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
         },
         "B": {
             "image": "/assets/images/case3_B.png",
@@ -65,7 +65,7 @@
                 "1 large man",
                 "1 woman"
             ], 
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the green signal."
+            "note": ""
         }
     }, 
     {
@@ -86,7 +86,7 @@
             "deaths": [
                 "1 doctor" 
             ], 
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+            "note": "Note that the affected pedestrians are flouting by the law by crossing on the red signal."
         }
     },
     {
@@ -98,7 +98,7 @@
             "deaths": [
                 "3 executive man"
             ],
-            "note": "Note that the affected pedestrians are abiding by the law by crossing on the red signal."
+            "note": "Note that the affected pedestrians are flouting by the law by crossing on the red signal."
         },
         "B": {
             "image": "/assets/images/case5_B.png",

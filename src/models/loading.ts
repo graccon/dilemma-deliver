@@ -31,6 +31,16 @@ export const PRELOAD_SESSION = [
     // silder
     "/assets/icons/stay_icon.png",
     "/assets/icons/swerve_icon.png",
+    "/assets/images/case_1_target_A.png",
+    "/assets/images/case_1_target_B.png",
+    "/assets/images/case_2_target_A.png",
+    "/assets/images/case_2_target_B.png",
+    "/assets/images/case_3_target_A.png",
+    "/assets/images/case_3_target_B.png",
+    "/assets/images/case_4_target_A.png",
+    "/assets/images/case_4_target_B.png",
+    "/assets/images/case_5_target_A.png",
+    "/assets/images/case_5_target_B.png",
     
     // agent profile
     "/assets/icons/agent_lumi_icon.png",

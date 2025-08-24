@@ -24,6 +24,10 @@ const agentIconMap: Record<string, string> = {
   narr: "/assets/icons/agent_molu_icon.png",
 };
 
+function getAdjustedConfidence(confidence?: number): number {
+  if (confidence === undefined) return 0;
+  return confidence < 50 ? 100 - confidence : confidence;
+}
 
 export default function SessionReviewPanel({ session1Logs, session2Logs, mode }: Props) {
   const session1Map = useMemo(() => new Map(session1Logs.map((log) => [log.caseId, log])), [session1Logs]);
@@ -105,7 +109,7 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
           {mode === "Agent" ? (
             <AgentChatSection>
               <InfoRow>
-                <InfoLabel>My decision : {session2Map.get(selectedCaseId!)?.confidence} 
+                <InfoLabel>My decision : {getAdjustedConfidence(session2Map.get(selectedCaseId!)?.confidence)} 
                   ({getDecisionLetter(session2Map.get(selectedCaseId!)?.confidence)})</InfoLabel>
                 <Spacer width="4px" />
                 <InfoIcon src="/assets/icons/turntaking_icon.png" alt="time" />

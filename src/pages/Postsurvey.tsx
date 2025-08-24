@@ -66,18 +66,24 @@ function countAgents(logs: any[], agentList: AgentType[]) {
   return counts;
 }
 
-function getAverageDuration(logs: SessionLog[]): number {
-  if (!logs || logs.length === 0) return 0;
+function getAverageDurationFormatted(logs: SessionLog[]): string {
+  if (!logs || logs.length === 0) return "0m 0s";
+
   const totalDuration = logs.reduce((sum, log) => sum + log.durationMs, 0);
-  return (totalDuration / logs.length)/1000;
+  const avgDurationSec = Math.floor(totalDuration / logs.length / 1000); // 초 단위로 변환
+
+  const minutes = Math.floor(avgDurationSec / 60);
+  const seconds = avgDurationSec % 60;
+
+  return `${minutes}m ${seconds}s`;
 }
 
 export default function Postsurvey() {
   const session1Logs = getSessionLogs("session1")
   const session2Logs = getSessionLogs("session2")
 
-  const avgSession1Duration = getAverageDuration(session1Logs).toFixed(0);
-  const avgSession2Duration = getAverageDuration(session2Logs).toFixed(0);
+  const avgSession1Duration = getAverageDurationFormatted(session1Logs);
+  const avgSession2Duration = getAverageDurationFormatted(session2Logs);
 
   const agentList: AgentType[] = ["narr", "stat", "rule"];
   const session2AgentCounts = countAgents(session2Logs, agentList);
@@ -170,7 +176,7 @@ export default function Postsurvey() {
             </QuestionTitle>
             <Description>
               You had {confidenceChangedLogs.length} instance(s) where your confidence level in a decision changed between sessions.
-              <br />On average, you spent {avgSession1Duration} ms in Session 1(without AI Agents), and {avgSession2Duration} ms in Session 2(with AI Agents).
+              <br />On average, you spent {avgSession1Duration} in Session 1(without AI Agents), and {avgSession2Duration} in Session 2(with AI Agents).
             </Description>
             <ReviewPanelWrapper>
               <SessionReviewPanel
@@ -253,7 +259,7 @@ export default function Postsurvey() {
           <OpenEndedInput
             value={answer3}
             onChange={setAnswer3}
-            question="Please review all the changed case(s) and explain why you chose this agent dialogue."
+            question="Please review each of the chosen agents' dialogues in each cases and explain why you found the most convincing."
           />
         </OpenEndedInputWrapper>
         <Spacer height="50px" />
