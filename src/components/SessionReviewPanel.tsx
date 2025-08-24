@@ -116,7 +116,7 @@ export default function SessionReviewPanel({ session1Logs, session2Logs, mode }:
                 <InfoLabel>Turn count : {session2Map.get(selectedCaseId!)?.turntakingCount}</InfoLabel>
               </InfoRow>
               
-              <Spacer height="20px" />
+              <Spacer height="16px" />
               {agentChats.map((chat, index) => (
                 <ChatBubble
                   key={index}
@@ -220,6 +220,7 @@ export const AgentChatSection = styled.div`
   display: flex;
   padding: 10px 0px;
   flex-direction: column;
+  overflow-y: auto;
 `;
 
 const InfoIcon = styled.img`

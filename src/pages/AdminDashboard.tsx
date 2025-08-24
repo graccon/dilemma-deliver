@@ -9,6 +9,11 @@ import StageDashboard from '../components/StageDashboard';
 import type { Participant } from '../models/Participant';
 import GroupDashboard from '../components/GroupDashboard';
 import UserDashboard from '../components/UserDashboard';
+import rejectDataRaw from "../assets/data/rejectParticipants.json";
+
+interface RejectList {
+  rejected: string[];
+}
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -25,11 +30,21 @@ const AdminDashboard = () => {
     fetchParticipants();
   }, []);
 
+  
+
   const fetchParticipants = async () => {
     setLoading(true);
+
+    
     try {
       const data = await fetchParticipantData(); 
-      setParticipants(data);
+      const rejectData = rejectDataRaw as RejectList;
+      const isRejected = (id: string) =>
+        rejectData.rejected.includes(id);
+    
+      const filtered = data.filter(p => !isRejected(p.prolificId));
+      setParticipants(filtered);
+
     } catch (error) {
       console.error("❌ Error fetching participants with session:", error);
     } finally {
