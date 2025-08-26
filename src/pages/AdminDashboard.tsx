@@ -10,6 +10,7 @@ import type { Participant } from '../models/Participant';
 import GroupDashboard from '../components/GroupDashboard';
 import UserDashboard from '../components/UserDashboard';
 import rejectDataRaw from "../assets/data/rejectParticipants.json";
+import DemographicDashboard from '../components/DemographicDashboard';
 
 interface RejectList {
   rejected: string[];
@@ -60,6 +61,8 @@ const AdminDashboard = () => {
         return <GroupDashboard participants={participants}/>;
       case "user":
         return <UserDashboard participants={participants}/>;
+      case "demographic":
+        return <DemographicDashboard participants={participants}/>;
       default:
         return null;
     }
@@ -76,6 +79,7 @@ const AdminDashboard = () => {
         <SidebarItem onClick={() => setView("stage")} $active={view === "stage"}>Stage</SidebarItem>
         <SidebarItem onClick={() => setView("group")} $active={view === "group"}>Group</SidebarItem>
         <SidebarItem onClick={() => setView("user")} $active={view === "user"}>User</SidebarItem>
+        <SidebarItem onClick={() => setView("demographic")} $active={view === "demographic"}>demographic</SidebarItem>
       </Sidebar>
       <MainContent>
         <MainTitleWrapper>

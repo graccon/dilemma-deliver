@@ -12,6 +12,8 @@ const colors = {
     yellow: "#FCDB63",
     error: "#FF4D4F", 
     green: "#728B45",
+    darkBlud: "#315AAC",
+    darkRed: "#BB3E3E",
   
     // 회색 톤
     gray100: "#F5F5F5",

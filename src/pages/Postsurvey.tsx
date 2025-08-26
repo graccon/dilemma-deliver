@@ -216,7 +216,7 @@ export default function Postsurvey() {
               <OpenEndedInput
                 value={answer2}
                 onChange={setAnswer2}
-                question="Please review all the unchanged case(s) and explain why your confidence unchanged between sessions."
+                question="Please review all the unchanged case(s) and explain why you've unchanged between sessions."
               />
             </OpenEndedInputWrapper>
             <Spacer height="50px" />
