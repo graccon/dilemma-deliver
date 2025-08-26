@@ -166,4 +166,5 @@ const MainContent = styled.div`
   padding: 1rem 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
 `;

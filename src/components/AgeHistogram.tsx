@@ -1,14 +1,15 @@
 import React from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList
 } from 'recharts';
 import colors from '../styles/colors';
+import styled from 'styled-components';
+import { textStyles } from '../styles/textStyles';
 
 interface AgeHistogramProps {
   data: { age: number }[];
 }
 
-// Helper to group ages into bins (e.g., 20-29, 30-39)
 function getAgeBins(data: { age: number }[]) {
   const bins: Record<string, number> = {};
 
@@ -28,20 +29,63 @@ function getAgeBins(data: { age: number }[]) {
   }));
 }
 
+function getAverageAge(data: { age: number }[]): number {
+  if (data.length === 0) return 0;
+  const total = data.reduce((sum, { age }) => sum + age, 0);
+  const average = total / data.length;
+  return parseFloat(average.toFixed(2));
+}
+
 const AgeHistogram: React.FC<AgeHistogramProps> = ({ data }) => {
   const histogramData = getAgeBins(data);
+  const averageAge = getAverageAge(data);
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={histogramData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="range" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="count" fill={colors.gray600} />
+    <Container>
+      <TitleWrapper>
+        <Title>AgeHistogram</Title>
+        <AverageText>Avg {averageAge}</AverageText>
+      </TitleWrapper>
+       <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={histogramData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="range" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="count" fill={colors.gray600}>
+            <LabelList dataKey="count" position="top" />
+          </Bar>
       </BarChart>
     </ResponsiveContainer>
+    </Container>
   );
 };
 
 export default AgeHistogram;
+
+
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  justifyContent: center;
+  flex-direction: column;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  margin-top: 36px;
+  margin-bottom: 15px;
+  padding: 0px 2rem;
+`
+
+const Title = styled.div`
+  ${textStyles.dashboardTitle()}
+  color: ${colors.gray700};
+  font-weight: 500;
+  flex: 1;
+`
+
+const AverageText = styled.div`
+  ${textStyles.dashboardBody()}
+  color: ${colors.gray600};
+`;

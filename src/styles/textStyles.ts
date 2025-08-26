@@ -32,6 +32,14 @@ export const textStyles = {
       color: ${color};
     `,
 
+    bigH2: (color = colors.gray800) => `
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.6rem;  
+      font-weight: 400;
+      letter-spacing: -0.2px;
+      color: ${color};
+    `,
+
     h3: ({color = colors.gray800, $align = "left"}={}) => `
       font-family: 'Abhaya Libre', serif;
       font-size: 2rem;
